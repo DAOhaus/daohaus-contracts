@@ -14,38 +14,8 @@ import "./Token.sol";
 contract StandardToken is Token {
     mapping (address => uint256) balances;
     mapping (address => mapping (address => uint256)) allowed;
-    uint256 public totalSupply = 365;
-    uint256 public deadline;
-    uint256 public finalAmount;
-    address public creator;
-    address[] public pledgeAccounts;
-    bool public called;
+    uint256 public totalSupply;
     
-    function StandardToken() {
-        deadline = now + 2592000; // one month
-        creator = msg.sender;
-    }
-    
-    modifier onlyAfterDeadline(){ if(now > deadline) _; }
-    modifier onlyBeforeDistribution(){ if(!called) _; }
-    
-    function distributeTokens() onlyAfterDeadline onlyBeforeDistribution{
-      called = true;
-      for (uint i = 0; i < pledgeAccounts.length; i++) {
-        uint ownershipPercentage = balances[pledgeAccounts[i]] / this.balance;
-        uint totalTokens = ownershipPercentage * totalSupply;
-        transfer(balances[pledgeAccounts[i]], totalTokens);
-      }
-      
-    }
-    
-    function pledge() onlyBeforeDistribution payable{
-        balances[msg.sender] += msg.value;
-        if (balances[msg.sender] == 0){
-            pledgeAccounts.push(msg.sender);
-        }
-    }
-
     function transfer(address _to, uint256 _value) returns (bool success) {
         //Default assumes totalSupply can't be over max (2^256 - 1).
         //If your token leaves out totalSupply and can issue more tokens as time goes on, you need to check if it doesn't wrap.
