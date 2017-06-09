@@ -29,14 +29,16 @@ contract MyToken is StandardToken {
     They allow one to customise the token contract & in no way influences the core functionality.
     Some wallets/interfaces might not even bother to look at this information.
     */
-    string public name = 'Crowd Dao';                   //fancy name: eg Simon Bucks
+    string public name = "Haus Coin";                   //fancy name: eg Simon Bucks
     uint8 public decimals = 2;                //How many decimals to show. ie. There could 1000 base units with 3 decimals. Meaning 0.980 SBX = 980 base units. It's like comparing 1 wei to 1 ether.
-    string public symbol = 'CROWD';                 //An identifier: eg SBX
+    string public symbol = 'HAUS';                 //An identifier: eg SBX
     string public version = 'H0.1';       //human 0.1 standard. Just an arbitrary versioning scheme.
     uint256 public deadline;
+    uint256 public totalSupply = 365;
     uint256 public finalAmount;
     address public creator;
     address[] public pledgeAccounts;
+    bool public hasEnded;
 
     function MyToken(
         uint256 _initialAmount,
@@ -44,30 +46,40 @@ contract MyToken is StandardToken {
         uint8 _decimalUnits,
         string _tokenSymbol
         ) {
-        balances[msg.sender] = _initialAmount;               // Give the creator all initial tokens
-        totalSupply = _initialAmount;                        // Update total supply
-        name = _tokenName;                                   // Set the name for display purposes
-        decimals = _decimalUnits;                            // Amount of decimals for display purposes
-        symbol = _tokenSymbol;                               // Set the symbol for display purposes
+        // balances[msg.sender] = _initialAmount;               // Give the creator all initial tokens
+        // totalSupply = _initialAmount;                        // Update total supply
+        // name = _tokenName;                                   // Set the name for display purposes
+        // decimals = _decimalUnits;                            // Amount of decimals for display purposes
+        // symbol = _tokenSymbol;                               // Set the symbol for display purposes
+        creator = msg.sender;
+        // deadline = now + 890000                              // Set the dealine date for ending the sale
+    }
+
+    function endSale(){
+      if(msg.sender == this.creator()){
+        hasEnded = true;
+        finalAmount = this.balance;
+      }
     }
 
     modifier onlyAfterDeadline(){ if(now > deadline) _; }
+    // create modifier to only allow withdrawl once per account / token holder
     
-    function distributeTokens() onlyAfterDeadline{
-      
-      for (uint i = 0; i < pledgeAccounts.length; i++) {
-        uint ownershipPercentage = balances[pledgeAccounts[i]] / this.balance;
-        uint totalTokens = ownershipPercentage * totalSupply;
-        transfer(pledgeAccounts[i], totalTokens);
-        delete pledgeAccounts[i]
-      }
+    function claimTokens() onlyAfterDeadline {
+      uint ownershipPercentage = balances[msg.sender] / this.balance;
+      uint totalTokens = ownershipPercentage * totalSupply;
+      transfer(msg.sender, totalTokens);
     }
     
     function pledge() payable{
+      if(hasEnded){
+        throw;
+      } else {
         balances[msg.sender] += msg.value;
         if (balances[msg.sender] == 0){
             pledgeAccounts.push(msg.sender);
         }
+      }
     }
 
     /* Approves and then calls the receiving contract */
