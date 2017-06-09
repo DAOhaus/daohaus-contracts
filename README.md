@@ -1,8 +1,5 @@
 # Dao Haus Whitepaper
 Managing shared assets through the formation of an DAO.  While this is useful for many types of shared assets -- a comunal lawn mower, community pool, a corporation, or an entire national government -- we will be focusing on the use case of a single residence in order to map the technical needs to an actual use.  
-
->**Use Case:**
->I want to create a contract or series of contracts that enables the democratic management of a house. A DAO HAUS if you will. Ownership in the house is divided into tokens that represent right of use per year at 365 tokens.The following are the different aspects that would need to be incorporated:
  
 ## Token Sale
 Whoever puts together a deal should be rewarded but after initial sale in some way, but they should only have the amount of interest or involvement as their token percentage mandates. So none of the tokens will be reserved for the development team.
