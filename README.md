@@ -1,24 +1,57 @@
 # Dao Haus Whitepaper
 Managing shared assets through the formation of an DAO.  While this is useful for many types of shared assets -- a comunal lawn mower, community pool, a corporation, or an entire national government -- we will be focusing on the use case of a single residence in order to map the technical needs to an actual use.  
+
+# Definitions
+<code>The DAO</code>
+The group of people that own voting rights within a group. Typically required to pay yearly taxes to be spent as proposals are received and approved.  
+
+<code>Shared Asset</code>
+For this particular use case shared asset will coorespond to a single family home residence.  Although if you have a active imagination, it can be subsituted for other assets types ;)
+
+<code>Proposal</code>
+A seperate contract that receives votes and tracks progress -- typically of a management task such as "fixing the leaky sink" or "replacing the roof".  A typical proposal contains the following:
+>Chairman Fee:  How much work is this person going to need to put in to oversee this task, payable on completion of milestones.
+
+>Proposal Cost: How much is going to be released to the chairman in order to pay for completion.
+
+>Project Timeline:  A proposed length that this project should take including "milestones" which can be tied back to cost.
+
+<code>Chairman</code>
+In most cases this is the address that initialized a specific contract.  This responsibility typically denotes setting parameters for a proposal, receiving and distributing funds upon proposal success and can be transfered or voided via popular vote.  A special note should be made that iChairmen have temporary roles with definite purposes or a limited scope of responsibilities.  The initial creator of the token sale contract an example of this, whos role expires after successful funding of the contract.
+
+<code>PVR - Popular Vote Ratio</code>
+The ratio in which a proposal is deemed as accepted.  Popular or passing is 4/7ths approval of total votes cast.  Meaning if 7 total votes cast, needs at least 4 to be approval, but if 28 votes are cast, needs 16 approvals to be success.
+
+
+# Mechanisms
  
 ## Token Sale
-Whoever puts together a deal should be rewarded but after initial sale in some way, but they should only have the amount of interest or involvement as their token percentage mandates. So none of the tokens will be reserved for the development team.
+The creation of The DAO is the initial step, and probably the most important for the longevity of the group.  It is important that the DAO's iChairman clearly communicate what the DAO forming will be centered around or the group will be so divided upon creation that nothing will get done.
 
-Only people with a token have voting rights. I've heard this model referenced in RAC (AdXChain for example) -- however it's probably important to figure out if tokens have metadata associated with them (ie this particular token is a chairman, or has particular rights / responsibility - this token allows user to -- incase of a multi unit house -- stay in unit 1 while another token is required to stay in unit 2)
+The contract will contain variables that can be changed:
+* Popular Vote Ratio
+* Yearly Tax
+* Map of Token Holders => Balances
+
+> for example:  If the iChairman only advertises the DAO as a shared home ownership, the group may never actually gain a PVR on which home to buy because everyone wants it in a different city.  So the more specific the iChairman can be, the more unified and effective The DAO will be.
+
+After success the iChairman should only have the amount of interest or involvement as their token percentage mandates. So none of the tokens will be reserved for the development team, and the iChairman should include a fee in the payment structure for orchastrating the creation for compensation.
  
-However I'm leaning more towards the token being the same across ALL users, as a symbol of interest and a right to vote.  Once a member is voted into special roles, it is kept in a registry on the contract itself. All functions executed just require the presence of a token.  Meaning that while other people outside of the token holders can take part in the organization and be appointed rights and responsibilities, but only token holders can nominate, vote for, or remove such people from those positions. 
+Each token will be the same across ALL users, both as a symbol of ownership percentage and a right to vote.  Once a member is voted into special roles, it is kept in a registry on the contract itself. All functions executed will require a modifier to check for the presence of a token. This is to say that while other people outside of token holders can take part in the organization and be appointed rights and responsibilities, only token holders can nominate, vote for, or remove such people from those positions. 
+
+While the landscape of token sales is expanding, and new models are continually being developed and tested, here are a few characteristics to consider:
  
-* Open vs Selective: anyone can participate at any level (include whales) or put restrictions on things, like requiring an email confirmation of some sort and limit each confirmed addresses total amount possible to donate — Governments or other centralized organizations might want this, or just anyone trying to not want weird political factions from having automatic majority.
-* Dutch: Bid on how much are willing to pay for it starting from the top => https://en.wikipedia.org/wiki/Dutch_auction
-* Dollar cap: Say we’re selling X coins for X per coin. This is the common or default way
+* Open vs Restrictive: Open meaning anyone can participate at any level (include whales).  Restrictive meaning to put limitations on things such as requiring an email confirmation of some sort and limit each confirmed addresses total amount possible to donate — Governments or other centralized organizations might want this, or just anyone trying to not want weird political factions from having automatic majority.
+* Dutch Reverse Bid: Bid on how much are willing to pay for it starting from the top => https://en.wikipedia.org/wiki/Dutch_auction
+https://blog.gnosis.pm/introducing-the-gnosis-token-launch-3cc4cffb5098
+* Bancor => https://github.com/bancorprotocol/contracts/blob/master/solidity/contracts/CrowdsaleController.sol#L24
+* Dollar cap: Say we’re selling X coins for X per coin. This is the common or default basic way.
 * Token cap with bid (preferred): Set bottom price (similar to dollar cap) but allow for “bids” to occur rather than outright “sales”. Each new bid adds 1 additional day (maybe variable?) each time a new bid is placed… this is the mechanism that “penny bids” use, protects against “coil and pounce” to place bids right as auction ends. As soon as all tokens are claimed, they are not actually “sold” and higher bids replace the claim on a lower bid. If there is a pool of bids with exact same value, the tokens with the most recent bids are knocked off first, incentivizing people to be first mover. Could possibly be malicious with intent of never ending project. Chairman is appointed at beginning of contract to enable “close” when they feel a general consenSys has been reached, but must give 24 hour notification — this requires a solid “oracle notification system” like sms or email — possibly off block. This will typically be the team or developer hosting the token sale because they are incentivized to let it grow as high as possible. Other incentive to participants is to use “refer” addresses in metadata that allows for a share of “general” profits if tokens are bid above and beyond initial bid price for both buyer and referrer.
  
 Note: If the community decides that they want to proceed the way of making it a legal entity.  There first order of business that the newly minted members of this group would need to do is elect a chairman.  The chairman - that is responsible for forming the real life legal entity responsible for owning the shared asset.  *See section on member management and voting for how to set chairman. 
  
 ## Voting App
-This is probably the most important aspect of the contract.  It checks to see if the address that sends a vote has a token.  Some security feature will needed to be enabled that tokens can not be passed around only for voting functionality.  So with each address, each token should most likely also have a ID or Hash number that gets recorded on each vote etc… Also interesting to think about “proxy” voting and allowing someone else to control you vote.
- 
- It will be pivotal for management of the group. The primary use would be in voting to allow for appropriation of “taxes” each year to go towards certain projects. Voting to raise taxes, lower taxes, etc.
+This is probably the contract that will be used most.  It checks to see if the address that sends a vote has a token.  Some security feature will needed to be enabled that tokens can not be passed around only for voting functionality.  So with each address, each token should most likely also have a ID or Hash number that gets recorded on each vote etc… Also interesting to think about “proxy” voting and allowing someone else to control you vote.
  
 It'd be nice to have the ability for other people to make suggestions on the existing proposal, like adding other options and have their vote transferred if they like newly presented ideas. Each proposal would need 2/3 approval of the voting members. Not to say 2/3 of ALL members, but of member that voted, 2/3 would need to be a yes. *Dash is very similar to this.
  
@@ -55,12 +88,7 @@ If somebody doesn’t pay taxes they are kicked out of the group. How can that b
 3. Possibly get sent to an auction system within the group for an entire year. After a year then they are just “abandoned”
  
 ## Project Management:
-Each proposal submitted would have a chairman (default sender), but could be altered with approval of group. Chairman is responsible for funds that are sent to his address (or if vendor has eth address then that is the preferred method) and chairman can upload updates, video and photo links.
- 
-The chairman would need to specify the following things in his proposal:
-Chairman fee:  How much work is this person going to need to put in to oversee this task
-Project cost: How much is going to be released to the chairman in order to pay.
-Project timeline:  If 
+Each proposal submitted would have a chairman (default sender), but could be altered with approval of group. Chairman is responsible for funds that are sent to his address (or if vendor has eth address then that is the preferred method) and chairman can upload updates, video and photo links to show progress.
  
 For projects, might need a way to tie it to a proportionate currency. Like if the group agrees that taxes for the next year should be $100 per person… need a way so that people know they need to send .12 ether or .5 ether depending on price fluctuation. ——— or possibly that doesn’t matter? Do we trust the proposal of the project to only withdraw what they need for the project then send the rest back? Along the “tax” stream, if the price skyrockets or drops, at the end of the year they have the ability to “refund” leftover taxes to the shareholders. Or at anytime during the year they can propose to raise more money for whatever reason.
  
@@ -78,6 +106,7 @@ If something's not right with the condition of the house they file a “proposal
 ## Rental Opportunity:
 Although the primary goal of the house is not as a dedicated rental property, it seems prudent to allow for it to gain its highest economic use while not being used.  An online portal that integrates into the designated smart contract would need to be created for a renter to schedule for an unused day as well as pay Eth and submit their address that should be allowed to open doors.
  
-## Dependencies:
-Need a eth => email or eth => sms notification system.
+# Questions:
+* Does something exist that performs eth => email or eth => sms notification system.
+* Can we assign specific id numbers to specific tokens?  Making "double votes" impossible by voting, then transfering token to new address that then votes and continues the pattern?
 
