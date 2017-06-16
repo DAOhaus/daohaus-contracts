@@ -35,6 +35,7 @@ contract MyToken is StandardToken {
     string public version = 'H0.1';       //human 0.1 standard. Just an arbitrary versioning scheme.
     uint256 public deadline;
     uint256 public totalSupply = 365;
+    uint256 public conversion = 300;
     uint256 public finalAmount;
     address public creator;
     address[] public pledgeAccounts;

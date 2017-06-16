@@ -1,5 +1,5 @@
 # Dao Haus Whitepaper
-Managing shared assets through the formation of an DAO.  While this is useful for many types of shared assets -- a comunal lawn mower, community pool, a corporation, or an entire national government -- we will be focusing on the use case of a single residence in order to map the technical needs to an actual use.  
+Managing shared assets through the formation of an DAO.  We will be focusing on the use case of a single residence in order to map the technical needs to an actual use -- however this is useful for many types of shared assets -- HOA organizations, a comunal lawn mower, a city pool, a corporation, or an entire national government.  
 
 # Definitions
 <code>The DAO</code>
@@ -48,7 +48,7 @@ https://blog.gnosis.pm/introducing-the-gnosis-token-launch-3cc4cffb5098
 * Dollar cap: Say we’re selling X coins for X per coin. This is the common or default basic way.
 * Token cap with bid (preferred): Set bottom price (similar to dollar cap) but allow for “bids” to occur rather than outright “sales”. Each new bid adds 1 additional day (maybe variable?) each time a new bid is placed… this is the mechanism that “penny bids” use, protects against “coil and pounce” to place bids right as auction ends. As soon as all tokens are claimed, they are not actually “sold” and higher bids replace the claim on a lower bid. If there is a pool of bids with exact same value, the tokens with the most recent bids are knocked off first, incentivizing people to be first mover. Could possibly be malicious with intent of never ending project. Chairman is appointed at beginning of contract to enable “close” when they feel a general consenSys has been reached, but must give 24 hour notification — this requires a solid “oracle notification system” like sms or email — possibly off block. This will typically be the team or developer hosting the token sale because they are incentivized to let it grow as high as possible. Other incentive to participants is to use “refer” addresses in metadata that allows for a share of “general” profits if tokens are bid above and beyond initial bid price for both buyer and referrer.
  
-Note: If the community decides that they want to proceed the way of making it a legal entity.  There first order of business that the newly minted members of this group would need to do is elect a chairman.  The chairman - that is responsible for forming the real life legal entity responsible for owning the shared asset.  *See section on member management and voting for how to set chairman. 
+Note: If the community decides that they want to proceed in making their ownership legally co-ownership.  There first order of business that the newly minted members of this group would need to do is elect a chairman.  The chairman - that is responsible for forming the real life legal entity responsible for owning the shared asset.  *See section on member management and voting for how to set chairman. 
  
 ## Voting App
 This is probably the contract that will be used most.  It checks to see if the address that sends a vote has a token.  Some security feature will needed to be enabled that tokens can not be passed around only for voting functionality.  So with each address, each token should most likely also have a ID or Hash number that gets recorded on each vote etc… Also interesting to think about “proxy” voting and allowing someone else to control you vote.
@@ -109,4 +109,5 @@ Although the primary goal of the house is not as a dedicated rental property, it
 # Questions:
 * Does something exist that performs eth => email or eth => sms notification system.
 * Can we assign specific id numbers to specific tokens?  Making "double votes" impossible by voting, then transfering token to new address that then votes and continues the pattern?
+* How to tie oracle into contract.  Can contracts make API calls and store value?
 
