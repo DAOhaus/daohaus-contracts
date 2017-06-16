@@ -1,0 +1,25 @@
+{
+  "name": "dauhaus",
+  "version": "1.0.0",
+  "description": "Managing shared assets through the formation of an DAO.  We will be focusing on the use case of a single residence in order to map the technical needs to an actual use -- however this is useful for many types of shared assets -- HOA organizations, a comunal lawn mower, a city pool, a corporation, or an entire national government.",
+  "main": "truffle.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/johndangerstorey/dao-haus.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/johndangerstorey/dao-haus/issues"
+  },
+  "homepage": "https://github.com/johndangerstorey/dao-haus#readme",
+  "dependencies": {
+    "bn.js": "^4.11.6"
+  }
+}

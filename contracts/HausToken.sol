@@ -37,9 +37,18 @@ contract MyToken is StandardToken {
     uint256 public totalSupply = 365;
     uint256 public conversion = 300;
     uint256 public finalAmount;
+    unit public value;
     address public creator;
     address[] public pledgeAccounts;
     bool public hasEnded;
+
+    function set(uint _value) {
+      value = _value;
+    }
+
+    function get() constant returns (uint) {
+      return value;
+    }
 
     function MyToken(
         uint256 _initialAmount,
