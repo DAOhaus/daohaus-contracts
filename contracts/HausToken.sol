@@ -14,7 +14,7 @@ pragma solidity ^0.4.4;
 
 import "./StandardToken.sol";
 
-contract MyToken is StandardToken {
+contract HausToken is StandardToken {
 
     function () {
         //if ether is sent to this address, send it back.
@@ -37,7 +37,7 @@ contract MyToken is StandardToken {
     uint256 public totalSupply = 365;
     uint256 public conversion = 300;
     uint256 public finalAmount;
-    unit public value;
+    uint public value;
     address public creator;
     address[] public pledgeAccounts;
     bool public hasEnded;
