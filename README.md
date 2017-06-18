@@ -2,31 +2,31 @@
 Managing shared assets through the formation of an DAO.  We will be focusing on the use case of a single residence in order to map the technical needs to an actual use -- however this is useful for many types of shared assets -- HOA organizations, a comunal lawn mower, a city pool, a corporation, or an entire national government.  
 
 # Definitions
-<code>The DAO</code>
+<b>The DAO</b></br>
 The group of people that own voting rights within a group. Typically required to pay yearly taxes to be spent as proposals are received and approved.
 
-<code>Shared Asset</code>
+<b>Shared Asset</b></br>
 For this particular use case shared asset will coorespond to a single family home residence.  Although if you have a active imagination, it can be subsituted for other assets types ;)
 
-<code>Member</code>  
+<b>Member</b>  
 Someone that has registerd as a member by sending their token to the Registery Contract -- allowing participation in voting and message boards.
 
-<code>Silent Member</code>  
+<b>Silent Member</b>  
 Someone that has not registered as a member, but holds a token.  Usually this is someone that either wants to sell their interest in the DAO and Shared Asset.  Is immune from a proposal to force withdraw them from the DAO that is typically reserved for malicous members.
 
-<code>Non Resource Proposal Contract </code>
+<b>Non Resource Proposal Contract </b></br>
 A very open ended contract that is used to set "rules" or change variables on the registry contract itself.  It's an internal governance tool that is part technical (for changing of variables) and part societal in setting common rules that can be referenced by the group when electing to force withdraw someone from the DAO.
 
-<code>Resource Proposal Contract</code>
+<b>Resource Proposal Contract</b></br>
 A seperate contract that has set parameters that need to be met in order for proposal to be successful and the transfer of funds to the specified proposal chairman. Contains Description of the propsal, relays votes and tracks progress -- typically of a management task such as "fixing the leaky sink" or "replacing the roof".
 
-<code>Chairman</code>
+<b>Chairman</b></br>
 In most cases this is the address that initialized a specific contract.  This responsibility typically denotes setting parameters for a proposal, receiving and distributing funds upon proposal success and can be transfered or voided via popular vote.  A special note should be made that iChairmen have temporary roles with definite purposes or a limited scope of responsibilities.  The initial creator of the token sale contract an example of this, whos role expires after successful funding of the contract.
 
-<code>PVR - Popular Vote Ratio</code>
+<b>PVR - Popular Vote Ratio</b></br>
 The ratio in which a proposal is deemed as accepted.  Popular or passing is 4/7ths approval of total votes cast.  Meaning if 7 total votes cast, needs at least 4 to be approval, but if 28 votes are cast, needs 16 approvals to be success.
 
-<code> Registry Contract </code>
+<b> Registry Contract </b></br>
 The contract where members send their token in order to vote.  In order to withdraw member must pass through a quite phase, be in good standing, and not be the Chairman on any outstanding proposals.  The Registry contract is also the enforcer of the law in selling off malicious member's tokens.
 
 
