@@ -44,10 +44,14 @@ Each token will be the same across ALL users, both as a symbol of ownership perc
 While the landscape of token sales is expanding, and new models are continually being developed and tested, here are a few characteristics to consider to a token sale:
  
 > Open vs Restrictive: Open meaning anyone can participate at any level (include whales).  Restrictive meaning to put limitations on things such as requiring an identification confirmation of some sort (uport) and limit each confirmed addresses total amount possible to donate — Anyone trying to not want weird political factions from having automatic majority, because essentially 1 individual could own 75% of the tokens and practically own the entire asset.
+
 > Dutch Reverse Bid: Bid on how much are willing to pay for it starting from the top => https://en.wikipedia.org/wiki/Dutch_auction
 https://blog.gnosis.pm/introducing-the-gnosis-token-launch-3cc4cffb5098
+
 > Bancor => https://github.com/bancorprotocol/contracts/blob/master/solidity/contracts/CrowdsaleController.sol#L24
+
 > Dollar cap: Say we’re selling X coins for X per coin. This is the common or default basic way.
+
 > Token cap with bid (preferred): Set bottom price (similar to dollar cap) but allow for “bids” to occur rather than outright “sales”. Each new bid adds 1 additional day (maybe variable?) each time a new bid is placed… this is the mechanism that “penny bids” use, protects against “coil and pounce” to place bids right as auction ends. As soon as all tokens are claimed, they are not actually “sold” and higher bids replace the claim on a lower bid. If there is a pool of bids with exact same value, the tokens with the most recent bids are knocked off first, incentivizing people to be first mover. To counteract the possibility of a never ending project, the Chairman is appointed on launch to enable “close” when they feel a general consensus has been reached, but must give 24 hour notification — this requires a solid “oracle notification system” (* See "Questions" section below) like sms or email — possibly off block. This will typically be the team or developer hosting the token sale because they are incentivized to let it grow as high as possible. 
  
 Note: If the community decides that they want to proceed in making their ownership legally co-ownership.  There first order of business that the newly minted members of this group would need to do is submit a proposal to actually buy the asset. Weather it is true co-ownership, or trusting an individual to be the sole owner, is up to each DAO respectively.  
