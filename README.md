@@ -147,6 +147,8 @@ Functions
 
 **Execute Proposal**:  Sends appropriate funds to the chairman associated with the proposal 
 
+## Member Management Contract
+
 Voting would be used in this aspect, but perhaps in a different UI or in a different section of app because it feels like a separate concern. Probably have different rules, ratios, and variables associated. Also be sure to read the section on “Secondary Market” because anyone pushed out by members would most likely just default to that process as if they voluntarily entered into it.
 
 With this there would be no chairperson or moderator. As little as 1 person could nominate someone that should be voted “off the island” so to speak. They would then need 10% of the DAO to confirm or “second” the nomination to kick a someone out. The person in question would have a character limit of 2,000 words in which to defend themselves, and each member would have a 500 word area vouch for or against the member in question and allows links to other places online.
