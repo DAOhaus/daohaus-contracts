@@ -458,13 +458,13 @@ It's variables and functions are:
 
 **Signal Close:** Allows chairman to signal that sale will close in 24 hours, believes a consensus has been reached on price of tokens. Set's active to false.
 
-**Set Deadline:** Called each time a successful bid goes through. Modifier looking to see if it's pass that day in order to start reverse dutch auction rather than fixed token style bid..
+**Set Deadline:** Called each time a successful bid goes through. Modifier looking to see if it's pass that day in order to start reverse dutch auction rather than fixed token style bid.
 
 ## **Scheduling and Rental Contract:**
 
 Proportionate to holdings, you have different windows of time that are open to scheduling your uses. Scheduling is an ongoing process, with no blackout dates except for construction or other allotted dates approved through a proposal. Slockit is used to allow or restrict access.
 
-Each day becomes available 1 year in the future. The first year, with AirBNB scheduling becoming available 6 months in advance. See the section on Rental Opportunity to find more information about rental management.
+Each day becomes available 1 ear in the future. The first year, with AirBNB scheduling becoming available 6 months in advance.
 
 Each token you hold represents an entire night from 12pm till 12pm the next day. Locks on the door make a query each day for who it allows to use its location. Holders of that day can manually add "approved" addresses that can access. That way you can gift your “token use" to friends or family, but ultimately you are responsible for their behavior and only you have voting rights.
 
@@ -476,13 +476,13 @@ It's variables and functions are:
 
 * **Map of Dates:** => Each date in a year (not sure what to do about leap year) mapped to a dictionary of address, amount paid, and their "check in" report
 
-**Init:** No need to registers itself with the Registrar Contract, because it was instantiated by it, so already knows the address, the fee needed, etc. Just set the "Deadline" in order to indicate the line between fixed token bid sale and reverse dutch auction.
+**Init:** No need to register itself with the Registrar Contract.
 
 **Reserve - Payable:** Takes parameter of night requested. Checks to make sure it is under 1 year in future. Checks to make sure not already booked. If member, check if they have available uses still (each token they own is 1 night per year) and no eth is needed, if not member or if already used up their token, must send amount required by the registry contract.
 
 **Cancel Reservation:** Only available if further out than 1 month prior to their reservation. Returns Eth paid.
 
-**Check In:** Takes parameter of a message detailing how they found the space. Free to leave a message about "windows broken" or “kitchen is a mess, no washed dishes” — in order to either look at the record of a problematic tenant, or trace the origins of some broken appliance / furniture.
+**Check In:** Takes parameter of a message detailing the condition in which they found the space. Free to leave a message about "windows broken" or “kitchen is a mess, no washed dishes” — in order to either look at the record of a problematic tenant, or trace the origins of some broken appliance / furniture.
 
 ## **Version 2 Ideas**
 
@@ -524,23 +524,23 @@ Actions that should trigger notification:
 
 ## **Footnotes**
 
-<b id="f1">1</b> [Link] -- This [Wiki Article](https://en.wikipedia.org/wiki/Agile_software_development) describes Agile software development as a set of values and principles for software development under which requirements and solutions evolve through the collaborative effort of self-organizing cross functional teams. It advocates adaptive planning, evolutionary development, early delivery, and continuous improvement, and it encourages rapid and flexible response to change. [↩Back](#a1)
+<b id="f1">1</b> This [Wiki Article](https://en.wikipedia.org/wiki/Agile_software_development) describes Agile software development as a set of values and principles for software development under which requirements and solutions evolve through the collaborative effort of self-organizing cross functional teams. It advocates adaptive planning, evolutionary development, early delivery, and continuous improvement, and it encourages rapid and flexible response to change. [↩](#a1)
 
-<b id="f2">2</b> Generally, Bauhas design attempts to solve functional issues with a minimum of decorative embellishment. This is not to be confused with a minimalist aesthetic which may actually impinge on functionality for the sake of appearance promoting a "less is more" mentality. [Bauhaus Wiki](https://en.wikipedia.org/wiki/Bauhaus) for more info.[↩Resume](#a2)
+<b id="f2">2</b> Generally, Bauhas design attempts to solve functional issues with a minimum of decorative embellishment. This is not to be confused with a minimalist aesthetic which may actually impinge on functionality for the sake of appearance promoting a "less is more" mentality. [Bauhaus Wiki](https://en.wikipedia.org/wiki/Bauhaus) for more info.[↩](#a2)
 
-<b id="f3">3</b> This number is visually and interestingly represented via [this website](http://www.usdebtclock.org/) but is a common estimate.[↩Resume](#a3)
+<b id="f3">3</b> This number is visually and interestingly represented via [this website](http://www.usdebtclock.org/) but is a common estimate.[↩](#a3)
 
-<b id="f4">4</b> Middlemen for logictial reasons may not be needed, however there is still a place for representation for efficiency of time, and depth of subject knowledge.  For example I don’t have the time or experience to become an expert in the complexities of how to build a skyscraper, so on a particular project I’d like to proxy my vote to someone I know with that experience.  However, I don’t want them making decisions on my behalf about other things like health care. [↩Resume](#a4)
+<b id="f4">4</b> Middlemen for logictial reasons may not be needed, however there is still a place for representation for efficiency of time, and depth of subject knowledge.  For example I don’t have the time or experience to become an expert in the complexities of how to build a skyscraper, so on a particular project I’d like to proxy my vote to someone I know with that experience.  However, I don’t want them making decisions on my behalf about other things like health care. [↩](#a4)
 
-<b id="f5">5</b>  The [Washington Post](https://www.washingtonpost.com/investigations/pentagon-buries-evidence-of-125-billion-in-bureaucratic-waste/2016/12/05/e0668c76-9af6-11e6-a0ed-ab0774c1eaa5_story.html?utm_term=.e18a99003420) wrote an interesting article with some nice graphs. [↩Resume](#a5)
+<b id="f5">5</b>  The [Washington Post](https://www.washingtonpost.com/investigations/pentagon-buries-evidence-of-125-billion-in-bureaucratic-waste/2016/12/05/e0668c76-9af6-11e6-a0ed-ab0774c1eaa5_story.html?utm_term=.e18a99003420) wrote an interesting article with some nice graphs. [↩](#a5)
 
-<b id="f6">6</b> If the iChairman only advertises the DAO as a shared home ownership, the group may never actually gain a PVR (popular vote ratio) on which home to buy because everyone wants it in a different city. So the more specific the iChairman can be in attracting members, the more unified and effective The DAO will be.  [↩Resume](#a6)
+<b id="f6">6</b> If the iChairman only advertises the DAO as a shared home ownership, the group may never actually gain a PVR (popular vote ratio) on which home to buy because everyone wants it in a different city. So the more specific the iChairman can be in attracting members, the more unified and effective The DAO will be.  [↩](#a6)
 
-<b id="f7">7</b>  The following are some models, but new models are continually being created and modified:
+<b id="f7">7</b>  The following are some models, but new models are continually being created and modified [↩](#a7)
 
-* Dutch Reverse Auction is a bid on how much are willing to pay for it starting from the top [Gnosis Launch]([https://blog.gnosis.pm/introducing-the-gnosis-token-launch-3cc4cffb5098)
+* [Gnosis]([https://blog.gnosis.pm/introducing-the-gnosis-token-launch-3cc4cffb5098) did a Reverse Dutch Auction which is a bid on how much are willing to pay for it starting from the top 
 
-* Bancor employed a general idea where there is a minimum amount of time available, with a hidden cap and fixed price. [Link](https://cointelegraph.com/news/bancor-an-innovative-token-sale)
-
-* EOS essentially did a distributed auction, where a fixed # of tokens were released each day, allowing there to be a secondary market immediately while continuing to release tokens for an entire year. [Link](https://steemit.com/eos/@eosio/draft-eos-token-sale-smart-contract)  [↩Resume](#a7)
+* [Bancor](https://cointelegraph.com/news/bancor-an-innovative-token-sale)
+ employed a general idea where there is a minimum amount of time available, with a hidden cap and fixed price.
+* [EOS](https://steemit.com/eos/@eosio/draft-eos-token-sale-smart-contract) essentially did a distributed auction, where a fixed # of tokens were released each day, allowing there to be a secondary market immediately while continuing to release tokens for an entire year. 
 
