@@ -113,11 +113,15 @@ The contract in which people nominate others to be "force withdrawn" in cases wh
 
 **Chairman:**
 
-In most cases this is the address that initialized a specific contract. This responsibility typically denotes setting parameters for a proposal, receiving and distributing funds upon proposal success and can be transferred or voided via popular vote. A special note should be made that iChairman have temporary roles with definite purposes or a limited scope of responsibilities. The initial creator of the token sale contract an example of this, who's role expires after successful funding of the contract.
+In most cases this is the address that initialized a specific contract. This responsibility typically denotes setting parameters for a proposal, receiving and distributing funds upon proposal success and can be transferred or voided via popular vote.
 
-**PVR - Popular Vote Ratio:**
+**Popular Vote Ratio or PVR:**
 
 The ratio in which a proposal is deemed as accepted. Popular or passing is 4/7ths approval of total votes cast. Meaning if 7 total votes cast, needs at least 4 to be approval, but if 28 votes are cast, needs 16 approvals to be success.
+
+**Optional -- The Benevolent Dictator:**
+
+This is an optional position that exists to make sure the group being created is living up to it's purpose.  It has the power to automatically pass or kill any proposal.  This is intended to be used in a system where the BD actually owns the underlying asset and is letting a group of trusted members guide it accordingly. Once satisfied with the organization or dies without assigning an heir, the role ends.
 
 **v2 -- Proxy Member:**
 
@@ -129,7 +133,7 @@ The creation of The DAO is the initial step, and probably the most important for
 
 Also important to communicate that the token sale price is not based solely in the underlying asset, but in the experience, the community, the efficiency of the group. Basically the value in going to Harvard is not based solely in the building, coursework, and text books… it’s the network and community you’re introduced to — so although the house might only be worth physically $500,000 - it sells for a $750,000 because everyone likes the group and people want in for social or other reasons.
 
-After a successful funding the iChairman should only have the amount of interest or involvement as their token percentage mandates. This means none of the tokens will be reserved for the development team, and the iChairman should include a fee in the payment structure for orchestrating the creation for compensation.
+After a successful funding the Chairman should only have the amount of interest or involvement as their token percentage mandates. This means none of the tokens will be reserved for the development team, and the Chairman should include a fee in the payment structure for orchestrating the creation for compensation.
 
 Each token will be the same across ALL users, both as a symbol of ownership percentage and a right to vote proportionately. This token is not absolutely necessary to hold a position such as chairman, as that role can be specified on creation by whoever is publishing the contract. However, only token holders can nominate, vote for, or remove such people from those positions.
 
@@ -145,7 +149,7 @@ Set bottom price (similar to dollar cap) but allow for "bids" to occur rather th
 
 Each new bid adds 1 additional day (or other variable) each time a new bid is placed… this is the mechanism that "penny bids" use, protects against “coil and pounce” to place bids right as auction ends.
 
-As soon as all tokens are claimed, they are not actually "sold" and higher bids replace the claim on a lower bid. If there is a pool of bids with exact same value, the tokens with the most recent bids are knocked off first, incentivizing people to be first mover.
+As soon as all tokens are claimed, they are not actually "sold" and higher bids replace the claim on a lower bid. If there is a pool of bids with exact same value, the tokens with the most recent bids are knocked off first in FILO fashion, incentivizing people to act fast.
 
 To counteract the possibility of a never ending project, the Chairman is appointed on launch to enable the contract to execute or close when they feel a general consensus has been reached, but must give 24 hour notification — this requires a solid "oracle notification system" like sms or email — possibly off block. This will typically be the team or developer hosting the token sale because they are incentivized to let it grow as high as possible without trolls making it last forever.
 
@@ -199,9 +203,12 @@ It's variables and functions are:
 
 * **Rental Price:** The price in Eth that is required to be sent in order to book 1 night
 
-* **Resource Proposal Length:** How long proposals should be available to stay proposals until are no longer eligible for votes.
+* **Proposal Length:** How long proposals are active to recieve votes.  Since users can change their vote, this is also a time to campaign for or against the proposal off-chain.  This variable is used in all proposals:
+  * resource
+  * non-resource
+  * member management
 
-* **Member Withdrawal Length:** How long member management proposals should be available to stay open for votes. Also pauses the timeline for any resource proposals that are outstanding that have the member in question as the chairman. (This prevents attacks from occurring where 1 week before the deadline, person likes the resource proposal vote and nominates to remove the chairman, essentially blocking any new votes from being cast and the outcome is prematurely secured)
+  Also it's important to note that this get's paused if the chairman is nominated for a force withdrawal.  This prevents an attack against a proposal by nominating the chairman for a force withdrawal.  That way a proposal may be delayed, but not blocked.
 
 * **Member Withdrawal Frequency:** How long between member being nominated to force withdraw. This is to prevent attacker from repeatedly requesting that a chairman be removed, hence putting their proposal on hold and blocking there proposals from ever being voted on. Default set to once a year.
 
@@ -215,7 +222,7 @@ It's variables and functions are:
 
 * **Token Array:** Finalized token array from the token sale. Needed for secondary market info when forcing a withdrawal.
 
-* **Amendments:** This is a mapping of rules that act as a type of "constitution". However, these are unenforceable by the contract itself and are here for the purpose that other's read to align their vision together, or have common understandings of what will cause a member to be nominated to for a force withdrawal. It's up the the members themselves to read them and take them into consideration, essentially each member becoming a member of the “supreme court” and interpreting the articles as they are written in cases where a member is being forced to withdraw.
+* **Amendments:** This is a mapping of rules that act as a type of "constitution". However, these are unenforceable by the contract itself and are here for the purpose that other's read to align their vision together, or have common understandings of what will cause a member to be nominated to for a force withdrawal. It's up the members themselves to read them and take them into consideration, essentially each member becoming a member of the “supreme court” and interpreting the articles as they are written in cases where a member is being forced to withdraw.
 
 * **v2 — whitelist of approved tokens:** Can be basic, like via proof of phone number - but some identification check in order to verify each person controls their own tokens. Is "version 2" at this point because simple solutions can be gamed fairly easily, and complex solutions are not readily known to me, or accessible.
 
@@ -445,6 +452,14 @@ Incentivize members to share with others during the token sale. They get some so
 
 This project is begging for some sort of stable coin, but for now just depends on the group self managing the money by raising Ether taxes when needed, and re-distributing taxes back to token holders when exists excess.
 
+**Education:**
+
+Education is possibly the single most important aspect of this democracy because each member has such power in the decesion making processs.  The longevity of it's existance is dependent on all of it's members succesfully understanding issues, and looking past mob mentality, prejudice, witch-hunts, and the many other ignorances that plauge human thought.  That being said, it'd be good to have a "proof of knowledge" system that enforces a user to be mildly educated on the issues before voting.
+
+**Certifications:**
+
+Along the same lines as education, it'd be good to verify people that are recieving funds are qualified to use them.  For instance a proposal might like to provide an authenticated "general contractors" license to show that they actually know a general contractor that will be carrying through with the project.
+
 **Member Communication:**
 
 Chat and community forum, notification system. This should be done off chain but would be nice to verify that they have a token in order to participate. Most likely the "chat" functionality is just something like slack. Only conversations that are relevant to the contract are ones that go along with opinions for official blockchain voting.
@@ -539,7 +554,7 @@ At our size and intended scope we do not have the resources or right to enact su
 
 That is why Daohaus makes sense.  It’s a small, self-selected group of people, brought together around a common asset. 
 
-It’s a small step forward towards better a better democracy.
+It’s a small step forward towards a better democracy.
 
 ## **Footnotes**
 
