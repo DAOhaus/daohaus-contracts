@@ -72,7 +72,7 @@ Member A proposes to paint the house blue.  The group passes the proposal with a
 
 ![Bad Actor Diagram](/diagrams/resource-proposal/single.png)
 
-Related, if the proposal doesn't pass and then breaks internal rules, mis-uses public funds or for whatever reason is deemed a "bad actor" by anyone in the community they can be put up for review in which the group votes weather to allow them to stay in, pay a fee, or get voted out.  The group then submits a new proposal to fix the issue the previous member inflicted upon them, but has essentially paid for by the sale of his token. 
+Related, if the proposal doesn't pass and Member A continues to act in way contrary to the group's decesion, then anyone in the group can be put up for review in which the group votes weather to allow them to stay in, pay a fee, or get voted out.  The group then submits a new proposal to fix the issue the previous member inflicted upon them, but has been paid for by the sale of his interest in the group by selling his tokens to Member C. 
 
 ![Bad Actor Diagram](/diagrams/overview/bad-actor.png)
 
