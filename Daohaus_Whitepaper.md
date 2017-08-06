@@ -45,7 +45,8 @@ V1.1 - August 6th, 2017
 Daohaus is a social experiment to test pure democratic governance.  The aim is to purchase, manage, and enjoy a single real estate property.  The hope is to use this small success to expand and grow the idea from that of a property to the governance of a community, and even a nation.  Hopefully bringing to fruition the lofty vision of a more pure, accountable, and representative government of the people, by the people, for the people. 
 
 
-    I shall be asked if I am a prince or a legislature to write on politics. I answer that I am neither, and that is why I do so 
+    I shall be asked if I am a prince or a legislature to write on politics. 
+    I answer that I am neither, and that is why I do so 
     
     -- Rousseau, Social Contract
 
@@ -475,11 +476,13 @@ Actions that should trigger notification:
 # Afterward
 ## **Finances**
 
-``` 
+ 
 
-The difference between death and taxes is death doesn’t get worse every time Congress meets. -- Will Rogers
+    The difference between death and taxes is death doesn’t get worse every time Congress meets. 
+    
+    -- Will Rogers
 
-```
+
 
 Our country's finances are in shambles.  When writing this, we are nearly 20 Trillion in debt<sup id="a3">[3](#f3)</sup>, and our political leaders continue to throw money into a seemingly black hole.  We vote for the politician that is "the lesser of two evils" with absolutely NO indication of how much of our money is going into which projects.
 
@@ -489,11 +492,10 @@ The longer those people stay in a position of power, the longer the people they 
 
 We — through our government — continue to throw money into corporate bailouts, leaders that can divert public funds into their own accounts or aligned businesses, special interest programs and failing institutions.  Recently 100 Billion dollars were just "lost" <sup id="a5">[5](#f5)</sup>**.**  This is either massive corruption or massive incompetence.  
 
-```
+    Power tends to corrupt 
+    
+    -- Lord Acton
 
-Power tends to corrupt -- Lord Acton
-
-```
 
 I believe we continue in this system not because we want to, but because our system is setup in a way that allows these things to easily exist.  I’m not saying our current system is the worst in the world, or has not achieved impressive things, but when our taxes are managed with smart contracts on a public blockchain we will be delivering a blow to corrupt and incompetent politicians everywhere.  The blockchain will revolutionize our tax system for the better.  
 
@@ -505,11 +507,15 @@ In the past "policy" and “finances” have been separate issues.  You voted fo
 
 With the advent of blockchain systems, smart contracts, and cryptocurrencies we have enhanced our current monetary instruments, and need to also update our outdated political system for one that is more transparent and better represents not just the "black and white" views of any given political party or representative, but the mixed beliefs of a truly diverse group.
 
-```
 
-If the general will is to be able to express itself, that there should be no partial Society within the state, and that each citizen should think only his own thoughts -- Rousseau, Social Contract
 
-```
+  If the general will is to be able to express itself, 
+  that there should be no partial Society within the state, 
+  and that each citizen should think only his own thoughts 
+  
+  -- Rousseau, Social Contract
+
+
 
 Currently we vote for the person that will make decisions, and not the decisions themselves.  For example, when someone votes for the next president of the United States, this person is free to appoint to different high ranking positions in our government anyone he chooses.  Positions such as secretary of state, education, etc… go to people that have spent millions of dollars in campaign finances, people with political clout, alliances, or other factors that don’t necessarily contribute to an effective leader or project manager.
 
@@ -521,11 +527,13 @@ Technically Daohaus is being built in a way that the community behind it could b
 
 ## **Enforcement**
 
-```
 
-Strictly speaking, there is no such thing as a simple government  -- Rousseau, Social Contract
 
-```
+    Strictly speaking, there is no such thing as a simple government  
+    
+    -- Rousseau, Social Contract
+
+
 
 The subjects outlined are big and complex problems that a mere change in technology alone will not solve.  In the same fashion that a journey of a thousand miles begins with a single step — the journey towards a more pure democratic society begins with small and simple proof of concept such as this.  
 
