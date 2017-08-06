@@ -8,6 +8,8 @@ V1.1 - August 6th, 2017
 
 [Abstract](#abstract)
 
+[Overview](#overview)
+
 [Definitions](#definitions)
 
 [Token Sale](#token-sale-contract)
@@ -42,9 +44,10 @@ V1.1 - August 6th, 2017
 
 Daohaus is a social experiment to test pure democratic governance.  The aim is to purchase, manage, and enjoy a single real estate property.  The hope is to use this small success to expand and grow the idea from that of a property to the governance of a community, and even a nation.  Hopefully bringing to fruition the lofty vision of a more pure, accountable, and representative government of the people, by the people, for the people. 
 
-<code style="white-space: pre-wrap">
-I shall be asked if I am a prince or a legislature to write on politics. I answer that I am neither, and that is why I do so -- Rousseau, Social Contract
-</code>
+
+    I shall be asked if I am a prince or a legislature to write on politics. I answer that I am neither, and that is why I do so 
+    
+    -- Rousseau, Social Contract
 
 3 large similarities exist between managing a real estate property, and governing a nation. Namely the creation of rules called laws,the enforcement of those rules, and the management of an escrow account that we all fund through our taxes.
 
@@ -72,17 +75,6 @@ Related, if the proposal doesn't pass and then breaks internal rules, mis-uses p
 
 ![Bad Actor Diagram](/diagrams/overview/bad-actor.png)
 
- 
-
-
-
-# TECHNICAL
-
-## User story
-
-Ownership in the house is divided into tokens that represent right of use per year at 365 tokens. Whoever puts together a deal should be rewarded but after initial sale, they should not be permanent governor and may only have the amount of interest or involvement as their token percentage mandates.
-
-Lots of the use cases below are put in place to be used rarely if ever. These contracts should be setup in a way that really just works without needing too much attention. Only when a governance decision is needed for large maintenance or member management (a bad actor) would members need to be notified and partake in the the contracts and processes listed below.
 
 ## Definitions
 
