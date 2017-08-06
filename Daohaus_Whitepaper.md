@@ -42,11 +42,9 @@ V1.0 - July 30th, 2017
 
 Daohaus is a social experiment to test pure democratic governance.  The aim is to purchase, manage, and enjoy a single real estate property.  The hope is to use this small success to expand and grow the idea from that of a property to the governance of a community, and even a nation.  Hopefully bringing to fruition the lofty vision of a more pure, accountable, and representative government of the people, by the people, for the people. 
 
-```
-
+<code style="white-space: pre-wrap">
 I shall be asked if I am a prince or a legislature to write on politics. I answer that I am neither, and that is why I do so -- Rousseau, Social Contract
-
-```
+</code>
 
 A simplified version of our current day government really boils down to the creation of laws, the enforcement of those laws, and the management of an escrow account that we all fund through our taxes.
 
