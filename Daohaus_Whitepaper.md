@@ -507,9 +507,8 @@ In the past "policy" and “finances” have been separate issues.  You voted fo
 
 With the advent of blockchain systems, smart contracts, and cryptocurrencies we have enhanced our current monetary instruments, and need to also update our outdated political system for one that is more transparent and better represents not just the "black and white" views of any given political party or representative, but the mixed beliefs of a truly diverse group.
 
-    If the general will is to be able to express itself, 
-    that there should be no partial Society within the state, and that each citizen should think only his own thoughts 
-  
+    If the general will is to be able to express itself, that there should be no partial Society within the state and that each citizen should think only his own thoughts 
+    
     -- Rousseau, Social Contract
 
 Currently we vote for the person that will make decisions, and not the decisions themselves.  For example, when someone votes for the next president of the United States, this person is free to appoint to different high ranking positions in our government anyone he chooses.  Positions such as secretary of state, education, etc… go to people that have spent millions of dollars in campaign finances, people with political clout, alliances, or other factors that don’t necessarily contribute to an effective leader or project manager.
