@@ -2,19 +2,11 @@
 
 John D. Storey [✉️](mailto:johndangerstorey@gmail.com)
 
-V1.0 - July 30th, 2017
+V1.1 - August 6th, 2017
 
 ## Table of Contents
 
-### **Abstract**
-
-[Finances](#finances)
-
-[Policy](#policy)
-
-[Enforcement](#enforcement)
-
-### **Technical**
+[Abstract](#abstract)
 
 [Definitions](#definitions)
 
@@ -34,6 +26,14 @@ V1.0 - July 30th, 2017
 
 [Version 2 Ideas](#version-2-ideas)
 
+### **Afterword**
+
+[Finances](#finances)
+
+[Policy](#policy)
+
+[Enforcement](#enforcement)
+
 [Footnotes](#footnotes)
 
 ---
@@ -46,75 +46,35 @@ Daohaus is a social experiment to test pure democratic governance.  The aim is t
 I shall be asked if I am a prince or a legislature to write on politics. I answer that I am neither, and that is why I do so -- Rousseau, Social Contract
 </code>
 
-A simplified version of our current day government really boils down to the creation of laws, the enforcement of those laws, and the management of an escrow account that we all fund through our taxes.
+3 large similarities exist between managing a real estate property, and governing a nation. Namely the creation of rules called laws,the enforcement of those rules, and the management of an escrow account that we all fund through our taxes.
 
-This project is focused on replacing all of the above — however,  on a much smaller scale and through basic mechanisms.  We start small so that we can learn from flaws in the design, build it incrementally, and test our hypothesis as it grows following an Agile <sup id="a1">[1](#f1)</sup> mentality.
+Creating the framework for a property on a much smaller and simpler scale and through basic mechanisms holds an important advantage which is flexibility.  We start small so that we can learn from flaws in the design, build it incrementally, and test our hypothesis as it grows following an Agile <sup id="a1">[1](#f1)</sup> mentality.
 
-In the same way that the Bauhaus <sup id="a2">[2](#f2)</sup> movement was characterized by a minimalist type of design, we also hope to simplify and minimize governance of shared community assets. 
+Daohaus is essentially built around the idea of it's members submitting proposals to use public funds, and gaining approval from the rest of it's members.  The group is brought together around a specific idea or project, in which they hold a "token launch" allowing others to come onboard and to provide the startup costs needed to purchase the land, house, or whatever shared asset that is bringing them together.  This token is then registered and members are made public along with how much interest they hold in the project.
 
-## **Finances**
+From there it is up to the community to propose projects, rules, or the removal of bad actors in the system.  In essence, this is pure democratic governance -- but also allows for alternative forms of governance **as long as the people give their consent** and enhances participation, education, and accountability in the way the group is goverened.
 
-``` 
+Daohaus is a proving ground for the advantages of a "proposal" governance over our current "charasmatic representative" based system. To be fair, up to this point it has been a relatively good and succesfull way to govern, but one that isn't as needed with the advent and maturity of certain technologies namely the internet and blockchain.  
 
-The difference between death and taxes is death doesn’t get worse every time Congress meets. -- Will Rogers
+Geed, corruption and incompetence cannot be solved by purely technical solutions, but I hope Daohaus will grow into a tool used to combat such evils.  If you'd like to read more of my thoughts on the subject, please see the afterword where I briefly address the implications of this project on our coutries [financial](#financial), [policy](#policy) and [enforcement](#enforcement) practices.
 
-```
+In the same way that the Bauhaus <sup id="a2">[2](#f2)</sup> movement was characterized by a minimalist type of design, we also hope to simplify and minimize governance of shared community assets.
 
-Our country's finances are in shambles.  When writing this, we are nearly 20 Trillion in debt<sup id="a3">[3](#f3)</sup>, and our political leaders continue to throw money into a seemingly black hole.  We vote for the politician that is "the lesser of two evils" with absolutely NO indication of how much of our money is going into which projects.
+## Overview
 
-Up to now this "trusted representative" form of governance is the best that we’ve been able to collectively decide upon as a society.  When countries such as the United States were created they didn’t have enhanced communication technology and a representative government was badly needed.  It was a great step forward to giving smaller groups of people power and thrived because it was logistically impossible to coordinate the collection of the voices of an entire nation.  
+In the example below a group of people have already held a token launch for 365 tokens (one for each night of the year) and have already purchased the property.  
 
-The longer those people stay in a position of power, the longer the people they represent are exposed to the risk of corruption.  This need of middlemen for logistical reasons <sup id="a4">[4](#f4)</sup> is no longer the case; the internet revolutionized communication and we’re ready to represent ourselves.
+Member A proposes to paint the house blue.  The group passes the proposal with a 75% success, the chairman recieves a fee for preparing the proposal and orchstrating the work to be done with the worker doing the actual labor involved in painting the house.
 
-We — through our government — continue to throw money into corporate bailouts, leaders that can divert public funds into their own accounts or aligned businesses, special interest programs and failing institutions.  Recently 100 Billion dollars were just "lost" <sup id="a5">[5](#f5)</sup>**.**  This is either massive corruption or massive incompetence.  
+![Bad Actor Diagram](/diagrams/resource-proposal/single.png)
 
-```
+Related, if the proposal doesn't pass and then breaks internal rules, mis-uses public funds or for whatever reason is deemed a "bad actor" by anyone in the community they can be put up for review in which the group votes weather to allow them to stay in, pay a fee, or get voted out.  The group then submits a new proposal to fix the issue the previous member inflicted upon them, but has essentially paid for by the sale of his token. 
 
-Power tends to corrupt -- Lord Acton
+![Bad Actor Diagram](/diagrams/overview/bad-actor.png)
 
-```
+ 
 
-I believe we continue in this system not because we want to, but because our system is setup in a way that allows these things to easily exist.  I’m not saying our current system is the worst in the world, or has not achieved impressive things, but when our taxes are managed with smart contracts on a public blockchain we will be delivering a blow to corrupt and incompetent politicians everywhere.  The blockchain will revolutionize our tax system for the better.  
 
-Daohaus aims at solving this issue through the allotment of funds tied directly to the reason they are being released.  Everything is transparent and leaders will be held directly responsible for the funds released to them.
-
-In the past "policy" and “finances” have been separate issues.  You voted for a politician because of what they stood for, not because of their financial plan of how to implement their vision.  Now with Daohaus we are combining those two aspects into one by requiring the person to propose a plan to also get approved for the amount of money they need to fulfill on their promises, and also how much they will be paid for seeing the project through.
-
-## **Policy**
-
-With the advent of blockchain systems, smart contracts, and cryptocurrencies we have enhanced our current monetary instruments, and need to also update our outdated political system for one that is more transparent and better represents not just the "black and white" views of any given political party or representative, but the mixed beliefs of a truly diverse group.
-
-```
-
-If the general will is to be able to express itself, that there should be no partial Society within the state, and that each citizen should think only his own thoughts -- Rousseau, Social Contract
-
-```
-
-Currently we vote for the person that will make decisions, and not the decisions themselves.  For example, when someone votes for the next president of the United States, this person is free to appoint to different high ranking positions in our government anyone he chooses.  Positions such as secretary of state, education, etc… go to people that have spent millions of dollars in campaign finances, people with political clout, alliances, or other factors that don’t necessarily contribute to an effective leader or project manager.
-
-Daohaus allows multiple people to run for each position and it’s members to choose the best plan rather than them being appointed via political alignment.  This allows whoever has the clearest, most convincing vision for any particular objective within our government to be chosen and not just whoever is better friends with a particular party leader.
-
-Now sometimes it is good to have "representation" because if the group had to make every decision, it would be a long and time intensive process.  We account for this by introducing proposals that aren’t intrinsically any size — each proposal can be as small or large as the person submitting it can convince its members it needs to be.  This allows for the group to collectively decide if they want a 100% pure democracy, small representation, or even a king.
-
-Technically Daohaus is being built in a way that the community behind it could build and vote for alternative governance models on a project by project basis.  The education of it’s members could be all entrusted to one person that has full control of the "education" escrow tax account — essentially making them a “king”.  While at the same time all community improvement proposals could all be voted on separately, with each proposal being aimed at a specific road improvement, park creation, or community celebration project.  Then if one of the patterns or systems is viewed as advantageous, someone could internally propose to switch over if the community approves, will instantly be upgraded.
-
-## **Enforcement**
-
-```
-
-Strictly speaking, there is no such thing as a simple government  -- Rousseau, Social Contract
-
-```
-
-The subjects outlined are big and complex problems that a mere change in technology alone will not solve.  In the same fashion that a journey of a thousand miles begins with a single step — the journey towards a more pure democratic society begins with small and simple proof of concept such as this.  
-
-Things also become more complex when physical geography and broad society come into play.  For example, in today’s world where people join not from a conscious "buy in" decision but that of a “born in” decision of others, in order to suspend someone from taking part in a community they literally have to be locked behind bars. 
-
-At our size and intended scope we do not have the resources or right to enact such a punishment.  However, if we build our community around something of real value, like that of a property that needs collective buy in from it’s members, a bad actor in the system — like someone who breaks a window and refuses to pay for it — can and should be removed from the group with their portion of the shared asset being resold in order to recoup the damage done.
-
-That is why Daohaus makes sense.  It’s a small, self-selected group of people, brought together around a common asset. 
-
-It’s a small step forward towards better a better democracy.
 
 # TECHNICAL
 
@@ -519,6 +479,71 @@ Actions that should trigger notification:
 * *Optional* Token sale bid has been outbid
 
 * *Optional* Asset is rented and receiving your portion of proceeds
+
+# Afterward
+## **Finances**
+
+``` 
+
+The difference between death and taxes is death doesn’t get worse every time Congress meets. -- Will Rogers
+
+```
+
+Our country's finances are in shambles.  When writing this, we are nearly 20 Trillion in debt<sup id="a3">[3](#f3)</sup>, and our political leaders continue to throw money into a seemingly black hole.  We vote for the politician that is "the lesser of two evils" with absolutely NO indication of how much of our money is going into which projects.
+
+Up to now this "trusted representative" form of governance is the best that we’ve been able to collectively decide upon as a society.  When countries such as the United States were created they didn’t have enhanced communication technology and a representative government was badly needed.  It was a great step forward to giving smaller groups of people power and thrived because it was logistically impossible to coordinate the collection of the voices of an entire nation.  
+
+The longer those people stay in a position of power, the longer the people they represent are exposed to the risk of corruption.  This need of middlemen for logistical reasons <sup id="a4">[4](#f4)</sup> is no longer the case; the internet revolutionized communication and we’re ready to represent ourselves.
+
+We — through our government — continue to throw money into corporate bailouts, leaders that can divert public funds into their own accounts or aligned businesses, special interest programs and failing institutions.  Recently 100 Billion dollars were just "lost" <sup id="a5">[5](#f5)</sup>**.**  This is either massive corruption or massive incompetence.  
+
+```
+
+Power tends to corrupt -- Lord Acton
+
+```
+
+I believe we continue in this system not because we want to, but because our system is setup in a way that allows these things to easily exist.  I’m not saying our current system is the worst in the world, or has not achieved impressive things, but when our taxes are managed with smart contracts on a public blockchain we will be delivering a blow to corrupt and incompetent politicians everywhere.  The blockchain will revolutionize our tax system for the better.  
+
+Daohaus aims at solving this issue through the allotment of funds tied directly to the reason they are being released.  Everything is transparent and leaders will be held directly responsible for the funds released to them.
+
+In the past "policy" and “finances” have been separate issues.  You voted for a politician because of what they stood for, not because of their financial plan of how to implement their vision.  Now with Daohaus we are combining those two aspects into one by requiring the person to propose a plan to also get approved for the amount of money they need to fulfill on their promises, and also how much they will be paid for seeing the project through.
+
+## **Policy**
+
+With the advent of blockchain systems, smart contracts, and cryptocurrencies we have enhanced our current monetary instruments, and need to also update our outdated political system for one that is more transparent and better represents not just the "black and white" views of any given political party or representative, but the mixed beliefs of a truly diverse group.
+
+```
+
+If the general will is to be able to express itself, that there should be no partial Society within the state, and that each citizen should think only his own thoughts -- Rousseau, Social Contract
+
+```
+
+Currently we vote for the person that will make decisions, and not the decisions themselves.  For example, when someone votes for the next president of the United States, this person is free to appoint to different high ranking positions in our government anyone he chooses.  Positions such as secretary of state, education, etc… go to people that have spent millions of dollars in campaign finances, people with political clout, alliances, or other factors that don’t necessarily contribute to an effective leader or project manager.
+
+Daohaus allows multiple people to run for each position and it’s members to choose the best plan rather than them being appointed via political alignment.  This allows whoever has the clearest, most convincing vision for any particular objective within our government to be chosen and not just whoever is better friends with a particular party leader.
+
+Now sometimes it is good to have "representation" because if the group had to make every decision, it would be a long and time intensive process.  We account for this by introducing proposals that aren’t intrinsically any size — each proposal can be as small or large as the person submitting it can convince its members it needs to be.  This allows for the group to collectively decide if they want a 100% pure democracy, small representation, or even a king.
+
+Technically Daohaus is being built in a way that the community behind it could build and vote for alternative governance models on a project by project basis.  The education of it’s members could be all entrusted to one person that has full control of the "education" escrow tax account — essentially making them a “king”.  While at the same time all community improvement proposals could all be voted on separately, with each proposal being aimed at a specific road improvement, park creation, or community celebration project.  Then if one of the patterns or systems is viewed as advantageous, someone could internally propose to switch over if the community approves, will instantly be upgraded.
+
+## **Enforcement**
+
+```
+
+Strictly speaking, there is no such thing as a simple government  -- Rousseau, Social Contract
+
+```
+
+The subjects outlined are big and complex problems that a mere change in technology alone will not solve.  In the same fashion that a journey of a thousand miles begins with a single step — the journey towards a more pure democratic society begins with small and simple proof of concept such as this.  
+
+Things also become more complex when physical geography and broad society come into play.  For example, in today’s world where people join not from a conscious "buy in" decision but that of a “born in” decision of others, in order to suspend someone from taking part in a community they literally have to be locked behind bars. 
+
+At our size and intended scope we do not have the resources or right to enact such a punishment.  However, if we build our community around something of real value, like that of a property that needs collective buy in from it’s members, a bad actor in the system — like someone who breaks a window and refuses to pay for it — can and should be removed from the group with their portion of the shared asset being resold in order to recoup the damage done.
+
+That is why Daohaus makes sense.  It’s a small, self-selected group of people, brought together around a common asset. 
+
+It’s a small step forward towards better a better democracy.
 
 ## **Footnotes**
 
