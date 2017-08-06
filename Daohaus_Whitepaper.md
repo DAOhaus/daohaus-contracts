@@ -507,7 +507,9 @@ In the past "policy" and “finances” have been separate issues.  You voted fo
 
 With the advent of blockchain systems, smart contracts, and cryptocurrencies we have enhanced our current monetary instruments, and need to also update our outdated political system for one that is more transparent and better represents not just the "black and white" views of any given political party or representative, but the mixed beliefs of a truly diverse group.
 
-    If the general will is to be able to express itself, that there should be no partial Society within the state and that each citizen should think only his own thoughts 
+    If the general will is to be able to express itself, 
+    that there should be no partial Society within the state 
+    and that each citizen should think only his own thoughts 
     
     -- Rousseau, Social Contract
 
