@@ -42,7 +42,7 @@ V1.1 - August 6th, 2017
 
 ## Abstract
 
-Daohaus is a social experiment to test pure democratic governance.  The aim is to purchase, manage, and enjoy a single real estate property.  The hope is to use this small success to expand and grow the idea from that of a property to the governance of a community, and even a nation.  Hopefully bringing to fruition the lofty vision of a more pure, accountable, and representative government of the people, by the people, for the people. 
+Daohaus is a social experiment to test pure democratic governance.  The aim is to purchase, manage, and enjoy a single real estate property.  The hope is to use this specific scope to expand and grow the idea into governance of a community, and even a nation.  Hopefully bringing us closer to a more pure, accountable, and representative government.  One that is truly of the people, by the people, for the people. 
 
 
     I shall be asked if I am a prince or a legislature to write on politics. 
@@ -54,11 +54,11 @@ Daohaus is a social experiment to test pure democratic governance.  The aim is t
 
 Creating the framework for a property on a much smaller and simpler scale and through basic mechanisms holds an important advantage which is flexibility.  We start small so that we can learn from flaws in the design, build it incrementally, and test our hypothesis as it grows following an Agile <sup id="a1">[1](#f1)</sup> mentality.
 
-Daohaus is essentially built around the idea of it's members submitting proposals to use public funds, and gaining approval from the rest of it's members.  The group is brought together around a specific idea or project, in which they hold a "token launch" allowing others to come onboard and to provide the startup costs needed to purchase the land, house, or whatever shared asset that is bringing them together.  This token is then registered and members are made public along with how much interest they hold in the project.
+Daohaus is essentially built on the idea of it's members submitting proposals to use public funds, and gaining approval from the rest of it's members.  The group is brought together around a specific idea or project, in which they hold a "token launch" allowing others to come onboard and to provide the startup costs needed to purchase the land, house, or whatever shared asset that is bringing them together.  This token is then registered and members are made public along with how much interest they hold in the project.
 
 From there it is up to the community to propose projects, rules, or the removal of bad actors in the system.  In essence, this is pure democratic governance -- but also allows for alternative forms of governance **as long as the people give their consent** and enhances participation, education, and accountability in the way the group is goverened.
 
-Daohaus is a proving ground for the advantages of a "proposal" governance over our current "charasmatic representative" based system. To be fair, up to this point it has been a relatively good and succesfull way to govern, but one that isn't as needed with the advent and maturity of certain technologies namely the internet and blockchain.  
+Daohaus is a proving ground for the advantages of a "proposal" governance over our current "charasmatic representative" based system. Up to this point it has been a relatively good way to govern, but one that is now becoming outdated and unnecessary with the maturity of certain technologies such as the internet and blockchain.  
 
 Geed, corruption and incompetence cannot be solved by purely technical solutions, but I hope Daohaus will grow into a tool used to combat such evils.  If you'd like to read more of my thoughts on the subject, please see the afterword where I briefly address the implications of this project on our coutries [financial](#financial), [policy](#policy) and [enforcement](#enforcement) practices.
 
@@ -72,7 +72,7 @@ Member A proposes to paint the house blue.  The group passes the proposal with a
 
 ![Bad Actor Diagram](/diagrams/resource-proposal/single.png)
 
-Related, if the proposal doesn't pass and Member A continues to act in way contrary to the group's decesion, then anyone in the group can be put up for review in which the group votes weather to allow them to stay in, pay a fee, or get voted out.  The group then submits a new proposal to fix the issue the previous member inflicted upon them, but has been paid for by the sale of his interest in the group by selling his tokens to Member C. 
+Related, if the proposal doesn't pass and Member A continues to act in way contrary to the group's decesion, then anyone in the group can be put up for review in which the group votes weather to allow them to stay in, pay a fee, or get voted out.  The group then submits a new proposal to fix the issue the previous member created, but has been paid for by the sale of his interest in the group by selling his tokens to Member C. 
 
 ![Bad Actor Diagram](/diagrams/overview/bad-actor.png)
 
@@ -81,31 +81,32 @@ Related, if the proposal doesn't pass and Member A continues to act in way contr
 
 **The DAO:**
 
-The group of people that own voting rights within a group. Typically required to pay yearly taxes to be spent as proposals are received and approved.
+The group of people that own voting rights within a group. Typically required to pay yearly taxes which will be spent as proposals are received and approved by the members.
 
 **Shared Asset:**
 
-For this particular use case shared asset will correspond to a single family home residence. Although if you have a active imagination, it can be substituted for other assets types ;)
+For this particular use case, shared asset will correspond to a single real estate property.
 
 **Member:**
 
-Someone that has registered as a member by sending their token to the Registry Contract -- allowing participation in voting and message boards.
+Someone that has registered as a member by sending their tokens to the Registry Contract allowing participation in voting and message boards.
 
-**Silent Member:**
-
-Someone that has not registered as a member, but holds a token. Usually this is someone that either wants to sell their interest in the DAO and Shared Asset. Is immune from a proposal to force withdraw them from the DAO that is typically reserved for malicious members.
 
 **Registrar Contract:**
 
-The contract where members send their token in order to vote. In order to withdraw member must pass through a quiet phase, be in good standing, and not be the Chairman on any outstanding proposals. The Registry contract is also the enforcer of the law in selling off malicious member's tokens.
+The contract where members send their token in order to vote. In order to withdraw member must notify 2 weeks prior, be in good standing, and not have any interest, votes or Chairman responsibilities, in any outstanding proposals.
 
 **Non Resource Proposal Contract:**
 
-A very open ended contract that is used to set "rules" or change variables on the registry contract itself. It's an internal governance tool that is part technical (for changing of variables) and part societal in setting common rules that can be referenced by the group when electing to force withdraw someone from the DAO.
+A very open ended contract that is used to set "rules" or change variables on the registry contract itself. It's an internal governance tool that is part technical -- for changing of variables -- and part societal in setting common rules that can be referenced by the group when electing to force withdraw someone from the DAO.
 
 **Resource Proposal Contract:**
 
 A separate contract that has set parameters that need to be met in order for proposal to be successful and the transfer of funds to the specified proposal chairman. Contains Description of the proposal, relays votes and tracks progress -- typically of a management task such as "fixing the leaky sink" or "replacing the roof".
+
+**Resource Escrow Proposal Contract:**
+
+This contract allows the creation of a special escrow account in the registrar that holds funds designated for it's future execution.  That way money that has been raised incrementally for a larger community purchase can't be used for another purpose.  For example, the community raises taxes for the building of a school that requires 5 years of payments from it's members.  This structure protects those funds from general resource proposal contracts that take money from the general escrow.
 
 **Member Management Contract:**
 
@@ -117,7 +118,7 @@ In most cases this is the address that initialized a specific contract. This res
 
 **Popular Vote Ratio or PVR:**
 
-The ratio in which a proposal is deemed as accepted. Popular or passing is 4/7ths approval of total votes cast. Meaning if 7 total votes cast, needs at least 4 to be approval, but if 28 votes are cast, needs 16 approvals to be success.
+The ratio in which a proposal is deemed as accepted. Popular or passing is 4/7ths approval of total votes cast. Meaning if 7 total votes cast, needs at least 4 to be approval, receiving above 58%.  This is a variable that can be changed upon the consent of the members.
 
 **Optional -- The Benevolent Dictator:**
 
@@ -129,7 +130,7 @@ Someone that has been extended the ability to control the token from a different
 
 ## **Token Sale Contract**
 
-The creation of The DAO is the initial step, and probably the most important for the longevity of the group. It is important that the DAO's iChairman clearly communicate what the DAO forming will be centered around or the group will could be divided upon creation and nothing will get done<sup id="a6">[6](#f6)</sup>.
+The creation of The DAO is the initial step, and probably the most important for the longevity of the group. It is important that the DAO's Chairman clearly communicate what the DAO forming will be centered around or the group will could be divided upon creation and nothing will get done<sup id="a6">[6](#f6)</sup>.
 
 Also important to communicate that the token sale price is not based solely in the underlying asset, but in the experience, the community, the efficiency of the group. Basically the value in going to Harvard is not based solely in the building, coursework, and text books… it’s the network and community you’re introduced to — so although the house might only be worth physically $500,000 - it sells for a $750,000 because everyone likes the group and people want in for social or other reasons.
 
@@ -141,35 +142,35 @@ While the landscape of token sales is expanding, and new models are continually 
 
 **Open Vs Restrictive:**
 
-Open meaning anyone can participate at any level (include whales). Restrictive meaning to put limitations on things such as requiring an identification confirmation of some sort and limit each confirmed addresses total amount possible to donate — Anyone trying to not want weird political factions from having automatic majority would want to employ this method because essentially 1 individual could own 75% of the tokens and practically own the entire asset.
+Open meaning anyone can participate at any level. Restrictive meaning to put limitations on things such as requiring an identification confirmation of some sort and limit each confirmed addresses total amount possible to donate. Anyone trying to remove political factions or immediate majority shareholders would want to employ this method because essentially 1 individual could own 75% of the tokens and practically controll the entire asset.
 
 **Our Model:**
 
-Set bottom price (similar to dollar cap) but allow for "bids" to occur rather than outright “sales”.
+Set bottom price but allow for "bids" to occur rather than outright “sales”.
 
-Each new bid adds 1 additional day (or other variable) each time a new bid is placed… this is the mechanism that "penny bids" use, protects against “coil and pounce” to place bids right as auction ends.
+Each new bid adds 1 additional day -- or other time variable -- each time a new bid is placed. This is the mechanism that penny bids use to protects against “coil and pounce” bidders to place bids right as auction ends.
 
-As soon as all tokens are claimed, they are not actually "sold" and higher bids replace the claim on a lower bid. If there is a pool of bids with exact same value, the tokens with the most recent bids are knocked off first in FILO fashion, incentivizing people to act fast.
+As soon as all tokens are bid upon, they are not actually sold and higher bids replace the claim on a lower bid. If there is a pool of bids with exact same value, the tokens with the most recent bids are knocked off first in FILO fashion, incentivizing people to act fast.
 
-To counteract the possibility of a never ending project, the Chairman is appointed on launch to enable the contract to execute or close when they feel a general consensus has been reached, but must give 24 hour notification — this requires a solid "oracle notification system" like sms or email — possibly off block. This will typically be the team or developer hosting the token sale because they are incentivized to let it grow as high as possible without trolls making it last forever.
+To counteract the possibility of a never ending project, the Chairman is appointed on launch to enable the contract to execute or close when they feel a general consensus has been reached, but must give 24 hour notification — this requires a solid off chain notification system like sms or email. The Chairman will typically be the team or developer hosting the token sale because they are incentivized to let it grow as high as possible without trolls making it last forever by bidding 1 Wei every 24 hours.
 
-With all that being said, there are many other token sale models, and in the future each new DAO will be able to employ different token sale models as the iChairman sees fit<sup id="a7">[7](#f7)</sup>.
+With all that being said, there are many other token sale models, and in the future each new DAO will be able to employ different token sale models as the Chairman sees fit<sup id="a7">[7](#f7)</sup>.
 
 It's variables and functions are:
 
 * **Minimum Price:** The initial price of each token
 
-* **Active:** Default to true, false when iChairman signals close.
+* **Active:** Default to true, false when Chairman signals close.
 
 * **Total Supply:** Initial supply of tokens, in this case 365
 
 * **Maximum Ownership Share:** The maximum amount that any one address can bid on. This is to prevent against attackers that through purchasing 3/4 of the tokens, now effectively control the asset as if they owned 100% of it.
 
-* **Token Array:** representational array of all 365 tokens. Custom schema to keep track of which address is currently highest bidder, their bid, and the timestamp of when they bid (for FILO calculations).
+* **Token Array:** representational array of all 365 tokens. Custom schema to keep track of which address is currently highest bidder, their bid, and the timestamp of when they bid for FILO calculations.
 
 **Withdraw Chairman Fee:** Sends predetermined amount to chairman. Could be a set fee, a percentage, or really any payment schedule that would want to be created.
 
-**Check Eligibility:** if public, this automatically passes. If private, checks to make sure the sender meets defined requirements. In this case it will be if they have been added to the "white list" after verifying their number or possibly just verifying with uport.
+**Check Eligibility:** if public, this automatically passes. If private, checks to make sure the sender meets defined requirements. In this case it will be if they have been added to a white list after verifying their number or possibly just verifying with uport.
 
 **Bid:** Takes 3 parameters, first is how many tokens they are bidding on and second what they're bid is, third is their contact info (email and/or phone #). Checks to make sure amount is equal to or more than the minimum price. Records the order of the bid (for use in FILO incase higher bids come in) as well as checks that this wouldn't put them over the top established by the maximum ownership share value.
 
@@ -183,7 +184,13 @@ It's variables and functions are:
 
 ## **Registrar Contract**
 
-The contract where members send their token in order to vote, as well as their "taxes" in order to be used towards proposed projects. In order to withdraw their tokens, a member must pass through a quiet phase, be in good standing, and not be the Chairman on any outstanding proposals. The Registry contract is also the enforcer of the law in selling off malicious member's tokens when a member management contract is executed.
+The contract where members send their tokens in order to have the right to vote.  Also receives yearly taxes in order to be used towards proposed projects. In order to withdraw their tokens, a member must:
+
+* Give 2 weeks notice
+* Be in good standing
+* Not be the Chairman on any outstanding proposals. 
+
+The Registry contract is also the enforcer of the law in selling off bad actor's tokens when a member management contract is passed to do so.
 
 Taxing is done on an annual basis per token owned. Taxes need to be paid before the taxation date. If not paid user receives a notification warning them that they are at risk of being forced to withdraw, and then on that date any delinquent addresses are force transferred and the proceeds go into the Registrar Contract to cover taxes.
 
@@ -193,7 +200,7 @@ It's variables and functions are:
 
 * **Popular Vote Ratio:** ratio needed for a vote to pass
 
-* **Yearly Tax:** How many ether each member is expected to pay yearly in order to maintain their token
+* **Yearly Tax:** How many Ether each member is expected to pay yearly in order to maintain their token
 
 * **Taxation date:** What day tax is due yearly, default to Dec 31st.
 
@@ -201,7 +208,7 @@ It's variables and functions are:
 
 * **Available Tax Balance:** Tax balance minus any outstanding proposal's costs that might get passed. This is used when a new proposal registers in order to check that there are sufficient funds to achieve it.
 
-* **Rental Price:** The price in Eth that is required to be sent in order to book 1 night
+* **Rental Price:** The price in Ether that is required to be sent in order to book 1 night
 
 * **Proposal Length:** How long proposals are active to recieve votes.  Since users can change their vote, this is also a time to campaign for or against the proposal off-chain.  This variable is used in all proposals:
   * resource
@@ -212,11 +219,11 @@ It's variables and functions are:
 
 * **Member Withdrawal Frequency:** How long between member being nominated to force withdraw. This is to prevent attacker from repeatedly requesting that a chairman be removed, hence putting their proposal on hold and blocking there proposals from ever being voted on. Default set to once a year.
 
-* **Quiet Phase Length:** How long a member must wait in order to withdraw their tokens to ensure they don't commit a "hit and run" against the DAO
+* **Withdrawal Notification Length:** How long a member must wait in order to withdraw their tokens to ensure they don't commit a "hit and run" against the DAO
 
 * **Secondary Market Decrease Rate:** The rate in Wei that the token listed on the exchange is depreciated each day in order to find a buyer.
 
-* **Maximum Number of Proposals:** The overall number of proposals is naturally restricted by how much Ether is in the tax balance, because the total of proposed funds to be used can't be more than what is available in the tax balance. However, this would protect against if a malicious member sends a thousand proposals at 0 ether, in order to flood the space with "distraction" proposals in order to sneak something by (* see "Questions" section below)
+* **Maximum Number of Proposals:** The overall number of proposals is naturally restricted by how much Ether is in the escrow balance, because the total of proposed funds to be used can't be more than what is available in the tax balance. However, this would protect against if a malicious member sends a thousand proposals at 0 Ether, in order to flood the space with "distraction" proposals in order to sneak something by.
 
 * **Map:** Addresses => Balances
 
@@ -236,13 +243,13 @@ It's variables and functions are:
 
 **Check Eligibility:** Sent from a proposal contract, this checks to see if the address casting a vote is indeed registered to this DAO. ** Some thought has been given to if all votes should just be held on this contract itself or on the proposal contract, I'm still not sure of the technical merits of either approach, but going ahead with the assumption that all will be stored on the proposal.
 
-**Archive Contract:** Because the registry contract will be checking votes associated with each proposal we could keep everything there indefinitely, but think it might be cleaner and easier to allow it to clear it's memory, push a "summary" to the individual contract, noting weather it passed or failed with the corresponding votes and just have a pointer to it for record keeping purposes. This would be triggered after an execution.
+**Archive Contract:** Because the registry contract will be checking votes associated with each proposal we could keep everything there indefinitely, but think it might be cleaner and easier to allow it to clear it's memory, push a "summary" to the individual contract, noting whether it passed or failed with the corresponding votes and just have a pointer to it for record keeping purposes. This would be triggered after an execution.
 
-**Execute Proposal Contract**: Would check to make sure call is coming from a registered proposal. Would request information such as chairman, and the proposal cost and distribute the funds from the "tax account" as specified
+**Execute Proposal Contract**: Would request information such as chairman, and the proposal cost and distribute the funds from the "tax account" as specified.
 
-**Set Rule:** Executed w/ PVR from a non-resource contract, can change as often as a new proposal is passed. Changes any and all of the variables listed above such as PVR, Yearly Tax, Maximum # of proposals, etc...
+**Set Rule:** Executed with PVR from a non-resource contract, can change as often as a new proposal is passed. Changes any and all of the variables listed above such as PVR, Yearly Tax, Maximum # of proposals, etc...
 
-**Set Amendment:** Executed w/ PVR from a non-resource contract, can change as often as a new proposal is passed. Changes any and all of the amendments (listed by number) — and allows for creation of a new one if number is not found. (possibly could be same as above set rule if contracts can dynamically add public variables)
+**Set Amendment:** Executed with PVR from a non-resource contract, can change as often as a new proposal is passed. Changes any and all of the amendments — and allows for creation of a new one if index is not found.
 
 **Pay Tax:** Ether amount, records the amount paid for that calendar year for that user.
 
@@ -290,7 +297,7 @@ It's variables and functions are:
 
 **Get Opinions**: Returns opinions, most likely to show on a UI, or gauge how heated or opinionated people are on this particular thing.
 
-**Kill Proposal**: Only executable by it's parent registry contract or the chairman. Incase of a chairman being voted to force withdraw by the other members, it would nullify all proposals they have in question.
+**Kill Proposal**: Only executable by it's parent registry contract or the chairman. In case of a chairman being voted to force withdraw by the other members, it would nullify all proposals they have in question.
 
 **Execute Proposal**: Sends the votes to the registry contract to be "archived" as a record of who voted for what. If PVR is met then sets the new value to the public variable in question
 
@@ -337,6 +344,8 @@ It's variables and functions are:
 **Kill Proposal**: Only executable by it's parent registry contract or the chairman. Incase of a chairman being voted to force withdraw by the other members, it would nullify all proposals they have in question.
 
 **Execute Proposal**: Sends the votes to the registry contract to be "archived" as a record of who voted for what. If PVR is met then sends the amount specified to the chairman specified in the contract.
+
+**Accept Chairman**: Is called by suggested chairman if not the author of the proposal.  Upon acceptance the funds are sent to Chairman. If chairman does not accept, the funds will not be withdrawn.
 
 **Duplicate / Add-on Proposal**: Duplicate enables a person to copy the contract info and variables, (minus the votes & opinions) — and make any changes you want to it. Leaves a pointer back to the parent, so that people can view similar contracts as viable options, or as possible additions.
 
@@ -388,9 +397,9 @@ If somebody doesn’t pay taxes or breaks fundamental rules of the DAO they are 
 
 2. Because of Money — didn't pay taxes, or have Nomination of Force Withdrawal held against them in which they could resolve if they paid a Good Standing Fee. — in which case the sale goes to compensate first the Good Standing Fee, and then are compensated with whatever is left over (if anything)
 
-The contract receives the address in question, checks the amount that was paid for it originally (recorded on the Registrar Contract) and starts the bid there. It then has 5 days in order to receive a bid and treat it the same as in the original token sale with whoever nominated the force withdrawal acting as the iChairman.
+The contract receives the address in question, checks the amount that was paid for it originally, recorded on the Registrar Contract, and starts the bid there. It then has 5 days in order to receive a bid and treat it the same as in the original token sale with whoever nominated the force withdrawal acting as the Chairman.
 
-The iChairman does have a few responsibilities with this sale, so to compensate he get's 2% fee for initiating the process, verifying that the new person and is responsible to close the auction in case of trolling.
+The Chairman does have a few responsibilities with this sale, so to compensate he get's 2% fee for initiating the process, verifying that the new person and is responsible to close the auction in case of trolling.
 
 But if 5 days passes and nobody bids (for some reason the token has lost value) it starts a reverse dutch auction, decreasing price by the determined Secondary Market Decrease Rate each day until it becomes 0 and waits for someone to claim it.
 
@@ -406,13 +415,13 @@ It's variables and functions are:
 
 * **Good Standing Fee Needed:** Fee needed in order to self-destruct the contract
 
-* **Chairman Fee:** Percentage that is given to the iChairman as compensation for nomination, watching for "trolls", and executing the contract.
+* **Chairman Fee:** Percentage that is given to the Chairman as compensation for nomination, watching for "trolls", and executing the contract.
 
 **Init:** No need to registers itself with the Registrar Contract, because it was instantiated by it, so already knows the address, the fee needed, etc. Just set's the "Deadline" in order to indicate the line between fixed token bid sale and reverse dutch auction.
 
 **Bid:** Takes 2 parameters, what they're bid is and second is a means for communication. Checks to make sure amount is equal to or more than the price and acts accordingly (if past the 5 day mark then calculates what the price should be by retrieving the "**Secondary Market Decrease Rate"** and multiplying it by the days, and rewards instantly)
 
-**Execute Contract:** Only accessible to the iChairman. His responsibility is to verify that the new address owner is not like the wife of the forced out user that is bidding on behalf of the forced out member. This could easily be thwarted, so I question putting it in at all, but figure I might as well make a note of it for the iChairman. On execution the contract sends the chairman fee, and signals to the Registrar Contract to transfer the token.
+**Execute Contract:** Only accessible to the Chairman. His responsibility is to verify that the new address owner is not like the wife of the forced out user that is bidding on behalf of the forced out member. This could easily be thwarted, so I question putting it in at all, but figure I might as well make a note of it for the Chairman. On execution the contract sends the chairman fee, and signals to the Registrar Contract to transfer the token.
 
 **Signal Close:** Allows chairman to signal that sale will close in 24 hours, believes a consensus has been reached on price of tokens. Set's active to false.
 
@@ -422,13 +431,13 @@ It's variables and functions are:
 
 Proportionate to holdings, you have different windows of time that are open to scheduling your uses. Scheduling is an ongoing process, with no blackout dates except for construction or other allotted dates approved through a proposal. Slockit is used to allow or restrict access.
 
-Each day becomes available 1 ear in the future. The first year, with AirBNB scheduling becoming available 6 months in advance.
+Each day becomes available 1 year in the future. The first year, with AirBNB scheduling becoming available 6 months in advance.
 
 Each token you hold represents an entire night from 12pm till 12pm the next day. Locks on the door make a query each day for who it allows to use its location. Holders of that day can manually add "approved" addresses that can access. That way you can gift your “token use" to friends or family, but ultimately you are responsible for their behavior and only you have voting rights.
 
-Upon arrival the member should fulfill a checklist making sure specific things are in order and alright. If they fail to do so, they will be held accountable for whatever things are already broken that they did not record.
+Upon arrival the member should submit a report noting if things are broken or not left was they should be. If they fail to do so, they will be held accountable for whatever things are already broken that they did not record.
 
-If something's not right with the condition of the house they file a "proposal" - either to cover it with community funds or to fine the previous member directly. This goes through the designated process. If a “direct member” is fined they have a process very similar to the “nomination of removal” process. If that is resolved, and member does not pay within 1 month their token is automatically sent through the secondary market in order to pay for damages they incurred. Obviously a proposal can be raised to direct funds towards a further lawsuit on behalf of the DAO - or can be pursued privately if damages are significant.
+If something's not right with the condition of the house they file a proposal - either to cover it with community funds or to fine the previous member directly. This goes through the designated process. A member is nominated to force withdraw with a price they can pay in order to not be foreced out. If the group passes the proposal -- and member does not pay within 1 month -- their token is automatically sent through the secondary market in order to pay for damages they incurred. Obviously a proposal can be raised to direct funds towards a further lawsuit on behalf of the DAO - or can be pursued privately if damages are significant.
 
 It's variables and functions are:
 
@@ -436,9 +445,9 @@ It's variables and functions are:
 
 **Init:** No need to register itself with the Registrar Contract.
 
-**Reserve - Payable:** Takes parameter of night requested. Checks to make sure it is under 1 year in future. Checks to make sure not already booked. If member, check if they have available uses still (each token they own is 1 night per year) and no eth is needed, if not member or if already used up their token, must send amount required by the registry contract.
+**Reserve - Payable:** Takes parameter of night requested. Checks to make sure it is under 1 year in future. Checks to make sure not already booked. If member, check if they have available uses still (each token they own is 1 night per year) and no Ether is needed, if not member or if already used up their token, must send amount required by the registry contract.
 
-**Cancel Reservation:** Only available if further out than 1 month prior to their reservation. Returns Eth paid.
+**Cancel Reservation:** Only available if further out than 1 month prior to their reservation. Returns Ether paid.
 
 **Check In:** Takes parameter of a message detailing the condition in which they found the space. Free to leave a message about "windows broken" or “kitchen is a mess, no washed dishes” — in order to either look at the record of a problematic tenant, or trace the origins of some broken appliance / furniture.
 
@@ -464,7 +473,7 @@ Along the same lines as education, it'd be good to verify people that are reciev
 
 Chat and community forum, notification system. This should be done off chain but would be nice to verify that they have a token in order to participate. Most likely the "chat" functionality is just something like slack. Only conversations that are relevant to the contract are ones that go along with opinions for official blockchain voting.
 
-One thing that does seem necessary is to allow notifications, because a member shouldn't be visiting the contract daily. Rather things should be running smoothly and a member should receive an email / sms saying "New Proposal Submitted" with the details right there in the email. If the member responds “yes” or “no” it casts the vote as such. Is this technically possible to integrate SMTP protocol into ethereum natively? Or would we just use a trusted and reliable 3rd party? Can contracts make API calls?
+One thing that does seem necessary is to allow notifications, because a member shouldn't be visiting the contract daily. Rather things should be running smoothly and a member should receive an email / sms saying "New Proposal Submitted" with the details right there in the email. If the member responds “yes” or “no” it casts the vote as such. Is this technically possible to integrate SMTP protocol into Ethereum natively? Or would we just use a trusted and reliable 3rd party? Can contracts make API calls?
 
 Even if we had a simplistic approach — we could possibly have a "log" that logs out each kind of transaction, and an off chain site that is watching for changes and notifying users independently.
 
@@ -489,6 +498,11 @@ Actions that should trigger notification:
 * *Optional* Asset is rented and receiving your portion of proceeds
 
 # Afterward
+
+3 large similarities exist between managing a real estate property, and governing a nation. Namely the creation of rules called laws,the enforcement of those rules, and the management of an escrow account that we all fund through our taxes.
+
+Creating the framework for a property on a much smaller and simpler scale and through basic mechanisms holds an important advantage which is flexibility.  We start small so that we can learn from flaws in the design, build it incrementally, and test our hypothesis as it grows following an Agile <sup id="a1">[1](#f1)</sup> mentality.
+
 ## **Finances**
 
  
@@ -568,7 +582,7 @@ It’s a small step forward towards a better democracy.
 
 <b id="f5">5</b>  The [Washington Post](https://www.washingtonpost.com/investigations/pentagon-buries-evidence-of-125-billion-in-bureaucratic-waste/2016/12/05/e0668c76-9af6-11e6-a0ed-ab0774c1eaa5_story.html?utm_term=.e18a99003420) wrote an interesting article with some nice graphs. [↩](#a5)
 
-<b id="f6">6</b> If the iChairman only advertises the DAO as a shared home ownership, the group may never actually gain a PVR (popular vote ratio) on which home to buy because everyone wants it in a different city. So the more specific the iChairman can be in attracting members, the more unified and effective The DAO will be.  [↩](#a6)
+<b id="f6">6</b> If the Chairman only advertises the DAO as a shared home ownership, the group may never actually gain a PVR (popular vote ratio) on which home to buy because everyone wants it in a different city. So the more specific the Chairman can be in attracting members, the more unified and effective The DAO will be.  [↩](#a6)
 
 <b id="f7">7</b>  The following are some models, but new models are continually being created and modified [↩](#a7)
 
