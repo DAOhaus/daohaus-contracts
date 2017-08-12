@@ -16,6 +16,6 @@ To get a better grasp on how we would achieve this vision and the technical spec
 | ~~Whitepaper~~   | 5 people read it, understand it, and think it should go forward |
 | Website | 100 people give their email to be notified, with address to be added to whitelist |
 | Project Website | Landing page for specific property.  Most likely in SF or NY |
-| Token Sale Contract| Passes Audit proccess|
+| Token Sale Contract| Token launch reaches minimum |
 | Full Registry Contract| Passes Audit proccess|
-|Exist | After one year collect feedback and start on v2|
+| Exist | After one year collect feedback and start on v2|
