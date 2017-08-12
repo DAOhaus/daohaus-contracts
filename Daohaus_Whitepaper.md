@@ -2,7 +2,7 @@
 
 John D. Storey [✉️](mailto:johndangerstorey@gmail.com)
 
-V1.1 - August 6th, 2017
+V0.6 - August 6th, 2017
 
 ## Table of Contents
 
