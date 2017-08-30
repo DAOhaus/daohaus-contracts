@@ -8,7 +8,7 @@ This project is focused on replacing all of the above — however,  on a much sm
 
 In the same way that the Bauhaus movement was characterized by a minimalist type of design, we also hope to simplify and minimize governance of shared community assets.
 
-To get a better grasp on how we would achieve this vision and the technical specs, read the full [Daohaus Whitepaper](Daohaus_Whitepaper.md)
+To get a better grasp on how we would achieve this vision and the technical specs, read the full [Daohaus Whitepaper](https://github.com/daohaus/paper)
 
 ## Timeline
 | Deliverable | Success Metric |
