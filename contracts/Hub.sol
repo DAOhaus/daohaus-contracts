@@ -1,79 +1,57 @@
 //////////////////////////////////////////////////////////
 // For training purposes.
-// Solidity Contract Factory
+// Solidity Contract Factory 
 // Module 5
 // Copyright (c) 2017, Rob Hitchens, all rights reserved.
 // Not suitable for actual use
 //////////////////////////////////////////////////////////
 
-pragma solidity ^0.4.16;
+pragma solidity ^0.4.6;
 
-import "./Campaign.sol";
+import "./Owned.sol";
+import "./ResourceProposal.sol";
 
-contract Hub is Stoppable {
-
-    address[] public campaigns;
-    mapping(address => bool) campaignExists;
-
-    modifier onlyIfCampaign(address campaign) {
-        if(campaignExists[campaign] != true) throw;
+contract Hub is Owned {
+    
+    address[] public proposals;
+    mapping(address => bool) proposalExists;
+    
+    modifier onlyIfCampaign(address proposal) {
+        if (proposalExists[proposal] != true) {
+            revert();
+        }
         _;
     }
-
-    event LogNewCampaign(address sponsor, address campaign, uint duration, uint goal);
-    event LogCampaignStopped(address sender, address campaign);
-    event LogCampaignStarted(address sender, address campaign);
-    event LogCampaignNewOwner(address sender, address campaign, address newOwner);
-
-    function getCampaignCount()
+    
+    event LogNewCampaign(address sponsor, address proposal, uint duration, uint goal);
+    
+    function getProposalCount()
         public
         constant
         returns(uint campaignCount)
     {
-        return campaigns.length;
+        return proposals.length;
     }
-
-    function createCampaign(uint campaignDuration, uint campaignGoal)
+    
+    function createResourceProposal(uint campaignDuration, uint campaignGoal)
         public
         returns(address campaignContract)
     {
-        Campaign trustedCampaign = new Campaign(msg.sender,campaignDuration, campaignGoal);
-        campaigns.push(trustedCampaign);
-        campaignExists[trustedCampaign] = true;
-        LogNewCampaign(msg.sender, trustedCampaign, campaignDuration, campaignGoal);
+        ResourceProposal trustedProposal = new ResourceProposal(msg.sender); // put in params that are needed for resourced
+        proposals.push(trustedCampaign);
+        proposals[trustedProposal] = true;
+        LogNewProposal(msg.sender); // new params needed
         return trustedCampaign;
     }
-
+    
     // Pass-through Admin Controls
-
-    function stopCampaign(address campaign)
+    function stopProposal(address proposal) 
         onlyOwner
         onlyIfCampaign(campaign)
         returns(bool success)
     {
-        Campaign trustedCampaign = Campaign(campaign);
+        ResourceProposal trustedProposal = ResourceProposal(proposal);
         LogCampaignStopped(msg.sender, campaign);
-        return(trustedCampaign.runSwitch(false));
+        return(trustedProposal.runSwitch(false));
     }
-
-    function startCampaign(address campaign)
-        onlyOwner
-        onlyIfCampaign(campaign)
-        returns(bool success)
-    {
-        Campaign trustedCampaign = Campaign(campaign);
-        LogCampaignStarted(msg.sender, campaign);
-        return(trustedCampaign.runSwitch(true));
-    }
-
-    function changeCampaignOwner(address campaign, address newOwner)
-        onlyOwner
-        onlyIfCampaign(campaign)
-        returns(bool success)
-    {
-        Campaign trustedCampaign = Campaign(campaign);
-        LogCampaignNewOwner(msg.sender, campaign, newOwner);
-        return(trustedCampaign.changeOwner(newOwner));
-    }
-
 }
