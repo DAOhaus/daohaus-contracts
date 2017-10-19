@@ -43,8 +43,8 @@ contract('Hub', function(accounts) {
         assert.strictEqual(logEntered.event, "LogMemberRegistered");
         assert.strictEqual(logEntered.args.member, account0);
         assert.strictEqual(logEntered.args.ethPledge.toNumber(), 10);
-        assert.strictEqual(logEntered.args.currentBalance.toNumber(), 10);
-        assert.strictEqual(logEntered.args.allTimeBalance.toNumber(), 10);
+        assert.strictEqual(logEntered.args.available.toNumber(), 10);
+        assert.strictEqual(logEntered.args.running.toNumber(), 10);
         return hub.getMembersCount();
       })
       .then(membersCount => {
@@ -52,7 +52,7 @@ contract('Hub', function(accounts) {
         return hub.getVotingRightRatio(account0);
       })
       .then(votingRightRatio => {
-        assert.strictEqual(votingRightRatio.toNumber(), 1);
+        assert.strictEqual(votingRightRatio.toNumber(), 100);
       });
     });
   });
