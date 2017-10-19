@@ -6,7 +6,7 @@ import "./Hub.sol";
 contract ResourceProposal is Stoppable {
 
 	int chairmanFee;
-	int deadline;
+	uint deadline;
 	address chairman;
 	int projectCost;
 	bytes32 proposalText;
@@ -22,12 +22,13 @@ contract ResourceProposal is Stoppable {
 		_;
 	}
 
-	event LogProposalCreated(address owner, address chairmanAddress, int fees, int blocks, int cost, bytes32 text);
+	event LogProposalCreated(address owner, address chairmanAddress, int fees, uint blocks, int cost, bytes32 text);
 	event LogVoteCast(address member, uint8 vote);
 	event LogProposalSentToHub(address owner, uint blockNumber);
 	event LogOpinionAdded(address member, bytes32 opinion);
 
-	function ResourceProposal(address chairmanAddress, int fees, int blocks, int cost, bytes32 text)
+	function ResourceProposal(address chairmanAddress, int fees, uint blocks, int cost, string text)
+
 	{
 		chairman = chairmanAddress;
 		chairmanFee = fees;

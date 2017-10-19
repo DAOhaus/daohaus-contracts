@@ -1,79 +1,53 @@
-//////////////////////////////////////////////////////////
-// For training purposes.
-// Solidity Contract Factory
-// Module 5
-// Copyright (c) 2017, Rob Hitchens, all rights reserved.
-// Not suitable for actual use
-//////////////////////////////////////////////////////////
+pragma solidity ^0.4.15;
 
-pragma solidity ^0.4.16;
-
-import "./Campaign.sol";
+import "./Stoppable.sol";
 
 contract Hub is Stoppable {
 
-    address[] public campaigns;
-    mapping(address => bool) campaignExists;
+  mapping (address => uint) amountsPledgedMapping;
+  address[] members;
+  uint public totalBalance;
 
-    modifier onlyIfCampaign(address campaign) {
-        if(campaignExists[campaign] != true) throw;
-        _;
-    }
+  event LogMemberRegistered(address member, uint ethPledge, uint totalContractBalance);
 
-    event LogNewCampaign(address sponsor, address campaign, uint duration, uint goal);
-    event LogCampaignStopped(address sender, address campaign);
-    event LogCampaignStarted(address sender, address campaign);
-    event LogCampaignNewOwner(address sender, address campaign, address newOwner);
+  function DaohausHub() {}
 
-    function getCampaignCount()
-        public
-        constant
-        returns(uint campaignCount)
-    {
-        return campaigns.length;
-    }
+  function register()
+    public
+    payable
+    sufficientFunds()
+  {
+    /* update hub contract balance */
+    totalBalance += msg.value;
 
-    function createCampaign(uint campaignDuration, uint campaignGoal)
-        public
-        returns(address campaignContract)
-    {
-        Campaign trustedCampaign = new Campaign(msg.sender,campaignDuration, campaignGoal);
-        campaigns.push(trustedCampaign);
-        campaignExists[trustedCampaign] = true;
-        LogNewCampaign(msg.sender, trustedCampaign, campaignDuration, campaignGoal);
-        return trustedCampaign;
-    }
+    /* update amountsPledged mapping */
+    amountsPledgedMapping[msg.sender] = msg.value;
 
-    // Pass-through Admin Controls
+    /* update members array */
+    members.push(msg.sender);
 
-    function stopCampaign(address campaign)
-        onlyOwner
-        onlyIfCampaign(campaign)
-        returns(bool success)
-    {
-        Campaign trustedCampaign = Campaign(campaign);
-        LogCampaignStopped(msg.sender, campaign);
-        return(trustedCampaign.runSwitch(false));
-    }
+    LogMemberRegistered(
+      msg.sender,
+      msg.value,
+      totalBalance
+    );
+  }
 
-    function startCampaign(address campaign)
-        onlyOwner
-        onlyIfCampaign(campaign)
-        returns(bool success)
-    {
-        Campaign trustedCampaign = Campaign(campaign);
-        LogCampaignStarted(msg.sender, campaign);
-        return(trustedCampaign.runSwitch(true));
-    }
+  function getMembersCount()
+    constant
+    public
+    returns (uint count)
+  {
+    return members.length;
+  }
 
-    function changeCampaignOwner(address campaign, address newOwner)
-        onlyOwner
-        onlyIfCampaign(campaign)
-        returns(bool success)
-    {
-        Campaign trustedCampaign = Campaign(campaign);
-        LogCampaignNewOwner(msg.sender, campaign, newOwner);
-        return(trustedCampaign.changeOwner(newOwner));
-    }
+  /*function propose(uint ethAmount, string proposalMessage) {
+    address proposer = msg.sender;
+  }*/
+
+  modifier sufficientFunds() {
+    require(msg.value > 0);
+    _;
+  }
 
 }
