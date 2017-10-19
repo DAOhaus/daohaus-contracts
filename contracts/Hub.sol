@@ -13,18 +13,29 @@ contract Hub is Stoppable {
   address[] public proposals;
   mapping(address => bool) proposalExists;
 
-  event LogMemberRegistered(address member, uint ethPledge, uint currentBalance, uint allTimeBalance);
   modifier onlyIfProposal(address proposal) {
-    if (proposalExists[proposal] != true) {
-        revert();
-    }
+    require(proposalExists[proposal]); 
     _;
   }
 
+  modifier onlyIfMember() {
+    require (amountsPledgedMapping[msg.sender] > 0);
+    _;
+  }
+
+  event LogMemberRegistered(address member, uint ethPledge, uint currentBalance, uint allTimeBalance);
   event LogNewProposal(address chairmanAddress, int fees, uint blocks, int cost, bytes32 text);
   event LogMemberRegistered(address member, uint ethPledge, uint totalContractBalance);
 
   function Hub() {}
+
+  function isMember(address person) 
+  public
+  constant
+  returns (bool) 
+  {
+   return amountsPledgedMapping[person] > 0; 
+  }
 
   function register()
     public
@@ -62,7 +73,7 @@ contract Hub is Stoppable {
     public
     returns (uint ratio)
   {
-    return amountsPledgedMapping[member] / totalAllTimeBalance;
+    return (amountsPledgedMapping[member] / totalAllTimeBalance) * 100;
   }
 
   /*function propose(uint ethAmount, string proposalMessage) {
@@ -90,7 +101,8 @@ contract Hub is Stoppable {
       bytes32 text
     )
         public
-        returns(address campaignContract)
+        onlyIfMember
+        returns(address proposalContract)
     {
       ResourceProposal trustedProposal = new ResourceProposal(
         chairmanAddress,
