@@ -2,10 +2,10 @@ pragma solidity ^0.4.6;
 
 import "./Stoppable.sol";
 
-contract ResourceProposal is Stoppable, Hub {
+contract ResourceProposal is Stoppable {
 
 	int chairmanFee;
-	int deadline;
+	uint deadline;
 	address chairman;
 	int projectCost;
 	string proposalText;
@@ -15,14 +15,14 @@ contract ResourceProposal is Stoppable, Hub {
 	mapping(address => uint8) votes;
 	//
 	mapping(address => string) opinions;
-	
 
-	event LogProposalCreated(address owner, address chairmanAddress, int fees, int blocks, int cost, string text);
+
+	event LogProposalCreated(address owner, address chairmanAddress, int fees, uint blocks, int cost, string text);
 	event LogVoteCast(address member, uint8 vote);
 	event LogProposalSentToHub(address owner, uint blockNumber);
 	event LogOpinionAdded(address member, bytes32 opinion);
 
-	function ResourceProposal(address chairmanAddress, int fees, int blocks, int cost, string text)
+	function ResourceProposal(address chairmanAddress, int fees, uint blocks, int cost, string text)
 	{
 		chairman = chairmanAddress;
 		chairmanFee = fees;
