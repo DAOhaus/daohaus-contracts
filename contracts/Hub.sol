@@ -7,10 +7,13 @@ contract Hub is Stoppable {
 
   mapping (address => uint) amountsPledgedMapping;
   address[] members;
+  uint public totalCurrentBalance;
+  uint public totalAllTimeBalance;
   uint public totalBalance;
   address[] public proposals;
   mapping(address => bool) proposalExists;
 
+  event LogMemberRegistered(address member, uint ethPledge, uint currentBalance, uint allTimeBalance);
   modifier onlyIfProposal(address proposal) {
     if (proposalExists[proposal] != true) {
         revert();
@@ -29,10 +32,11 @@ contract Hub is Stoppable {
     sufficientFunds()
   {
     /* update hub contract balance */
-    totalBalance += msg.value;
+    totalCurrentBalance += msg.value;
+    totalAllTimeBalance += msg.value;
 
     /* update amountsPledged mapping */
-    amountsPledgedMapping[msg.sender] = msg.value;
+    amountsPledgedMapping[msg.sender] += msg.value;
 
     /* update members array */
     members.push(msg.sender);
@@ -40,7 +44,8 @@ contract Hub is Stoppable {
     LogMemberRegistered(
       msg.sender,
       msg.value,
-      totalBalance
+      totalCurrentBalance,
+      totalAllTimeBalance
     );
   }
 
@@ -50,6 +55,14 @@ contract Hub is Stoppable {
     returns (uint count)
   {
     return members.length;
+  }
+
+  function getVotingRightRatio(address member)
+    constant
+    public
+    returns (uint ratio)
+  {
+    return amountsPledgedMapping[member] / totalAllTimeBalance;
   }
 
   /*function propose(uint ethAmount, string proposalMessage) {

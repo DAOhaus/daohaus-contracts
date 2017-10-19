@@ -1,5 +1,5 @@
-var DaohausHub = artifacts.require("./DaohausHub.sol");
+var Hub = artifacts.require("./Hub.sol");
 
 module.exports = function(deployer) {
-  deployer.deploy(DaohausHub);
+  deployer.deploy(Hub);
 };
