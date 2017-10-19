@@ -14,7 +14,7 @@ contract Hub is Stoppable {
   mapping(address => bool) proposalExists;
 
   modifier onlyIfProposal(address proposal) {
-    require(proposalExists[proposal]); 
+    require(proposalExists[proposal]);
     _;
   }
 
@@ -29,12 +29,12 @@ contract Hub is Stoppable {
 
   function Hub() {}
 
-  function isMember(address person) 
+  function isMember(address person)
   public
   constant
-  returns (bool) 
+  returns (bool)
   {
-   return amountsPledgedMapping[person] > 0; 
+   return amountsPledgedMapping[person] > 0;
   }
 
   function register()
@@ -92,12 +92,12 @@ contract Hub is Stoppable {
     {
         return proposals.length;
     }
-    
+
     function createResourceProposal(
-      address chairmanAddress, 
-      int fees, 
-      uint blocks, 
-      int cost, 
+      address chairmanAddress,
+      int fees,
+      uint blocks,
+      int cost,
       bytes32 text
     )
         public
@@ -116,9 +116,9 @@ contract Hub is Stoppable {
       LogNewProposal(chairmanAddress, fees, blocks, cost, text);
       return trustedProposal;
     }
-    
+
     // Pass-through Admin Controls
-    function stopProposal(address proposal) 
+    function stopProposal(address proposal)
         onlyOwner
         onlyIfProposal(proposal)
         returns(bool success)

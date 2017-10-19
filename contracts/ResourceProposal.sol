@@ -16,7 +16,7 @@ contract ResourceProposal is Stoppable {
 	mapping(address => uint8) votes;
 	//votes 0 is don't care, 1 yes, 2 no
 	mapping(address => bytes32) opinions;
-	
+
 	modifier onlyIfMember(address a) {
 		//require(isMember(a));
 		_;
@@ -33,7 +33,6 @@ contract ResourceProposal is Stoppable {
 		deadline = block.number + blocks;
 		projectCost = cost;
 		proposalText = text;
-		LogProposalCreated(owner, chairmanAddress, fees, blocks, cost, text);
 	}
 
 	function getChairman()
@@ -43,7 +42,7 @@ contract ResourceProposal is Stoppable {
 	{
 		return chairman;
 	}
-	
+
 	function status()
 		public
 		constant
@@ -63,7 +62,7 @@ contract ResourceProposal is Stoppable {
 		returns(bool)
 	{
 		votes[msg.sender] = voteOfMember;
-		
+
 		LogVoteCast(msg.sender, voteOfMember);
 		return true;
 	}
@@ -84,6 +83,6 @@ contract ResourceProposal is Stoppable {
 		public
 		returns(bool)
 	{
-		
+
 	}
 }
