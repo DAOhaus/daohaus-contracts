@@ -21,7 +21,7 @@ contract Hub is Stoppable {
     _;
   }
 
-  event LogNewProposal(address chairmanAddress, int fees, uint blocks, int cost, string text);
+  event LogNewProposal(address chairmanAddress, int fees, uint blocks, int cost, bytes32 text);
   event LogMemberRegistered(address member, uint ethPledge, uint totalContractBalance);
 
   function Hub() {}
@@ -87,7 +87,7 @@ contract Hub is Stoppable {
       int fees, 
       uint blocks, 
       int cost, 
-      string text
+      bytes32 text
     )
         public
         returns(address campaignContract)
