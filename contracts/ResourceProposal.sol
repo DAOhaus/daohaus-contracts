@@ -1,4 +1,4 @@
-pragma solidity ^0.4.6;
+pragma solidity 0.4.15;
 
 import "./Stoppable.sol";
 import "./Hub.sol";
@@ -12,13 +12,15 @@ contract ResourceProposal is Stoppable {
 	bytes32 proposalText;
 	bool isDependent;
 	address depParent;
+	int status;
 
 	mapping(address => uint8) votes;
 	//votes 0 is don't care, 1 yes, 2 no
 	mapping(address => bytes32) opinions;
+	address[] votesArray;
 	
-	modifier onlyIfMember(address a) {
-		//require(isMember(a));
+	modifier onlyIfMember() {
+		//require(isMember(msg.sender));
 		_;
 	}
 
@@ -44,26 +46,23 @@ contract ResourceProposal is Stoppable {
 		return chairman;
 	}
 	
-	function status()
+	function getStatus()
 		public
 		constant
 		returns(uint8)
 	{
-		//if(block.number > deadline) return DEADLINE_PASSED;
-		//TODO: check for various conditions;
-		return 2;
-
+		return status;
 	}
 
 
 	function castVote(uint8 voteOfMember)
 		public
-		onlyIfMember(msg.sender)
+		onlyIfMember
 		onlyIfRunning
 		returns(bool)
 	{
 		votes[msg.sender] = voteOfMember;
-		
+		votesArray.push()
 		LogVoteCast(msg.sender, voteOfMember);
 		return true;
 	}
@@ -84,6 +83,21 @@ contract ResourceProposal is Stoppable {
 		public
 		returns(bool)
 	{
+		address[] memory addrForHub;
+		uint8[] memory votesForHub;
+
+		int count = votesArray.length;
 		
+		for(int i=0; i<count; i++)
+		{
+			uint8 val = votes[votesArray[i]];
+
+			if(val==1 || val==2){
+				addrForHub.push(votesArray[i]);
+				votesForHub.push(val);
+			}
+		}
+
+		return executeProposal(addrForHub,votesForHub);
 	}
 }
