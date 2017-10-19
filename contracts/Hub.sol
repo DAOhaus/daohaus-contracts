@@ -11,7 +11,7 @@ contract Hub is Stoppable {
 
   event LogMemberRegistered(address member, uint ethPledge, uint currentBalance, uint allTimeBalance);
 
-  function DaohausHub() {}
+  function Hub() {}
 
   function register()
     public
