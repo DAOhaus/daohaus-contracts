@@ -8,6 +8,7 @@ contract Hub is Owned {
   address[] members;
   uint public availableBalance;
   uint public runningBalance;
+  uint public pvr;
 
   address[] public proposals;
   mapping(address => bool) proposalExists;
@@ -25,10 +26,10 @@ contract Hub is Owned {
   }
 
   event LogMemberRegistered(address member, uint ethPledge, uint _availableBalance, uint _runningBalance);
-  event LogNewProposal(address chairmanAddress, int fees, uint blocks, int cost, bytes32 text);
+  event LogNewProposal(address chairmanAddress, uint fees, uint blocks, uint cost, bytes32 text);
 
   function Hub() {
-
+    pvr = 75;
   }
 
   function isMember(address person)
@@ -98,9 +99,9 @@ contract Hub is Owned {
 
     function createResourceProposal(
       address chairmanAddress,
-      int fees,
+      uint fees,
       uint blocks,
-      int cost,
+      uint cost,
       bytes32 text
     )
         public
@@ -119,6 +120,26 @@ contract Hub is Owned {
       LogNewProposal(chairmanAddress, fees, blocks, cost, text);
       return trustedProposal;
     }
+
+    function executeProposal(address[] addrForHub, uint8[] votesForHub)
+      public
+      returns(uint8)
+    {
+      uint count = addrForHub.length;
+      uint pos = 0;
+
+      for(uint i=0;i<count;i++)
+      {
+        if(isMember(addrForHub[i])){
+          if(votesForHub[i]==1) pos+=1;
+        }
+      }
+
+      uint ratio = pos*100/count;
+      if(ratio>=pvr) return 1;
+      return 2;
+    }
+
 
     // Pass-through Admin Controls
     function stopProposal(address proposal)

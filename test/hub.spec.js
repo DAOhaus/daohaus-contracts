@@ -31,11 +31,11 @@ contract('Hub', function(accounts) {
   describe("register", function() {
     it("should not be possible to register with 0 weis", function() {
       return expectedExceptionPromise(
-          () => hub.register({ from: account0, gas: 3000000, value: 0 }),
+          () => hub.register("+91000" , { from: account0, gas: 3000000, value: 0 }),
           3000000);
     });
     it("should be possible to register with > 0 weis", function() {
-      return hub.register({ from: account0, gas: 3000000, value: 10 })
+      return hub.register("+91000", { from: account0, gas: 3000000, value: 10 })
       .then(tx => {
         assert.strictEqual(tx.receipt.logs.length, 1);
         assert.strictEqual(tx.logs.length, 1);
@@ -64,7 +64,7 @@ contract('Hub', function(accounts) {
         text: "Buy a carton of eggs"
       };
 
-      return hub.register({ from: account1, gas: 3000000, value: 10 })
+      return hub.register("+91000", { from: account1, gas: 3000000, value: 10 })
       .then(tx => {
         assert.strictEqual(tx.receipt.logs.length, 1);
         assert.strictEqual(tx.logs.length, 1);

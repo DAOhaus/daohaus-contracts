@@ -21,7 +21,6 @@
   "homepage": "https://github.com/johndangerstorey/dao-haus#readme",
   "dependencies": {
     "bluebird": "^3.5.1",
-    "bn.js": "^4.11.6",
-    "solc": "^0.4.15"
+    "bn.js": "^4.11.6"
   }
 }

@@ -5,14 +5,14 @@ import "./Hub.sol";
 
 contract ResourceProposal is Stoppable {
 
-	int chairmanFee;
+	uint chairmanFee;
 	uint deadline;
 	address chairman;
-	int projectCost;
+	uint projectCost;
 	bytes32 proposalText;
 	bool isDependent;
 	address depParent;
-	int status;
+	uint8 status;
 
 	mapping(address => uint8) votes;
 	//votes 0 is don't care, 1 yes, 2 no
@@ -20,16 +20,17 @@ contract ResourceProposal is Stoppable {
 	address[] votesArray;
 	
 	modifier onlyIfMember() {
-		//require(isMember(msg.sender));
+		Hub hubContract = Hub(owner);
+		require(hubContract.isMember(msg.sender));
 		_;
 	}
 
-	event LogProposalCreated(address owner, address chairmanAddress, int fees, uint blocks, int cost, bytes32 text);
+	event LogProposalCreated(address owner, address chairmanAddress, uint fees, uint blocks, uint cost, bytes32 text);
 	event LogVoteCast(address member, uint8 vote);
 	event LogProposalSentToHub(address owner, uint blockNumber);
 	event LogOpinionAdded(address member, bytes32 opinion);
 
-	function ResourceProposal(address chairmanAddress, int fees, uint blocks, int cost, bytes32 text) {
+	function ResourceProposal(address chairmanAddress, uint fees, uint blocks, uint cost, bytes32 text) {
 		chairman = chairmanAddress;
 		chairmanFee = fees;
 		deadline = block.number + blocks;
@@ -46,7 +47,7 @@ contract ResourceProposal is Stoppable {
 	}
 
 
-	function status()
+	function getStatus()
 		public
 		constant
 		returns(uint8)
@@ -69,7 +70,7 @@ contract ResourceProposal is Stoppable {
 
 	function giveOpinion(bytes32 opinion)
 		public
-		onlyIfMember(msg.sender)
+		onlyIfMember
 		returns(bool)
 	{
 		opinions[msg.sender] = opinion;
@@ -84,21 +85,25 @@ contract ResourceProposal is Stoppable {
 		returns(bool)
 	{
 
-		address[] memory addrForHub;
-		uint8[] memory votesForHub;
+		uint count = votesArray.length;
 
-		int count = votesArray.length;
+		address[] memory addrForHub = new address[](count);
+		uint8[] memory votesForHub = new uint8[](count);
+
 		
-		for(int i=0; i<count; i++)
+		for(uint i=0; i<count; i++)
 		{
 			uint8 val = votes[votesArray[i]];
 
 			if(val==1 || val==2){
-				addrForHub.push(votesArray[i]);
-				votesForHub.push(val);
+				addrForHub[i] = votesArray[i];
+				votesForHub[i] = val;
 			}
 		}
 
-		return executeProposal(addrForHub,votesForHub);
+		Hub hubContract = Hub(owner);
+		status = hubContract.executeProposal(addrForHub,votesForHub);
+		LogProposalSentToHub(owner, block.number);
+		return true;
 	}
 }
