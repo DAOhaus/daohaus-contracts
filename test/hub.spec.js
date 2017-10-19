@@ -52,7 +52,7 @@ contract('Hub', function(accounts) {
         return hub.getVotingRightRatio(account0);
       })
       .then(votingRightRatio => {
-        assert.strictEqual(votingRightRatio.toNumber(), 1);
+        assert.strictEqual(votingRightRatio.toNumber(), 100);
       });
     });
   });
