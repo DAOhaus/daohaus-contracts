@@ -1,14 +1,12 @@
 pragma solidity 0.4.15;
 
-import "./Stoppable.sol";
 import "./ResourceProposal.sol";
 
-contract Hub is Stoppable {
+contract Hub {
 
   address[] members;
-  uint public totalCurrentBalance;
-  uint public totalAllTimeBalance;
-  uint public totalBalance;
+  uint public availableBalance;
+  uint public runningBalance;
 
   address[] public proposals;
   mapping(address => bool) proposalExists;
@@ -24,7 +22,7 @@ contract Hub is Stoppable {
     _;
   }
 
-  event LogMemberRegistered(address member, uint ethPledge, uint currentBalance, uint allTimeBalance);
+  event LogMemberRegistered(address member, uint ethPledge, uint available, uint running);
   event LogNewProposal(address chairmanAddress, int fees, uint blocks, int cost, bytes32 text);
   event LogMemberRegistered(address member, uint ethPledge, uint totalContractBalance);
 
@@ -46,8 +44,8 @@ contract Hub is Stoppable {
     sufficientFunds()
   {
     /* update hub contract balance */
-    totalCurrentBalance += msg.value;
-    totalAllTimeBalance += msg.value;
+    availableBalance += msg.value;
+    runningBalance += msg.value;
 
     /* update amountsPledged mapping */
     amountsPledgedMapping[msg.sender] += msg.value;
@@ -58,8 +56,8 @@ contract Hub is Stoppable {
     LogMemberRegistered(
       msg.sender,
       msg.value,
-      totalCurrentBalance,
-      totalAllTimeBalance
+      availableBalance,
+      runningBalance
     );
   }
 
@@ -76,7 +74,7 @@ contract Hub is Stoppable {
     public
     returns (uint ratio)
   {
-    return (amountsPledgedMapping[member] / totalAllTimeBalance) * 100;
+    return (amountsPledgedMapping[member] / runningBalance) * 100;
   }
 
   /*function propose(uint ethAmount, string proposalMessage) {
@@ -122,7 +120,6 @@ contract Hub is Stoppable {
     
     // Pass-through Admin Controls
     function stopProposal(address proposal) 
-        onlyOwner
         onlyIfProposal(proposal)
         returns(bool success)
     {
