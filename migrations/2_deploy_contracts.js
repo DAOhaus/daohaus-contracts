@@ -1,5 +1,5 @@
-var HausToken = artifacts.require("./HausToken.sol");
+var DaohausHub = artifacts.require("./DaohausHub.sol");
 
 module.exports = function(deployer) {
-  deployer.deploy(HausToken);
+  deployer.deploy(DaohausHub);
 };
