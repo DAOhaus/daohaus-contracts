@@ -1,8 +1,9 @@
-pragma solidity 0.4.15;
+pragma solidity ^0.4.15;
 
 import "./ResourceProposal.sol";
+import "./Owned.sol";
 
-contract Hub {
+contract Hub is Owned {
 
   address[] members;
   uint public availableBalance;
@@ -22,9 +23,8 @@ contract Hub {
     _;
   }
 
-  event LogMemberRegistered(address member, uint ethPledge, uint available, uint running);
+  event LogMemberRegistered(address member, uint ethPledge, uint _availableBalance, uint _runningBalance);
   event LogNewProposal(address chairmanAddress, int fees, uint blocks, int cost, bytes32 text);
-  event LogMemberRegistered(address member, uint ethPledge, uint totalContractBalance);
 
   function Hub() {
 
@@ -120,7 +120,7 @@ contract Hub {
 
     // Pass-through Admin Controls
     function stopProposal(address proposal)
-        onlyOwner
+        onlyOwner()
         onlyIfProposal(proposal)
         returns(bool success)
     {

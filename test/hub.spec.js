@@ -43,8 +43,8 @@ contract('Hub', function(accounts) {
         assert.strictEqual(logEntered.event, "LogMemberRegistered");
         assert.strictEqual(logEntered.args.member, account0);
         assert.strictEqual(logEntered.args.ethPledge.toNumber(), 10);
-        assert.strictEqual(logEntered.args.available.toNumber(), 10);
-        assert.strictEqual(logEntered.args.running.toNumber(), 10);
+        assert.strictEqual(logEntered.args._availableBalance.toNumber(), 10);
+        assert.strictEqual(logEntered.args._runningBalance.toNumber(), 10);
         return hub.getMembersCount();
       })
       .then(membersCount => {
@@ -72,8 +72,8 @@ contract('Hub', function(accounts) {
         assert.strictEqual(logEntered.event, "LogMemberRegistered");
         assert.strictEqual(logEntered.args.member, account1);
         assert.strictEqual(logEntered.args.ethPledge.toNumber(), 10);
-        assert.strictEqual(logEntered.args.currentBalance.toNumber(), 20);
-        assert.strictEqual(logEntered.args.allTimeBalance.toNumber(), 20);
+        assert.strictEqual(logEntered.args._availableBalance.toNumber(), 20);
+        assert.strictEqual(logEntered.args._runningBalance.toNumber(), 20);
         return hub.getMembersCount();
       })
       .then(membersCount => {
