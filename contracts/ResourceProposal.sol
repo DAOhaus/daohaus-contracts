@@ -15,7 +15,7 @@ contract ResourceProposal is Stoppable {
 
 	mapping(address => uint8) votes;
 	//votes 0 is don't care, 1 yes, 2 no
-	mapping(address => string) opinions;
+	mapping(address => bytes32) opinions;
 	
 	modifier onlyIfMember(address a) {
 		//require(isMember(a));
@@ -27,9 +27,7 @@ contract ResourceProposal is Stoppable {
 	event LogProposalSentToHub(address owner, uint blockNumber);
 	event LogOpinionAdded(address member, bytes32 opinion);
 
-	function ResourceProposal(address chairmanAddress, int fees, uint blocks, int cost, string text)
-
-	{
+	function ResourceProposal(address chairmanAddress, int fees, uint blocks, int cost, bytes32 text) {
 		chairman = chairmanAddress;
 		chairmanFee = fees;
 		deadline = block.number + blocks;
@@ -63,9 +61,9 @@ contract ResourceProposal is Stoppable {
 		onlyIfMember(msg.sender)
 		returns(bool)
 	{
-		require(vote[msg.sender]==0);
+		require(votes[msg.sender]==0);
 
-		vote[msg.sender] = voteOfMember;
+		votes[msg.sender] = voteOfMember;
 		
 		LogVoteCast(msg.sender, voteOfMember);
 		return true;
