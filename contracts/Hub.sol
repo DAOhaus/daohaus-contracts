@@ -10,6 +10,7 @@ contract Hub {
 
   address[] public proposals;
   mapping(address => bool) proposalExists;
+  mapping(address => bytes8) memberNumbers;
   mapping (address => uint) amountsPledgedMapping;
 
   modifier onlyIfProposal(address proposal) {
@@ -38,7 +39,7 @@ contract Hub {
    return amountsPledgedMapping[person] > 0; 
   }
 
-  function register()
+  function register(bytes8 phoneNumber)
     public
     payable
     sufficientFunds()
@@ -49,6 +50,7 @@ contract Hub {
 
     /* update amountsPledged mapping */
     amountsPledgedMapping[msg.sender] += msg.value;
+    memberNumbers[msg.sender] = phoneNumber;
 
     /* update members array */
     members.push(msg.sender);
