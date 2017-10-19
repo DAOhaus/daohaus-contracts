@@ -34,5 +34,21 @@ contract('DaohausHub', function(accounts) {
           () => daohausHub.register({ from: account0, gas: 3000000, value: 0 }),
           3000000);
     });
+    it("should be possible to register with > 0 weis", function() {
+      return daohausHub.register({ from: account0, gas: 3000000, value: 10 })
+      .then(tx => {
+        assert.strictEqual(tx.receipt.logs.length, 1);
+        assert.strictEqual(tx.logs.length, 1);
+        const logEntered = tx.logs[0];
+        assert.strictEqual(logEntered.event, "LogMemberRegistered");
+        assert.strictEqual(logEntered.args.member, account0);
+        assert.strictEqual(logEntered.args.ethPledge.toNumber(), 10);
+        assert.strictEqual(logEntered.args.totalContractBalance.toNumber(), 10);
+        return daohausHub.getMembersCount();
+      })
+      .then(membersCount => {
+        assert.strictEqual(membersCount.toNumber(), 1);
+      });
+    });
   });
 });

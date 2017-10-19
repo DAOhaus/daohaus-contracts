@@ -6,7 +6,7 @@ contract DaohausHub is Stoppable {
 
   mapping (address => uint) amountsPledgedMapping;
   address[] members;
-  uint totalBalance;
+  uint public totalBalance;
 
   event LogMemberRegistered(address member, uint ethPledge, uint totalContractBalance);
 
@@ -31,6 +31,14 @@ contract DaohausHub is Stoppable {
       msg.value,
       totalBalance
     );
+  }
+
+  function getMembersCount()
+    constant
+    public
+    returns (uint count)
+  {
+    return members.length;
   }
 
   /*function propose(uint ethAmount, string proposalMessage) {
