@@ -59,10 +59,9 @@ contract ResourceProposal is Stoppable {
 	function castVote(uint8 voteOfMember)
 		public
 		onlyIfMember(msg.sender)
+		onlyIfRunning
 		returns(bool)
 	{
-		require(votes[msg.sender]==0);
-
 		votes[msg.sender] = voteOfMember;
 		
 		LogVoteCast(msg.sender, voteOfMember);
