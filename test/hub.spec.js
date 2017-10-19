@@ -43,8 +43,8 @@ contract('Hub', function(accounts) {
         assert.strictEqual(logEntered.event, "LogMemberRegistered");
         assert.strictEqual(logEntered.args.member, account0);
         assert.strictEqual(logEntered.args.ethPledge.toNumber(), 10);
-        assert.strictEqual(logEntered.args.available.toNumber(), 10);
-        assert.strictEqual(logEntered.args.running.toNumber(), 10);
+        assert.strictEqual(logEntered.args._availableBalance.toNumber(), 10);
+        assert.strictEqual(logEntered.args._runningBalance.toNumber(), 10);
         return hub.getMembersCount();
       })
       .then(membersCount => {
@@ -54,6 +54,54 @@ contract('Hub', function(accounts) {
       .then(votingRightRatio => {
         assert.strictEqual(votingRightRatio.toNumber(), 100);
       });
+    });
+    it("should be able to create resource proposal", function() {
+      const proposal = {
+        chairmanAddress: account0,
+        fees: 10,
+        blocks: 2,
+        cost: 5,
+        text: "Buy a carton of eggs"
+      };
+
+      return hub.register({ from: account1, gas: 3000000, value: 10 })
+      .then(tx => {
+        assert.strictEqual(tx.receipt.logs.length, 1);
+        assert.strictEqual(tx.logs.length, 1);
+        const logEntered = tx.logs[0];
+        assert.strictEqual(logEntered.event, "LogMemberRegistered");
+        assert.strictEqual(logEntered.args.member, account1);
+        assert.strictEqual(logEntered.args.ethPledge.toNumber(), 10);
+        assert.strictEqual(logEntered.args._availableBalance.toNumber(), 20);
+        assert.strictEqual(logEntered.args._runningBalance.toNumber(), 20);
+        return hub.getMembersCount();
+      })
+      .then(membersCount => {
+        assert.strictEqual(membersCount.toNumber(), 2);
+        return hub.createResourceProposal(
+          proposal.chairmanAddress,
+          proposal.fees,
+          proposal.blocks,
+          proposal.cost,
+          proposal.text,
+          { from: account0 }
+        );
+      })
+      .then(tx => {
+        assert.strictEqual(tx.receipt.logs.length, 1);
+        assert.strictEqual(tx.logs.length, 1);
+        const logEntered = tx.logs[0];
+        assert.strictEqual(logEntered.event, "LogNewProposal");
+        assert.strictEqual(logEntered.args.chairmanAddress, proposal.chairmanAddress);
+        assert.strictEqual(logEntered.args.fees.toNumber(), proposal.fees);
+        assert.strictEqual(logEntered.args.blocks.toNumber(), proposal.blocks);
+        assert.strictEqual(logEntered.args.cost.toNumber(), proposal.cost);
+        //assert.strictEqual(logEntered.args.text, toBytes32(proposal.text));
+        return hub.getProposalCount();
+      })
+      .then(proposalCount => {
+        assert.strictEqual(proposalCount.toNumber(), 1);
+      })
     });
   });
 });

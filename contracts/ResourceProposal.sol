@@ -1,4 +1,4 @@
-pragma solidity 0.4.15;
+pragma solidity ^0.4.15;
 
 import "./Stoppable.sol";
 import "./Hub.sol";
@@ -35,7 +35,6 @@ contract ResourceProposal is Stoppable {
 		deadline = block.number + blocks;
 		projectCost = cost;
 		proposalText = text;
-		LogProposalCreated(owner, chairmanAddress, fees, blocks, cost, text);
 	}
 
 	function getChairman()
@@ -45,8 +44,9 @@ contract ResourceProposal is Stoppable {
 	{
 		return chairman;
 	}
-	
-	function getStatus()
+
+
+	function status()
 		public
 		constant
 		returns(uint8)
@@ -62,7 +62,7 @@ contract ResourceProposal is Stoppable {
 		returns(bool)
 	{
 		votes[msg.sender] = voteOfMember;
-		votesArray.push()
+		votesArray.push(msg.sender);
 		LogVoteCast(msg.sender, voteOfMember);
 		return true;
 	}
@@ -83,6 +83,7 @@ contract ResourceProposal is Stoppable {
 		public
 		returns(bool)
 	{
+
 		address[] memory addrForHub;
 		uint8[] memory votesForHub;
 
