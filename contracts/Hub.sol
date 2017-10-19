@@ -1,17 +1,18 @@
-pragma solidity ^0.4.15;
+pragma solidity 0.4.15;
 
 import "./Stoppable.sol";
 import "./ResourceProposal.sol";
 
 contract Hub is Stoppable {
 
-  mapping (address => uint) amountsPledgedMapping;
   address[] members;
   uint public totalCurrentBalance;
   uint public totalAllTimeBalance;
   uint public totalBalance;
+
   address[] public proposals;
   mapping(address => bool) proposalExists;
+  mapping (address => uint) amountsPledgedMapping;
 
   modifier onlyIfProposal(address proposal) {
     require(proposalExists[proposal]); 
@@ -27,7 +28,9 @@ contract Hub is Stoppable {
   event LogNewProposal(address chairmanAddress, int fees, uint blocks, int cost, bytes32 text);
   event LogMemberRegistered(address member, uint ethPledge, uint totalContractBalance);
 
-  function Hub() {}
+  function Hub() {
+
+  }
 
   function isMember(address person) 
   public
