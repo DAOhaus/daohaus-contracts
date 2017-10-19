@@ -12,11 +12,11 @@ if (typeof web3.eth.getAccountsPromise === "undefined") {
     Promise.promisifyAll(web3.eth, { suffix: "Promise" });
 }
 
-const DaohausHub = artifacts.require("./DaohausHub.sol");
+const Hub = artifacts.require("./Hub.sol");
 
-contract('DaohausHub', function(accounts) {
+contract('Hub', function(accounts) {
 
-  let daohausHub;
+  let hub;
 
   assert.isAtLeast(accounts.length, 3);
   account0 = accounts[0];
@@ -24,18 +24,18 @@ contract('DaohausHub', function(accounts) {
   account2 = accounts[2];
 
   before("should prepare", function() {
-    return DaohausHub.new()
-      .then(instance => daohausHub = instance)
+    return Hub.new()
+      .then(instance => hub = instance)
   });
 
   describe("register", function() {
     it("should not be possible to register with 0 weis", function() {
       return expectedExceptionPromise(
-          () => daohausHub.register({ from: account0, gas: 3000000, value: 0 }),
+          () => hub.register({ from: account0, gas: 3000000, value: 0 }),
           3000000);
     });
     it("should be possible to register with > 0 weis", function() {
-      return daohausHub.register({ from: account0, gas: 3000000, value: 10 })
+      return hub.register({ from: account0, gas: 3000000, value: 10 })
       .then(tx => {
         assert.strictEqual(tx.receipt.logs.length, 1);
         assert.strictEqual(tx.logs.length, 1);
@@ -43,11 +43,16 @@ contract('DaohausHub', function(accounts) {
         assert.strictEqual(logEntered.event, "LogMemberRegistered");
         assert.strictEqual(logEntered.args.member, account0);
         assert.strictEqual(logEntered.args.ethPledge.toNumber(), 10);
-        assert.strictEqual(logEntered.args.totalContractBalance.toNumber(), 10);
-        return daohausHub.getMembersCount();
+        assert.strictEqual(logEntered.args.currentBalance.toNumber(), 10);
+        assert.strictEqual(logEntered.args.allTimeBalance.toNumber(), 10);
+        return hub.getMembersCount();
       })
       .then(membersCount => {
         assert.strictEqual(membersCount.toNumber(), 1);
+        return hub.getVotingRightRatio(account0);
+      })
+      .then(votingRightRatio => {
+        assert.strictEqual(votingRightRatio.toNumber(), 1);
       });
     });
   });
