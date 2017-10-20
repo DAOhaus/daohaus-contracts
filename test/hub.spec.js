@@ -114,6 +114,7 @@ contract('Hub', function(accounts) {
         const logEntered = tx.logs[0];
         assert.strictEqual(logEntered.event, "LogNewProposal");
         assert.strictEqual(logEntered.args.chairmanAddress, proposal.chairmanAddress);
+        assert.strictEqual(logEntered.args.pid.toNumber(), 1);
         assert.strictEqual(logEntered.args.fees.toNumber(), proposal.fees);
         assert.strictEqual(logEntered.args.blocks.toNumber(), proposal.blocks);
         assert.strictEqual(logEntered.args.cost.toNumber(), proposal.cost);

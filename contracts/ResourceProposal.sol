@@ -25,7 +25,7 @@ contract ResourceProposal is Stoppable {
 		_;
 	}
 
-	event LogProposalCreated(address owner, address chairmanAddress, uint fees, uint blocks, uint cost, bytes32 text);
+	//event LogProposalCreated(address owner, address chairmanAddress, uint fees, uint blocks, uint cost, bytes32 text);
 	event LogVoteCast(address member, uint8 vote);
 	event LogProposalSentToHub(address owner, uint blockNumber);
 	event LogOpinionAdded(address member, bytes32 opinion);

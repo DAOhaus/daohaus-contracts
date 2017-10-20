@@ -28,7 +28,7 @@ contract Hub is Owned {
   }
 
   event LogMemberRegistered(address member, uint ethPledge, uint _availableBalance, uint _runningBalance);
-  event LogNewProposal(address chairmanAddress, uint fees, uint blocks, uint cost, bytes32 text, address proposalAddress);
+  event LogNewProposal(uint pid, address chairmanAddress, uint fees, uint blocks, uint cost, bytes32 text, address proposalAddress);
   event LogChairmanWithdraw(uint amount);
 
   function Hub() {
@@ -126,9 +126,10 @@ contract Hub is Owned {
         cost,
         text
       );
+      uint ind = proposals.length + 1;
       proposals.push(trustedProposal);
       proposalExists[trustedProposal] = true;
-      LogNewProposal(chairmanAddress, fees, blocks, cost, text, trustedProposal);
+      LogNewProposal(ind, chairmanAddress, fees, blocks, cost, text, trustedProposal);
       return trustedProposal;
     }
 
