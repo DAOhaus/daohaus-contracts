@@ -34,11 +34,11 @@ contract('Hub', function(accounts) {
   describe("register", function() {
     it("should not be possible to register with 0 weis", function() {
       return expectedExceptionPromise(
-          () => hub.register("+91000" , { from: account0, gas: 3000000, value: 0 }),
+          () => hub.register("+91000", "A" , { from: account0, gas: 3000000, value: 0 }),
           3000000);
     });
     it("should be possible to register with > 0 weis", function() {
-      return hub.register("+91000", { from: account0, gas: 3000000, value: 1000 })
+      return hub.register("+91000", "B", { from: account0, gas: 3000000, value: 1000 })
       .then(tx => {
 
         assert.strictEqual(tx.receipt.logs.length, 1);
@@ -72,7 +72,7 @@ contract('Hub', function(accounts) {
         text: "Buy a carton of eggs"
       };
 
-      return hub.register("+91000", { from: memberOne, gas: 3000000, value: 10 })
+      return hub.register("+91000","C", { from: memberOne, gas: 3000000, value: 10 })
       .then(tx => {
         assert.strictEqual(tx.receipt.logs.length, 1);
         assert.strictEqual(tx.logs.length, 1);
@@ -85,16 +85,16 @@ contract('Hub', function(accounts) {
         return;
       })
       .then(() => {
-        return hub.register("+162671", { from: account0, gas: 3000000, value: 1000 })
+        return hub.register("+162671","D", { from: account0, gas: 3000000, value: 1000 })
       })
       .then(() => {
-        return hub.register("+162671", { from: memberTwo, gas: 3000000, value: 10 })
+        return hub.register("+162671", "E",  { from: memberTwo, gas: 3000000, value: 10 })
       })
       .then(() => {
-        return hub.register("+32323", { from: memberThree, gas: 3000000, value: 10 })
+        return hub.register("+32323", "F", { from: memberThree, gas: 3000000, value: 10 })
       })
       .then(() => {
-        return hub.register("+372838", { from: chairMan, gas: 3000000, value: 10 })
+        return hub.register("+372838", "G",  { from: chairMan, gas: 3000000, value: 10 })
       })
       .then(() => {
         return hub.getMembersCount();
@@ -171,7 +171,7 @@ contract('Hub', function(accounts) {
           text: "Buy a carton of eggs"
         };
 
-        return hub.register("+91000", { from: memberOne, gas: 3000000, value: 10 })
+        return hub.register("+91000", "A" { from: memberOne, gas: 3000000, value: 10 })
         .then(tx => {
           assert.strictEqual(tx.receipt.logs.length, 1);
           assert.strictEqual(tx.logs.length, 1);
@@ -184,16 +184,16 @@ contract('Hub', function(accounts) {
           return;
         })
         .then(() => {
-          return hub.register("+2323232", { from: account0, gas: 3000000, value: 1000 })
+          return hub.register("+2323232", "F",  { from: account0, gas: 3000000, value: 1000 })
         })
         .then(() => {
-          return hub.register("+162671", { from: memberTwo, gas: 3000000, value: 10 })
+          return hub.register("+162671", "W", { from: memberTwo, gas: 3000000, value: 10 })
         })
         .then(() => {
-          return hub.register("+32323", { from: memberThree, gas: 3000000, value: 10 })
+          return hub.register("+32323", "K", { from: memberThree, gas: 3000000, value: 10 })
         })
         .then(() => {
-          return hub.register("+372838", { from: chairMan, gas: 3000000, value: 10 })
+          return hub.register("+372838", "T", { from: chairMan, gas: 3000000, value: 10 })
         })
         .then(() => {
           return hub.getMembersCount();
@@ -278,7 +278,7 @@ contract('Hub', function(accounts) {
           text: "Buy a carton of eggs"
         };
 
-        return hub.register("+91000", { from: memberOne, gas: 3000000, value: 10 })
+        return hub.register("+91000", "P", { from: memberOne, gas: 3000000, value: 10 })
         .then(tx => {
           assert.strictEqual(tx.receipt.logs.length, 1);
           assert.strictEqual(tx.logs.length, 1);
@@ -291,16 +291,16 @@ contract('Hub', function(accounts) {
           return;
         })
         .then(() => {
-          return hub.register("+2323232", { from: account0, gas: 3000000, value: 1000 })
+          return hub.register("+2323232", "Q", { from: account0, gas: 3000000, value: 1000 })
         })
         .then(() => {
-          return hub.register("+162671", { from: memberTwo, gas: 3000000, value: 10 })
+          return hub.register("+162671","T", { from: memberTwo, gas: 3000000, value: 10 })
         })
         .then(() => {
-          return hub.register("+32323", { from: memberThree, gas: 3000000, value: 10 })
+          return hub.register("+32323","TT", { from: memberThree, gas: 3000000, value: 10 })
         })
         .then(() => {
-          return hub.register("+372838", { from: chairMan, gas: 3000000, value: 10 })
+          return hub.register("+372838","p", { from: chairMan, gas: 3000000, value: 10 })
         })
         .then(() => {
           return hub.getMembersCount();
