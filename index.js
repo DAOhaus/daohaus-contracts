@@ -7,8 +7,8 @@ var constants = require("./constants");
 
 var fs = require('fs');
 var Web3 = require('web3');
-// var provider = new Web3.providers.HttpProvider("http://localhost:8545/");
-var provider = new HDWalletProvider(constants.mnemonic, "https://ropsten.infura.io/" + constants.infura_apikey);
+var provider = new Web3.providers.HttpProvider("http://localhost:8545/");
+// var provider = new HDWalletProvider(constants.mnemonic, "https://ropsten.infura.io/" + constants.infura_apikey);
 var web3 = new Web3(provider);
 var contract = require('truffle-contract');
 var hubInstance;
@@ -36,13 +36,13 @@ fs.readFile('build/contracts/Hub.json', (error, json) => {
         accounts = accs;
         account = accounts[0];
 
-        Hub.at("0x66c5ac4200b149b5867a9fafd34df8fe61b6e353").then(function(instance){
+        Hub.deployed().then(function(instance){
             hubInstance = instance;
-            sendMessages();
             const messageEvent = hubInstance.LogNewProposal({},{fromBlock: 'latest'});
             messageEvent.watch(function(error, result){
                 sendMessages(result.args.pid, result.args.text);                          
             });
+            console.log('watching');
         });
       });
 });
@@ -50,18 +50,18 @@ fs.readFile('build/contracts/Hub.json', (error, json) => {
 var sendMessages = function(proposalId, text){
     hubInstance.getMembers({from:account}).then(function(members){
         for(var i=0; i<members.length; i++){
-            console.log(members[i]);
             hubInstance.memberNumbers(members[i], {from:account}).then(function(number){
-                console.log(number);
+                sendMessage(proposalId, text, number);
             })
         }
     })      
 }
 
-var sendMessage = function(user, proposalId, text, to){
-    const messageText = user + " is proposing \"" + text + "\" respond with \"Y" + proposalId + "\" to vote yes or \"N" + proposalId + "\" to vote no.";
+var sendMessage = function(proposalId, text, number){
+    console.log('Sending message to: ', number);
+    const messageText = "Proposal: \"" + text + "\" respond with \"Y" + proposalId + "\" to vote yes or \"N" + proposalId + "\" to vote no.";
     // twilio.messages.create({
-    //     to: "+"+to,
+    //     to: "+"+number,
     //     from: fromNumber,
     //     body: messageText,
     // }, function(err, message) {
@@ -78,10 +78,10 @@ app.use(bodyParser.urlencoded({
 }));
 
 app.get('/', function(request, response) {
-    console.log('sending message')
+    console.log('creating proposal')
     hubInstance.createResourceProposal("0xE0432C23Eb6d243413A88DdC71eB8B8af9b87c53", 500, 10, 500, "We should stage a coup against John.", {from:account, gas: 1000000})
     .then(function(tx){
-        console.log("Message sent");
+        console.log("proposal created");
     })
     response.send('Hello World!')
 })
