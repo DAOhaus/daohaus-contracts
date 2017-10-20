@@ -5,31 +5,24 @@ import "./Hub.sol";
 
 contract NonResourceProposal is Stoppable {
 
-	event LogVoteCast(address member, uint8 vote);
-	event LogProposalSentNPRToHub(address owner, uint blockNumber);
-
-	mapping(address => uint8) votes;
-	//votes 0 is don't care, 1 yes, 2 no
-	mapping(address => bytes32) opinions;
-	address[] votesArray;
-	//mapping(bytes32 => uint) possibleTypes;
 	uint deadline;
-	uint valueOfResource;
-	bytes32 typeOfResource;
+	uint status;
+	uint value;
+	mapping(address => uint8) votes;
+	address[] votesArray;
 
-	function NonResourceProposal(bytes32 t, uint blocks, uint val) {
-		//possibleTypes["pvr"] = 1;
-		//possibleTypes["tax"] = 2;
-		//require(type=="pvr");
-		typeOfResource = t;
-		valueOfResource = val;
-		deadline = block.number + blocks;
-	}
+	event LogVoteCast(address member, uint8 vote);
+	event LogProposalSentToHub(address owner, uint blockNumber);
 
 	modifier onlyIfMember() {
 		Hub hubContract = Hub(owner);
 		require(hubContract.isMember(msg.sender));
 		_;
+	}
+
+	function NonResourceProposal(uint blocks, uint val){
+		deadline = block.number + blocks;
+		value = val;
 	}
 
 	function castVote(uint8 voteOfMember)
@@ -44,7 +37,7 @@ contract NonResourceProposal is Stoppable {
 		return true;
 	}
 
-	function sendNRPToHub()
+	function sendToHub()
 		public
 		returns(bool)
 	{
@@ -65,9 +58,8 @@ contract NonResourceProposal is Stoppable {
 		}
 
 		Hub hubContract = Hub(owner);
-		//status = hubContract.executeNRProposal(addrForHub, votesForHub, typeOfResource, deadline, valueOfResource);
-		//LogProposalSentNPRToHub(owner, block.number);
+		status = hubContract.executeProposal(addrForHub,votesForHub, 0, 100, deadline);
+		LogProposalSentToHub(owner, block.number);
 		return true;
 	}
-
 }
