@@ -175,24 +175,22 @@ contract Hub is Owned {
       uint count = addrForHub.length;
       uint pos = 0;
       uint total = 0;
-      for(uint i=0;i<count;i++)
-      {
-        if(isMember(addrForHub[i])){
+      for (uint i = 0; i < count; i++) {
+        if (isMember(addrForHub[i])) {
           uint ratio = getVotingRightRatio(addrForHub[i]);
-          if(votesForHub[i]==1) {
-            pos+=ratio;
+          if (votesForHub[i]==1) {
+            pos += ratio;
           }
-          total+=ratio;
+          total += ratio;
         }
       }
 
       uint cpvr = pos*100/100;
-      if(cpvr>=pvr){
+      if (cpvr >= pvr) {
         finishedProposals[msg.sender] = true;
-        balances[chairMan]+=totFees;
+        balances[chairMan] += totFees;
         return 1;
-      }
-      else if(block.number> deadline){
+      } else if (block.number > deadline) {
         finishedProposals[msg.sender] = true;
       }
 
