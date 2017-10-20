@@ -1,6 +1,7 @@
 pragma solidity ^0.4.15;
 
 import "./ResourceProposal.sol";
+import "./NonResourceProposal.sol";
 import "./Owned.sol";
 
 contract Hub is Owned {
@@ -134,6 +135,27 @@ contract Hub is Owned {
       return trustedProposal;
     }
 
+    function createNonResourceProposal(
+      uint val,
+      uint blocks,
+      string text
+    )
+        public
+        //onlyIfMember
+        returns(address proposalContract)
+    {
+      NonResourceProposal trustedProposal = new NonResourceProposal(
+        blocks,
+        val,
+        text
+      );
+      uint ind = proposals.length + 1;
+      proposals.push(trustedProposal);
+      proposalExists[trustedProposal] = true;
+      LogNewNRProposal(ind, chairmanAddress, fees, blocks, cost, text, trustedProposal);
+      return trustedProposal;
+    }
+
     function executeProposal(address[] addrForHub, uint8[] votesForHub, address chairMan, uint totFees, uint deadline)
       public
       returns(uint)
@@ -174,7 +196,9 @@ contract Hub is Owned {
       return true;
     }
 
-    function executeNRProposal(address[] addrForHub,uint[] votesForHub, string typeOfResource, uint deadline, uint val)
+    function executeNRProposal(address[] addrForHub,uint[] votesForHub, uint deadline, uint val)
+    //function executeNRProposal(address[] addrForHub,uint[] votesForHub, string typeOfResource, uint val)
+    
       public
       returns(uint)
     {
