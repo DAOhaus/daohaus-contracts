@@ -11,6 +11,7 @@ var provider = new Web3.providers.HttpProvider("http://localhost:8545/");
 // var provider = new HDWalletProvider(constants.mnemonic, "https://ropsten.infura.io/" + constants.infura_apikey);
 var web3 = new Web3(provider);
 var contract = require('truffle-contract');
+var Hub, Proposal;
 var hubInstance;
 var account;
 
@@ -20,31 +21,38 @@ var testPhoneNumber = constants.testPhoneNumber
 
 fs.readFile('build/contracts/Hub.json', (error, json) => {
     var json = JSON.parse(json);
-    const Hub = contract(json);
-
+    Hub = contract(json);
     Hub.setProvider(web3.currentProvider);
-      web3.eth.getAccounts(function(err, accs) {
-        if (err != null) {
-          alert("There was an error fetching your accounts.");
-          return;
-        }
-        if (accs.length == 0) {
-          alert("Couldn't get any accounts! Make sure your Ethereum client is configured correctly.");
-          return;
-        }
-    
-        accounts = accs;
-        account = accounts[0];
+});
 
-        Hub.deployed().then(function(instance){
-            hubInstance = instance;
-            const messageEvent = hubInstance.LogNewProposal({},{fromBlock: 'latest'});
-            messageEvent.watch(function(error, result){
-                sendMessages(result.args.pid, result.args.text);                          
-            });
-            console.log('watching');
+fs.readFile('build/contracts/ResourceProposal.json', (error, json) => {
+    var json = JSON.parse(json);
+    ResourceProposal = contract(json);
+    ResourceProposal.setProvider(web3.currentProvider);
+});
+
+web3.eth.getAccounts(function(err, accs) {
+    if (err != null) {
+      alert("There was an error fetching your accounts.");
+      return;
+    }
+    if (accs.length == 0) {
+      alert("Couldn't get any accounts! Make sure your Ethereum client is configured correctly.");
+      return;
+    }
+
+    accounts = accs;
+    account = accounts[0];
+    
+    Hub.deployed().then(function(instance){
+        hubInstance = instance;
+        const messageEvent = hubInstance.LogNewProposal({},{fromBlock: 'latest'});
+        messageEvent.watch(function(error, result){
+            sendMessages(result.args.pid, result.args.text);                          
         });
-      });
+        console.log('watching');
+        castVote("1234",1,true);
+    });
 });
 
 var sendMessages = function(proposalId, text){
@@ -59,7 +67,7 @@ var sendMessages = function(proposalId, text){
 
 var sendMessage = function(proposalId, text, number){
     console.log('Sending message to: ', number);
-    const messageText = "Proposal: \"" + text + "\" respond with \"Y" + proposalId + "\" to vote yes or \"N" + proposalId + "\" to vote no.";
+    const messageText = "Proposal: \"" + text + "\" respond with \"Y" + proposalId + "\" to vote yes, \"N" + proposalId + "\" to vote no, or \"A" + proposalId + "\" to abstain.";
     // twilio.messages.create({
     //     to: "+"+number,
     //     from: fromNumber,
@@ -68,6 +76,20 @@ var sendMessage = function(proposalId, text, number){
     //     console.log(err)
     //     console.log(message);
     // });
+}
+
+var castVote = function(user, proposalId, vote){
+    const proposalEvent = hubInstance.LogNewProposal({pid:proposalId},{fromBlock: 0, toBlock: 'latest'});
+    proposalEvent.watch(function(error, result){
+        const propAddress = result.args.proposalAddress;
+        console.log("address: ", propAddress);
+        console.log(result);
+        ResourceProposal.at(propAddress).then(function(instance){
+            instance.castVote(vote, {from:account}).then(function(tx){
+                console.log(tx);
+            })
+        })
+    });
 }
 
 app.set('port', (process.env.PORT || 3000))
@@ -96,39 +118,37 @@ app.get('/register', function(req, res){
 
 const MessagingResponse = require('twilio').twiml.MessagingResponse;
 
-// app.post('/sms', (req, res) => {
-//     console.log(req.body);
-//     const response = req.body.Body;
-//     const vote = response[0];
-//     const proposal = parseInt(response.substring(1,response.length-1));
-//     const votedYes = vote == 'y' || vote == 'Y';
-//     const votedNo = vote == 'n' || vote == 'N';
-//     let message;
+app.post('/sms', (req, res) => {
+    console.log(req.body);
+    const response = req.body.Body;
+    const rawVote = response[0];
+    const proposal = parseInt(response.substring(1,response.length-1));
+    let vote = -1;
+    if(rawVote == 'a' || rawVote == 'A') vote = 0;
+    if(rawVote == 'y' || rawVote == 'Y') vote = 1;
+    if(rawVote == 'n' || rawVote == 'N') vote = 2;
+    let message;
 
-//     if(isNaN(proposal)){
-//         message = "Invalid response. Please respond with a proposal number."
-//     }else if(!votedYes && !votedNo){
-//         message = "Invalid response. Please respond with Y or N."
-//         hubInstance.castVote(parseInt(proposal), true,{from:account}).then(function(tx){
-//             console.log(tx)
-//         })
-        
-//     }else{
-//         if(votedYes){
-//             message = "You voted yes on proposal" + proposal + ".";
-//         }else{
-//             message = "You voted no on proposal" + proposal + ".";
-//         }
-//         hubInstance.castVote(parseInt(proposal), votedYes,{from:account}).then(function(tx){
-//             console.log(tx)
-//         })
-//     }
+    if(isNaN(proposal)){
+        message = "Invalid response. Please respond with a proposal number."
+    }else if(vote == -1){
+        message = "Invalid response. Please respond with A, Y, or N."
+    }else{
+        if(vote == 0){
+            message = "You abstained on proposal" + proposal + ".";
+        }else if(vote == 1){
+            message = "You voted yes on proposal" + proposal + ".";
+        }else{
+            message = "You voted no on proposal" + proposal + ".";
+        }
+        castVote(constants.testPhoneNumber, proposal, vote);
+    }
 
-//     const twiml = new MessagingResponse();
-//     twiml.message(message);
-//     res.writeHead(200, {'Content-Type': 'text/xml'});
-//     res.end(twiml.toString());
-// });
+    const twiml = new MessagingResponse();
+    twiml.message(message);
+    res.writeHead(200, {'Content-Type': 'text/xml'});
+    res.end(twiml.toString());
+});
 
 app.listen(app.get('port'), function() {
     console.log("Node app is running at localhost:" + app.get('port'))
