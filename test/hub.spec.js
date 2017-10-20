@@ -21,10 +21,10 @@ contract('Hub', function(accounts) {
 
   assert.isAtLeast(accounts.length, 3);
   account0 = accounts[0];
-  account1 = accounts[1];
-  account2 = accounts[2];
-  account3 = accounts[3];
-  account4 = accounts[4];
+  memberOne = accounts[1];
+  memberTwo = accounts[2];
+  memberThree = accounts[3];
+  chairMan = accounts[4];
 
   before("should prepare", function() {
     return Hub.new()
@@ -38,16 +38,16 @@ contract('Hub', function(accounts) {
           3000000);
     });
     it("should be possible to register with > 0 weis", function() {
-      return hub.register("+91000", { from: account0, gas: 3000000, value: 10 })
+      return hub.register("+91000", { from: account0, gas: 3000000, value: 1000 })
       .then(tx => {
         assert.strictEqual(tx.receipt.logs.length, 1);
         assert.strictEqual(tx.logs.length, 1);
         const logEntered = tx.logs[0];
         assert.strictEqual(logEntered.event, "LogMemberRegistered");
         assert.strictEqual(logEntered.args.member, account0);
-        assert.strictEqual(logEntered.args.ethPledge.toNumber(), 10);
-        assert.strictEqual(logEntered.args._availableBalance.toNumber(), 10);
-        assert.strictEqual(logEntered.args._runningBalance.toNumber(), 10);
+        assert.strictEqual(logEntered.args.ethPledge.toNumber(), 1000);
+        assert.strictEqual(logEntered.args._availableBalance.toNumber(), 1000);
+        assert.strictEqual(logEntered.args._runningBalance.toNumber(), 1000);
         return hub.getMembersCount();
       })
       .then(membersCount => {
@@ -63,27 +63,39 @@ contract('Hub', function(accounts) {
       let proposalContract;
 
       const proposal = {
-        chairmanAddress: account0,
+        chairmanAddress: chairMan,
         fees: 10,
         blocks: 2,
         cost: 5,
         text: "Buy a carton of eggs"
       };
 
-      return hub.register("+91000", { from: account1, gas: 3000000, value: 10 })
+      return hub.register("+91000", { from: memberOne, gas: 3000000, value: 10 })
       .then(tx => {
         assert.strictEqual(tx.receipt.logs.length, 1);
         assert.strictEqual(tx.logs.length, 1);
         const logEntered = tx.logs[0];
         assert.strictEqual(logEntered.event, "LogMemberRegistered");
-        assert.strictEqual(logEntered.args.member, account1);
+        assert.strictEqual(logEntered.args.member, memberOne);
         assert.strictEqual(logEntered.args.ethPledge.toNumber(), 10);
-        assert.strictEqual(logEntered.args._availableBalance.toNumber(), 20);
-        assert.strictEqual(logEntered.args._runningBalance.toNumber(), 20);
+        assert.strictEqual(logEntered.args._availableBalance.toNumber(), 1010);
+        assert.strictEqual(logEntered.args._runningBalance.toNumber(), 1010);
+        return;
+      })
+      .then(() => {
+        return hub.register("+162671", { from: memberTwo, gas: 3000000, value: 10 })
+      })
+      .then(() => {
+        return hub.register("+32323", { from: memberThree, gas: 3000000, value: 10 })
+      })
+      .then(() => {
+        return hub.register("+372838", { from: chairMan, gas: 3000000, value: 10 })
+      })
+      .then(() => {
         return hub.getMembersCount();
       })
       .then(membersCount => {
-        assert.strictEqual(membersCount.toNumber(), 2);
+        assert.strictEqual(membersCount.toNumber(), 5);
         return hub.createResourceProposal(
           proposal.chairmanAddress,
           proposal.fees,
@@ -114,6 +126,137 @@ contract('Hub', function(accounts) {
       .then(_proposal => {
         proposalContract = _proposal;
         return;
+      })
+      .then(() => {
+        return proposalContract.castVote(1, { from: account0 })
+      })
+      .then(() => {
+        return proposalContract.castVote(2, { from: memberOne })
+      })
+      .then(() => {
+        return proposalContract.castVote(2, { from: memberTwo })
+      })
+      .then(() => {
+        return proposalContract.castVote(2, { from: memberThree })
+      })
+      .then(() => {
+        return proposalContract.castVote(2, { from: chairMan })
+      })
+      .then(() => {
+        return proposalContract.sendToHub();
+      })
+      .then(() => {
+        return proposalContract.getStatus();
+      })
+      .then(_status => {
+        assert.strictEqual(_status.toNumber(), 1);
+      })
+    });
+    it("charman should be able to withdraw", function() {
+      let proposalAddress;
+      let proposalContract;
+
+      const proposal = {
+        chairmanAddress: chairMan,
+        fees: 10,
+        blocks: 2,
+        cost: 5,
+        text: "Buy a carton of eggs"
+      };
+
+      return hub.register("+91000", { from: memberOne, gas: 3000000, value: 10 })
+      .then(tx => {
+        assert.strictEqual(tx.receipt.logs.length, 1);
+        assert.strictEqual(tx.logs.length, 1);
+        const logEntered = tx.logs[0];
+        assert.strictEqual(logEntered.event, "LogMemberRegistered");
+        assert.strictEqual(logEntered.args.member, memberOne);
+        assert.strictEqual(logEntered.args.ethPledge.toNumber(), 10);
+        assert.strictEqual(logEntered.args._availableBalance.toNumber(), 1010);
+        assert.strictEqual(logEntered.args._runningBalance.toNumber(), 1010);
+        return;
+      })
+      .then(() => {
+        return hub.register("+162671", { from: memberTwo, gas: 3000000, value: 10 })
+      })
+      .then(() => {
+        return hub.register("+32323", { from: memberThree, gas: 3000000, value: 10 })
+      })
+      .then(() => {
+        return hub.register("+372838", { from: chairMan, gas: 3000000, value: 10 })
+      })
+      .then(() => {
+        return hub.getMembersCount();
+      })
+      .then(membersCount => {
+        assert.strictEqual(membersCount.toNumber(), 5);
+        return hub.createResourceProposal(
+          proposal.chairmanAddress,
+          proposal.fees,
+          proposal.blocks,
+          proposal.cost,
+          proposal.text,
+          { from: account0 }
+        );
+      })
+      .then(tx => {
+        assert.strictEqual(tx.receipt.logs.length, 1);
+        assert.strictEqual(tx.logs.length, 1);
+        const logEntered = tx.logs[0];
+        assert.strictEqual(logEntered.event, "LogNewProposal");
+        assert.strictEqual(logEntered.args.chairmanAddress, proposal.chairmanAddress);
+        assert.strictEqual(logEntered.args.fees.toNumber(), proposal.fees);
+        assert.strictEqual(logEntered.args.blocks.toNumber(), proposal.blocks);
+        assert.strictEqual(logEntered.args.cost.toNumber(), proposal.cost);
+        proposalAddress = logEntered.args.proposalAddress;
+        return hub.getProposalCount();
+      })
+      .then(proposalCount => {
+        assert.strictEqual(proposalCount.toNumber(), 1);
+      })
+      .then(() => {
+        return ResourceProposal.at(proposalAddress);
+      })
+      .then(_proposal => {
+        proposalContract = _proposal;
+        return;
+      })
+      .then(() => {
+        return proposalContract.castVote(1, { from: account0 })
+      })
+      .then(() => {
+        return proposalContract.castVote(2, { from: memberOne })
+      })
+      .then(() => {
+        return proposalContract.castVote(2, { from: memberTwo })
+      })
+      .then(() => {
+        return proposalContract.castVote(2, { from: memberThree })
+      })
+      .then(() => {
+        return proposalContract.castVote(2, { from: chairMan })
+      })
+      .then(() => {
+        return proposalContract.sendToHub();
+      })
+      .then(() => {
+        return proposalContract.getStatus();
+      })
+      .then(_status => {
+        assert.strictEqual(_status.toNumber(), 1);
+      })
+      .then(() => {
+        return hub.withdraw({ from: chairMan });
+      })
+      .then(tx => {
+        assert.strictEqual(tx.receipt.logs.length, 1);
+        assert.strictEqual(tx.logs.length, 1);
+        const logEntered = tx.logs[0];
+        assert.strictEqual(logEntered.event, "LogNewProposal");
+        assert.strictEqual(logEntered.args.chairmanAddress, proposal.chairmanAddress);
+        assert.strictEqual(logEntered.args.fees.toNumber(), proposal.fees);
+        assert.strictEqual(logEntered.args.blocks.toNumber(), proposal.blocks);
+        assert.strictEqual(logEntered.args.cost.toNumber(), proposal.cost);
       })
     });
   });

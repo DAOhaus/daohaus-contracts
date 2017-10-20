@@ -12,7 +12,7 @@ contract ResourceProposal is Stoppable {
 	bytes32 proposalText;
 	bool isDependent;
 	address depParent;
-	uint8 status;
+	uint status;
 
 	mapping(address => uint8) votes;
 	//votes 0 is don't care, 1 yes, 2 no
@@ -50,7 +50,7 @@ contract ResourceProposal is Stoppable {
 	function getStatus()
 		public
 		constant
-		returns(uint8)
+		returns(uint)
 	{
 		return status;
 	}

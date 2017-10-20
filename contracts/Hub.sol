@@ -79,7 +79,7 @@ contract Hub is Owned {
     public
     returns (uint ratio)
   {
-    return (amountsPledgedMapping[member] / runningBalance) * 100;
+    return amountsPledgedMapping[member] * 100 / runningBalance;
   }
 
   /*function propose(uint ethAmount, string proposalMessage) {
@@ -125,7 +125,7 @@ contract Hub is Owned {
 
     function executeProposal(address[] addrForHub, uint8[] votesForHub, address chairMan, uint totFees, uint deadline)
       public
-      returns(uint8)
+      returns(uint)
     {
       uint count = addrForHub.length;
       uint pos = 0;
@@ -141,7 +141,7 @@ contract Hub is Owned {
         }
       }
 
-      uint cpvr = pos/100;
+      uint cpvr = pos*100/100;
       if(cpvr>=pvr){
         finishedProposals[msg.sender] = true;
         balances[chairMan]+=totFees;
