@@ -7,10 +7,11 @@ var constants = require("./constants");
 
 var fs = require('fs');
 var Web3 = require('web3');
-var provider = new Web3.providers.HttpProvider("http://localhost:8545/");
-// var provider = new HDWalletProvider(constants.mnemonic, "https://ropsten.infura.io/" + constants.infura_apikey);
+// var provider = new Web3.providers.HttpProvider("http://localhost:8545/");
+var provider = new HDWalletProvider(constants.mnemonic, "https://ropsten.infura.io/" + constants.infura_apikey);
 var web3 = new Web3(provider);
 var contract = require('truffle-contract');
+
 var Hub, Proposal;
 var hubInstance;
 var account;
@@ -46,52 +47,106 @@ web3.eth.getAccounts(function(err, accs) {
     
     Hub.deployed().then(function(instance){
         hubInstance = instance;
-        const messageEvent = hubInstance.LogNewProposal({},{fromBlock: 'latest'});
-        messageEvent.watch(function(error, result){
-            sendMessages(result.args.pid, result.args.text);                          
-        });
-        console.log('watching');
-        castVote("1234",1,true);
+        watchProposals();        
     });
 });
 
-var sendMessages = function(proposalId, text){
+var watchProposals = function(){
+    const proposalEvent = hubInstance.LogNewProposal({},{fromBlock: 'latest'});
+    proposalEvent.watch(function(error, result){
+        hubInstance.memberDetails(result.args.chairmanAddress, {from:account}).then(function(details){
+            const user = details[1];
+            const message = formatMessage(result.args.text, result.args.pid, user, result.args.cost, result.args.fees);
+            sendMessages(message)
+        });            
+    });
+    const nRProposoalEvent = hubInstance.LogNewNRProposal({}, {fromBlock: 'latest'});
+    nRProposoalEvent.watch(function(error,result){
+        const message = formatMessage(result.ars.text, result.args.pid);
+        sendMessages(message);
+    });
+    console.log('watching');
+}
+
+var formatMessage = function(text, proposalId, user, cost, fees){
+    var message = "";
+    if(user){
+        message += user + " proposes: ";
+    }else{
+        message += "New proposal: ";
+    }
+    message += "\"" + text + "\" ";
+    if(cost && fees){
+        const totalCost = web3.fromWei(parseInt(cost) + parseInt(fees), 'ether');
+        message += " The proposal will cost " + totalCost + "ETH.";    
+    }else{
+        message += " This is a non-resource proposal."
+    }
+    message += " Respond with \"Y" + proposalId + "\" to vote yes, \"N" + proposalId + "\" to vote no, or \"A" + proposalId + "\" to abstain.";
+    return message;
+}
+
+var sendMessages = function(message){
+    console.log(message);
+    return
     hubInstance.getMembers({from:account}).then(function(members){
-        for(var i=0; i<members.length; i++){
-            hubInstance.memberNumbers(members[i], {from:account}).then(function(number){
-                sendMessage(proposalId, text, number);
+        for(let i=0; i<members.length; i++){
+            console.log(members[i])
+            hubInstance.memberDetails(members[i], {from:account}).then(function(details){
+                const number = details[0];
+                if(number.length > 0){
+                    sendMessage(number, message);
+                }                
             })
         }
     })      
 }
 
-var sendMessage = function(proposalId, text, number){
+var sendMessage = function(number, message){
     console.log('Sending message to: ', number);
-    const messageText = "Proposal: \"" + text + "\" respond with \"Y" + proposalId + "\" to vote yes, \"N" + proposalId + "\" to vote no, or \"A" + proposalId + "\" to abstain.";
     twilio.messages.create({
         to: "+"+number,
         from: fromNumber,
-        body: messageText,
+        body: message,
     }, function(err, message) {
         console.log(err)
         console.log(message);
     });
 }
 
-var castVote = function(number, proposalId, vote){
+var castVote = function(proposalId, number, vote){
     const proposalEvent = hubInstance.LogNewProposal({pid:proposalId},{fromBlock: 0, toBlock: 'latest'});
     proposalEvent.watch(function(error, result){
         const propAddress = result.args.proposalAddress;
-        const registerEvent = hubInstance.LogMemberRegistered({phoneNumer:number},{fromBlock: 0, toBlock: 'latest'});
+        const registerEvent = hubInstance.LogMemberRegistered({phoneNumber:number},{fromBlock: 0, toBlock: 'latest'});
         registerEvent.watch(function(error, result){
             const memberAddress = result.args.member;            
             ResourceProposal.at(propAddress).then(function(instance){
                 instance.castVoteByText(vote, memberAddress, {from:account}).then(function(tx){
                     console.log(tx);
                 })
+                .catch(function(err){
+                    sendMessage(number, "Something went wrong while casting your vote on proposal " + proposalId + ".");
+                });
             })
         })
-        
+    });
+
+    const nRProposalEvent = hubInstance.LogNewNRProposal({pid:proposalId},{fromBlock: 0, toBlock: 'latest'});
+    nRProposalEvent.watch(function(error, result){
+        const propAddress = result.args.proposalAddress;
+        const registerEvent = hubInstance.LogMemberRegistered({phoneNumber:number},{fromBlock: 0, toBlock: 'latest'});
+        registerEvent.watch(function(error, result){
+            const memberAddress = result.args.member;            
+            NonResourceProposal.at(propAddress).then(function(instance){
+                instance.castVoteByText(vote, memberAddress, {from:account}).then(function(tx){
+                    console.log(tx);
+                })
+                .catch(function(err){
+                    sendMessage(number, "Something went wrong while casting your vote on proposal " + proposalId + ".");
+                });
+            })
+        })
     });
 }
 
@@ -104,7 +159,7 @@ app.use(bodyParser.urlencoded({
 
 app.get('/', function(request, response) {
     console.log('creating proposal')
-    hubInstance.createResourceProposal("0xE0432C23Eb6d243413A88DdC71eB8B8af9b87c53", 500, 10, 500, "We should stage a coup against John.", {from:account, gas: 1000000})
+    hubInstance.createResourceProposal("0xE0432C23Eb6d243413A88DdC71eB8B8af9b87c53", 500000000000000000, 10, 73000000000000000, "We should buy our own espresso machine.", {from:account, gas: 1000000})
     .then(function(tx){
         console.log("proposal created");
     })
@@ -113,7 +168,7 @@ app.get('/', function(request, response) {
 
 app.get('/register', function(req, res){
     console.log('registering');
-    hubInstance.register(constants.testPhoneNumber, {from:account, value: 100, gas: 300000}).then(function(tx){
+    hubInstance.register(constants.testPhoneNumber, "Daniel", {from:account, value: 100, gas: 300000}).then(function(tx){
         console.log(tx);
     });
     res.send('Registration');
@@ -124,9 +179,10 @@ const MessagingResponse = require('twilio').twiml.MessagingResponse;
 app.post('/sms', (req, res) => {
     console.log(req.body);
     const response = req.body.Body;
-    const number = req.body.From.substring(1, req.body.From.length-1);
+    const number = req.body.From.substring(1, req.body.From.length);
     const rawVote = response[0];
-    const proposal = parseInt(response.substring(1,response.length-1));
+    const proposal = parseInt(response.substring(1,response.length));
+    console.log("PROPOSAL:  ", proposal);
     let vote = -1;
     if(rawVote == 'a' || rawVote == 'A') vote = 0;
     if(rawVote == 'y' || rawVote == 'Y') vote = 1;
@@ -139,13 +195,13 @@ app.post('/sms', (req, res) => {
         message = "Invalid response. Please respond with A, Y, or N."
     }else{
         if(vote == 0){
-            message = "You abstained on proposal" + proposal + ".";
+            message = "You abstained on proposal " + proposal + ".";
         }else if(vote == 1){
-            message = "You voted yes on proposal" + proposal + ".";
+            message = "You voted yes on proposal " + proposal + ".";
         }else{
-            message = "You voted no on proposal" + proposal + ".";
+            message = "You voted no on proposal " + proposal + ".";
         }
-        castVote(number, proposal, vote);
+        castVote(proposal, number, vote);
     }
 
     const twiml = new MessagingResponse();
