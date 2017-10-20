@@ -12,20 +12,20 @@ contract ResourceProposal is Stoppable {
 	bytes32 proposalText;
 	bool isDependent;
 	address depParent;
-	uint8 status;
+	uint status;
 
 	mapping(address => uint8) votes;
 	//votes 0 is don't care, 1 yes, 2 no
 	mapping(address => bytes32) opinions;
 	address[] votesArray;
-	
+
 	modifier onlyIfMember() {
 		Hub hubContract = Hub(owner);
 		require(hubContract.isMember(msg.sender));
 		_;
 	}
 
-	event LogProposalCreated(address owner, address chairmanAddress, uint fees, uint blocks, uint cost, bytes32 text);
+	//event LogProposalCreated(address owner, address chairmanAddress, uint fees, uint blocks, uint cost, bytes32 text);
 	event LogVoteCast(address member, uint8 vote);
 	event LogProposalSentToHub(address owner, uint blockNumber);
 	event LogOpinionAdded(address member, bytes32 opinion);
@@ -50,7 +50,7 @@ contract ResourceProposal is Stoppable {
 	function getStatus()
 		public
 		constant
-		returns(uint8)
+		returns(uint)
 	{
 		return status;
 	}
@@ -90,7 +90,6 @@ contract ResourceProposal is Stoppable {
 		address[] memory addrForHub = new address[](count);
 		uint8[] memory votesForHub = new uint8[](count);
 
-		
 		for(uint i=0; i<count; i++)
 		{
 			uint8 val = votes[votesArray[i]];
@@ -102,7 +101,7 @@ contract ResourceProposal is Stoppable {
 		}
 
 		Hub hubContract = Hub(owner);
-		status = hubContract.executeProposal(addrForHub,votesForHub);
+		status = hubContract.executeProposal(addrForHub,votesForHub, chairman, projectCost+chairmanFee, deadline);
 		LogProposalSentToHub(owner, block.number);
 		return true;
 	}

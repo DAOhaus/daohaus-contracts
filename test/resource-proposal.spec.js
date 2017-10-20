@@ -26,4 +26,4 @@ contract('Proposal', function(accounts) {
     	.then(instance => hub = instance)
     	.then(tx => hub.createResourceProposal(account1,25,10,5,"Simple test"))
   });
-})
+});
