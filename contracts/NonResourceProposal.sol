@@ -8,11 +8,12 @@ contract NonResourceProposal is Stoppable {
 	uint deadline;
 	uint status;
 	uint value;
+	string text;
 	mapping(address => uint8) votes;
 	address[] votesArray;
 
 	event LogVoteCast(address member, uint8 vote);
-	event LogProposalSentToHub(address owner, uint blockNumber);
+	event LogNRProposalSentToHub(address owner, uint blockNumber);
 
 	modifier onlyIfMember() {
 		Hub hubContract = Hub(owner);
@@ -20,9 +21,10 @@ contract NonResourceProposal is Stoppable {
 		_;
 	}
 
-	function NonResourceProposal(uint blocks, uint val){
+	function NonResourceProposal(uint blocks, uint val,string t){
 		deadline = block.number + blocks;
 		value = val;
+		text = t;
 	}
 
 	function castVote(uint8 voteOfMember)
@@ -58,8 +60,8 @@ contract NonResourceProposal is Stoppable {
 		}
 
 		Hub hubContract = Hub(owner);
-		status = hubContract.executeProposal(addrForHub,votesForHub, 0, 100, deadline);
-		LogProposalSentToHub(owner, block.number);
+		status = hubContract.executeNRProposal(addrForHub,votesForHub, deadline, value);
+		LogNRProposalSentToHub(owner, block.number);
 		return true;
 	}
 }
