@@ -40,9 +40,11 @@ contract('Hub', function(accounts) {
     it("should be possible to register with > 0 weis", function() {
       return hub.register("+91000", { from: account0, gas: 3000000, value: 1000 })
       .then(tx => {
+
         assert.strictEqual(tx.receipt.logs.length, 1);
         assert.strictEqual(tx.logs.length, 1);
         const logEntered = tx.logs[0];
+        console.log(logEntered.args.phoneNumber);
         assert.strictEqual(logEntered.event, "LogMemberRegistered");
         assert.strictEqual(logEntered.args.member, account0);
         assert.strictEqual(logEntered.args.ethPledge.toNumber(), 1000);

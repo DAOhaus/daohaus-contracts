@@ -12,7 +12,7 @@ contract Hub is Owned {
 
   address[] public proposals;
   mapping(address => bool) proposalExists;
-  mapping(address => bytes8) memberNumbers;
+  mapping(address => string) public memberNumbers;
   mapping(address => uint) amountsPledgedMapping;
   mapping(address => bool) finishedProposals;
   mapping(address => uint) balances;
@@ -27,7 +27,7 @@ contract Hub is Owned {
     _;
   }
 
-  event LogMemberRegistered(address member, uint ethPledge, uint _availableBalance, uint _runningBalance);
+  event LogMemberRegistered(address member, string phoneNumber, uint ethPledge, uint _availableBalance, uint _runningBalance);
   event LogNewProposal(uint pid, address chairmanAddress, uint fees, uint blocks, uint cost, bytes32 text, address proposalAddress);
   event LogChairmanWithdraw(uint amount);
 
@@ -51,7 +51,7 @@ contract Hub is Owned {
    return amountsPledgedMapping[person] > 0;
   }
 
-  function register(bytes8 phoneNumber)
+  function register(string phoneNumber)
     public
     payable
     sufficientFunds()
@@ -69,6 +69,7 @@ contract Hub is Owned {
 
     LogMemberRegistered(
       msg.sender,
+      phoneNumber,
       msg.value,
       availableBalance,
       runningBalance
@@ -160,8 +161,18 @@ contract Hub is Owned {
       else if(block.number> deadline){
         finishedProposals[msg.sender] = true;
       }
+
       return 2;
     }
+
+
+
+    /*function executeNRProposal()
+      public
+      returns(uint)
+    {
+
+    }*/
 
     function withdraw()
      public
