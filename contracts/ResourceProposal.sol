@@ -9,7 +9,7 @@ contract ResourceProposal is Stoppable {
 	uint deadline;
 	address chairman;
 	uint projectCost;
-	bytes32 proposalText;
+	string proposalText;
 	bool isDependent;
 	address depParent;
 	uint status;
@@ -25,12 +25,16 @@ contract ResourceProposal is Stoppable {
 		_;
 	}
 
+	modifier onlyIfOracle() {
+		_;
+	}
+
 	//event LogProposalCreated(address owner, address chairmanAddress, uint fees, uint blocks, uint cost, bytes32 text);
 	event LogVoteCast(address member, uint8 vote);
 	event LogProposalSentToHub(address owner, uint blockNumber);
 	event LogOpinionAdded(address member, bytes32 opinion);
 
-	function ResourceProposal(address chairmanAddress, uint fees, uint blocks, uint cost, bytes32 text) {
+	function ResourceProposal(address chairmanAddress, uint fees, uint blocks, uint cost, string text) {
 		chairman = chairmanAddress;
 		chairmanFee = fees;
 		deadline = block.number + blocks;
@@ -65,6 +69,18 @@ contract ResourceProposal is Stoppable {
 		votes[msg.sender] = voteOfMember;
 		votesArray.push(msg.sender);
 		LogVoteCast(msg.sender, voteOfMember);
+		return true;
+	}
+
+	function castVoteByText(uint8 voteOfMember, address memberAddr)
+		public
+		onlyIfOracle
+		onlyIfRunning
+		returns(bool)
+	{
+		votes[memberAddr] = voteOfMember;
+		votesArray.push(memberAddr);
+		LogVoteCast(memberAddr, voteOfMember);
 		return true;
 	}
 

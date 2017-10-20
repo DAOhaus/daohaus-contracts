@@ -1,6 +1,7 @@
 pragma solidity ^0.4.15;
 
 import "./ResourceProposal.sol";
+import "./NonResourceProposal.sol";
 import "./Owned.sol";
 
 contract Hub is Owned {
@@ -12,7 +13,7 @@ contract Hub is Owned {
 
   address[] public proposals;
   mapping(address => bool) proposalExists;
-  mapping(address => bytes8) memberNumbers;
+  mapping(address => string) public memberNumbers;
   mapping(address => uint) amountsPledgedMapping;
   mapping(address => bool) finishedProposals;
   mapping(address => uint) balances;
@@ -27,8 +28,8 @@ contract Hub is Owned {
     _;
   }
 
-  event LogMemberRegistered(address member, uint ethPledge, uint _availableBalance, uint _runningBalance);
-  event LogNewProposal(uint pid, address chairmanAddress, uint fees, uint blocks, uint cost, bytes32 text, address proposalAddress);
+  event LogMemberRegistered(address member, string phoneNumber, uint ethPledge, uint _availableBalance, uint _runningBalance);
+  event LogNewProposal(uint pid, address chairmanAddress, uint fees, uint blocks, uint cost, string text, address proposalAddress);
   event LogChairmanWithdraw(uint amount);
 
   function Hub() {
@@ -51,7 +52,7 @@ contract Hub is Owned {
    return amountsPledgedMapping[person] > 0;
   }
 
-  function register(bytes8 phoneNumber)
+  function register(string phoneNumber)
     public
     payable
     sufficientFunds()
@@ -69,6 +70,7 @@ contract Hub is Owned {
 
     LogMemberRegistered(
       msg.sender,
+      phoneNumber,
       msg.value,
       availableBalance,
       runningBalance
@@ -113,7 +115,7 @@ contract Hub is Owned {
       uint fees,
       uint blocks,
       uint cost,
-      bytes32 text
+      string text
     )
         public
         //onlyIfMember
@@ -133,10 +135,31 @@ contract Hub is Owned {
       return trustedProposal;
     }
 
+    function createNonResourceProposal(
+      uint val,
+      uint blocks,
+      string text
+    )
+        public
+        //onlyIfMember
+        returns(address proposalContract)
+    {
+      NonResourceProposal trustedProposal = new NonResourceProposal(
+        blocks,
+        val
+      );
+      uint ind = proposals.length + 1;
+      proposals.push(trustedProposal);
+      proposalExists[trustedProposal] = true;
+      //LogNewNRProposal(ind, chairmanAddress, fees, blocks, cost, text, trustedProposal);
+      return trustedProposal;
+    }
+
     function executeProposal(address[] addrForHub, uint8[] votesForHub, address chairMan, uint totFees, uint deadline)
       public
       returns(uint)
     {
+      require(!finishedProposals[msg.sender]);
       uint count = addrForHub.length;
       uint pos = 0;
       uint total = 0;
@@ -158,6 +181,49 @@ contract Hub is Owned {
       } else if (block.number > deadline) {
         finishedProposals[msg.sender] = true;
       }
+
+      return 2;
+    }
+
+    function setPvr(uint val)
+      private
+      returns(bool)
+    {
+      pvr = val;
+      return true;
+    }
+
+    function executeNRProposal(address[] addrForHub,uint[] votesForHub, uint deadline, uint val)
+    //function executeNRProposal(address[] addrForHub,uint[] votesForHub, string typeOfResource, uint val)
+    
+      public
+      returns(uint)
+    {
+      require(!finishedProposals[msg.sender]);
+      uint count = addrForHub.length;
+      uint pos = 0;
+      uint total = 0;
+      for(uint i=0;i<count;i++)
+      {
+        if(isMember(addrForHub[i])){
+          uint ratio = getVotingRightRatio(addrForHub[i]);
+          if(votesForHub[i]==1) {
+            pos+=ratio;
+          }
+          total+=ratio;
+        }
+      }
+      uint cpvr = pos*100/100;
+      if(cpvr>=pvr){
+        finishedProposals[msg.sender] = true;
+        require(setPvr(val));
+        //balances[chairMan]+=totFees;
+        return 1;
+      }
+      else if(block.number> deadline){
+        finishedProposals[msg.sender] = true;
+      }
+
       return 2;
     }
 
