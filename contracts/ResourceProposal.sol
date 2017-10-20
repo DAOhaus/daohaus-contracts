@@ -102,7 +102,7 @@ contract ResourceProposal is Stoppable {
 		}
 
 		Hub hubContract = Hub(owner);
-		status = hubContract.executeProposal(addrForHub,votesForHub);
+		status = hubContract.executeProposal(addrForHub,votesForHub, chairman, projectCost+chairmanFee, deadline);
 		LogProposalSentToHub(owner, block.number);
 		return true;
 	}

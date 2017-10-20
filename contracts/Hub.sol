@@ -13,7 +13,9 @@ contract Hub is Owned {
   address[] public proposals;
   mapping(address => bool) proposalExists;
   mapping(address => bytes8) memberNumbers;
-  mapping (address => uint) amountsPledgedMapping;
+  mapping(address => uint) amountsPledgedMapping;
+  mapping(address => bool) finishedProposals;
+  mapping(address => uint) balances;
 
   modifier onlyIfProposal(address proposal) {
     require(proposalExists[proposal]);
@@ -26,7 +28,7 @@ contract Hub is Owned {
   }
 
   event LogMemberRegistered(address member, uint ethPledge, uint _availableBalance, uint _runningBalance);
-  event LogNewProposal(address chairmanAddress, uint fees, uint blocks, uint cost, bytes32 text);
+  event LogNewProposal(address chairmanAddress, uint fees, uint blocks, uint cost, bytes32 text, address proposalAddress);
 
   function Hub() {
     pvr = 75;
@@ -105,7 +107,7 @@ contract Hub is Owned {
       bytes32 text
     )
         public
-        onlyIfMember
+        //onlyIfMember
         returns(address proposalContract)
     {
       ResourceProposal trustedProposal = new ResourceProposal(
@@ -117,29 +119,50 @@ contract Hub is Owned {
       );
       proposals.push(trustedProposal);
       proposalExists[trustedProposal] = true;
-      LogNewProposal(chairmanAddress, fees, blocks, cost, text);
+      LogNewProposal(chairmanAddress, fees, blocks, cost, text, trustedProposal);
       return trustedProposal;
     }
 
-    function executeProposal(address[] addrForHub, uint8[] votesForHub)
+    function executeProposal(address[] addrForHub, uint8[] votesForHub, address chairMan, uint totFees, uint deadline)
       public
       returns(uint8)
     {
       uint count = addrForHub.length;
       uint pos = 0;
-
+      uint total = 0;
       for(uint i=0;i<count;i++)
       {
         if(isMember(addrForHub[i])){
-          if(votesForHub[i]==1) pos+=1;
+          uint ratio = getVotingRightRatio(addrForHub[i]);
+          if(votesForHub[i]==1) {
+            pos+=ratio;
+          }
+          total+=ratio;
         }
       }
 
-      uint ratio = pos*100/count;
-      if(ratio>=pvr) return 1;
+      uint cpvr = pos/100;
+      if(cpvr>=pvr){
+        finishedProposals[msg.sender] = true;
+        balances[chairMan]+=totFees;
+        return 1;
+      }
+      else if(block.number> deadline){
+        finishedProposals[msg.sender] = true;
+      }
       return 2;
     }
 
+    function withdraw()
+      public
+      returns(bool)
+    {
+      uint amt = balances[msg.sender];
+      require(amt>0);
+      balances[msg.sender] = 0;
+      msg.sender.transfer(amt);
+      return true;
+    }
 
     // Pass-through Admin Controls
     function stopProposal(address proposal)
