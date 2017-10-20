@@ -29,15 +29,24 @@ contract Hub is Owned {
 
   event LogMemberRegistered(address member, uint ethPledge, uint _availableBalance, uint _runningBalance);
   event LogNewProposal(address chairmanAddress, uint fees, uint blocks, uint cost, bytes32 text, address proposalAddress);
+  event LogChairmanWithdraw(uint amount);
 
   function Hub() {
     pvr = 75;
   }
 
+  function getMembers()
+    constant
+    public
+    returns (address[] arr)
+  {
+    return members;
+  }
+
   function isMember(address person)
-  public
-  constant
-  returns (bool)
+    public
+    constant
+    returns (bool)
   {
    return amountsPledgedMapping[person] > 0;
   }
@@ -152,6 +161,18 @@ contract Hub is Owned {
       }
       return 2;
     }
+
+    function withdraw()
+     public
+     returns(bool)
+   {
+     uint amt = balances[msg.sender];
+     require(amt>0);
+     balances[msg.sender] = 0;
+     LogChairmanWithdraw(amt);
+     msg.sender.transfer(amt);
+     return true;
+   }
 
     // Pass-through Admin Controls
     function stopProposal(address proposal)
