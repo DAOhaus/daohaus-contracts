@@ -146,13 +146,12 @@ contract Hub is Owned {
     {
       NonResourceProposal trustedProposal = new NonResourceProposal(
         blocks,
-        val,
-        text
+        val
       );
       uint ind = proposals.length + 1;
       proposals.push(trustedProposal);
       proposalExists[trustedProposal] = true;
-      LogNewNRProposal(ind, chairmanAddress, fees, blocks, cost, text, trustedProposal);
+      //LogNewNRProposal(ind, chairmanAddress, fees, blocks, cost, text, trustedProposal);
       return trustedProposal;
     }
 
