@@ -113,149 +113,157 @@ contract Hub is Owned {
     _;
   }
 
-   function getProposalCount()
-        public
-        constant
-        returns(uint proposalCount)
-    {
-        return proposals.length;
-    }
-
-    function createResourceProposal(
-      address chairmanAddress,
-      uint fees,
-      uint blocks,
-      uint cost,
-      string text
-    )
-        public
-        //onlyIfMember
-        returns(address proposalContract)
-    {
-      ResourceProposal trustedProposal = new ResourceProposal(
-        chairmanAddress,
-        fees,
-        blocks,
-        cost,
-        text
-      );
-      uint ind = proposals.length + 1;
-      proposals.push(trustedProposal);
-      proposalExists[trustedProposal] = true;
-      LogNewProposal(ind, chairmanAddress, fees, blocks, cost, text, trustedProposal);
-      return trustedProposal;
-    }
-
-    function createNonResourceProposal(
-      uint val,
-      uint blocks,
-      string text
-    )
-        public
-        onlyIfMember
-        returns(address proposalContract)
-    {
-      NonResourceProposal trustedProposal = new NonResourceProposal(
-        blocks,
-        val,
-        text
-      );
-      uint ind = proposals.length + 1;
-      proposals.push(trustedProposal);
-      proposalExists[trustedProposal] = true;
-      LogNewNRProposal(ind, blocks, val, text, trustedProposal);
-      return trustedProposal;
-    }
-
-    function executeProposal(address[] addrForHub, uint8[] votesForHub, address chairMan, uint totFees, uint deadline)
+  function getProposalCount()
       public
-      returns(uint)
-    {
-      require(!finishedProposals[msg.sender]);
-      uint count = addrForHub.length;
-      uint pos = 0;
-      uint total = 0;
-      for (uint i = 0; i < count; i++) {
-        if (isMember(addrForHub[i])) {
-          uint ratio = getVotingRightRatio(addrForHub[i]);
-          if (votesForHub[i]==1) {
-            pos += ratio;
-          }
-          total += ratio;
-        }
-      }
+      constant
+      returns(uint proposalCount)
+  {
+      return proposals.length;
+  }
 
-      uint cpvr = pos*100/100;
-      if (cpvr >= pvr) {
-        finishedProposals[msg.sender] = true;
-        balances[chairMan] += totFees;
-        return 1;
-      } else if (block.number > deadline) {
-        finishedProposals[msg.sender] = true;
-      }
+  function getProposals()
+    constant
+    public
+    returns (address[] arr)
+  {
+    return proposals;
+  }
 
-      return 2;
-    }
+  function createResourceProposal(
+    address chairmanAddress,
+    uint fees,
+    uint blocks,
+    uint cost,
+    string text
+  )
+    public
+    //onlyIfMember
+    returns(address proposalContract)
+  {
+    ResourceProposal trustedProposal = new ResourceProposal(
+      chairmanAddress,
+      fees,
+      blocks,
+      cost,
+      text
+    );
+    uint ind = proposals.length + 1;
+    proposals.push(trustedProposal);
+    proposalExists[trustedProposal] = true;
+    LogNewProposal(ind, chairmanAddress, fees, blocks, cost, text, trustedProposal);
+    return trustedProposal;
+  }
 
-    function setPvr(uint val)
-      private
-      returns(bool)
-    {
-      pvr = val;
-      return true;
-    }
-
-    function executeNRProposal(address[] addrForHub,uint8[] votesForHub, uint deadline, uint val)
+  function createNonResourceProposal(
+    uint val,
+    uint blocks,
+    string text
+  )
       public
-      returns(uint)
-    {
-      require(!finishedProposals[msg.sender]);
-      uint count = addrForHub.length;
-      uint pos = 0;
-      uint total = 0;
-      for(uint i=0;i<count;i++)
-      {
-        if(isMember(addrForHub[i])){
-          uint ratio = getVotingRightRatio(addrForHub[i]);
-          if(votesForHub[i]==1) {
-            pos+=ratio;
-          }
-          total+=ratio;
+      onlyIfMember
+      returns(address proposalContract)
+  {
+    NonResourceProposal trustedProposal = new NonResourceProposal(
+      blocks,
+      val,
+      text
+    );
+    uint ind = proposals.length + 1;
+    proposals.push(trustedProposal);
+    proposalExists[trustedProposal] = true;
+    LogNewNRProposal(ind, blocks, val, text, trustedProposal);
+    return trustedProposal;
+  }
+
+  function executeProposal(address[] addrForHub, uint8[] votesForHub, address chairMan, uint totFees, uint deadline)
+    public
+    returns(uint)
+  {
+    require(!finishedProposals[msg.sender]);
+    uint count = addrForHub.length;
+    uint pos = 0;
+    uint total = 0;
+    for (uint i = 0; i < count; i++) {
+      if (isMember(addrForHub[i])) {
+        uint ratio = getVotingRightRatio(addrForHub[i]);
+        if (votesForHub[i]==1) {
+          pos += ratio;
         }
+        total += ratio;
       }
-      uint cpvr = pos*100/100;
-      if(cpvr>=pvr){
-        finishedProposals[msg.sender] = true;
-        require(setPvr(val));
-        //balances[chairMan]+=totFees;
-        return 1;
-      }
-      else if(block.number> deadline){
-        finishedProposals[msg.sender] = true;
-      }
-
-      return 2;
     }
 
-    function withdraw()
-     public
-     returns(bool)
-   {
-     uint amt = balances[msg.sender];
-     require(amt>0);
-     balances[msg.sender] = 0;
-     LogChairmanWithdraw(amt);
-     msg.sender.transfer(amt);
-     return true;
-   }
+    uint cpvr = pos*100/100;
+    if (cpvr >= pvr) {
+      finishedProposals[msg.sender] = true;
+      balances[chairMan] += totFees;
+      return 1;
+    } else if (block.number > deadline) {
+      finishedProposals[msg.sender] = true;
+    }
 
-    // Pass-through Admin Controls
-    function stopProposal(address proposal)
-        onlyOwner()
-        onlyIfProposal(proposal)
-        returns(bool success)
+    return 2;
+  }
+
+  function setPvr(uint val)
+    private
+    returns(bool)
+  {
+    pvr = val;
+    return true;
+  }
+
+  function executeNRProposal(address[] addrForHub,uint8[] votesForHub, uint deadline, uint val)
+    public
+    returns(uint)
+  {
+    require(!finishedProposals[msg.sender]);
+    uint count = addrForHub.length;
+    uint pos = 0;
+    uint total = 0;
+    for(uint i=0;i<count;i++)
     {
-        ResourceProposal trustedProposal = ResourceProposal(proposal);
-        return(trustedProposal.runSwitch(false));
+      if(isMember(addrForHub[i])){
+        uint ratio = getVotingRightRatio(addrForHub[i]);
+        if(votesForHub[i]==1) {
+          pos+=ratio;
+        }
+        total+=ratio;
+      }
     }
+    uint cpvr = pos*100/100;
+    if(cpvr>=pvr){
+      finishedProposals[msg.sender] = true;
+      require(setPvr(val));
+      //balances[chairMan]+=totFees;
+      return 1;
+    }
+    else if(block.number> deadline){
+      finishedProposals[msg.sender] = true;
+    }
+
+    return 2;
+  }
+
+  function withdraw()
+    public
+    returns(bool)
+  {
+    uint amt = balances[msg.sender];
+    require(amt>0);
+    balances[msg.sender] = 0;
+    LogChairmanWithdraw(amt);
+    msg.sender.transfer(amt);
+    return true;
+  }
+
+  // Pass-through Admin Controls
+  function stopProposal(address proposal)
+      onlyOwner()
+      onlyIfProposal(proposal)
+      returns(bool success)
+  {
+      ResourceProposal trustedProposal = ResourceProposal(proposal);
+      return(trustedProposal.runSwitch(false));
+  }
 }
