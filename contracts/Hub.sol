@@ -5,7 +5,7 @@ import "./Owned.sol";
 
 contract Hub is Owned {
 
-  address[] members;
+  address[] public members;
   uint public availableBalance;
   uint public runningBalance;
   uint public pvr;
@@ -26,7 +26,7 @@ contract Hub is Owned {
   }
 
   event LogMemberRegistered(address member, uint ethPledge, uint _availableBalance, uint _runningBalance);
-  event LogNewProposal(address chairmanAddress, uint fees, uint blocks, uint cost, bytes32 text);
+  event LogNewProposal(address chairmanAddress, uint fees, uint blocks, uint cost, bytes32 text, address proposalAddress);
 
   function Hub() {
     pvr = 75;
@@ -117,7 +117,7 @@ contract Hub is Owned {
       );
       proposals.push(trustedProposal);
       proposalExists[trustedProposal] = true;
-      LogNewProposal(chairmanAddress, fees, blocks, cost, text);
+      LogNewProposal(chairmanAddress, fees, blocks, cost, text, trustedProposal);
       return trustedProposal;
     }
 
@@ -140,7 +140,6 @@ contract Hub is Owned {
       return 2;
     }
 
-
     // Pass-through Admin Controls
     function stopProposal(address proposal)
         onlyOwner()
@@ -150,7 +149,4 @@ contract Hub is Owned {
         ResourceProposal trustedProposal = ResourceProposal(proposal);
         return(trustedProposal.runSwitch(false));
     }
-
-
-
 }

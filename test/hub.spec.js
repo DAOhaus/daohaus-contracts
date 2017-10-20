@@ -13,6 +13,7 @@ if (typeof web3.eth.getAccountsPromise === "undefined") {
 }
 
 const Hub = artifacts.require("./Hub.sol");
+const ResourceProposal = artifacts.require("./ResourceProposal.sol");
 
 contract('Hub', function(accounts) {
 
@@ -22,6 +23,8 @@ contract('Hub', function(accounts) {
   account0 = accounts[0];
   account1 = accounts[1];
   account2 = accounts[2];
+  account3 = accounts[3];
+  account4 = accounts[4];
 
   before("should prepare", function() {
     return Hub.new()
@@ -56,6 +59,9 @@ contract('Hub', function(accounts) {
       });
     });
     it("should be able to create resource proposal", function() {
+      let proposalAddress;
+      let proposalContract;
+
       const proposal = {
         chairmanAddress: account0,
         fees: 10,
@@ -96,11 +102,18 @@ contract('Hub', function(accounts) {
         assert.strictEqual(logEntered.args.fees.toNumber(), proposal.fees);
         assert.strictEqual(logEntered.args.blocks.toNumber(), proposal.blocks);
         assert.strictEqual(logEntered.args.cost.toNumber(), proposal.cost);
-        //assert.strictEqual(logEntered.args.text, toBytes32(proposal.text));
+        proposalAddress = logEntered.args.proposalAddress;
         return hub.getProposalCount();
       })
       .then(proposalCount => {
         assert.strictEqual(proposalCount.toNumber(), 1);
+      })
+      .then(() => {
+        return ResourceProposal.at(proposalAddress);
+      })
+      .then(_proposal => {
+        proposalContract = _proposal;
+        return;
       })
     });
   });

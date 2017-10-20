@@ -18,7 +18,7 @@ contract ResourceProposal is Stoppable {
 	//votes 0 is don't care, 1 yes, 2 no
 	mapping(address => bytes32) opinions;
 	address[] votesArray;
-	
+
 	modifier onlyIfMember() {
 		Hub hubContract = Hub(owner);
 		require(hubContract.isMember(msg.sender));
@@ -90,7 +90,6 @@ contract ResourceProposal is Stoppable {
 		address[] memory addrForHub = new address[](count);
 		uint8[] memory votesForHub = new uint8[](count);
 
-		
 		for(uint i=0; i<count; i++)
 		{
 			uint8 val = votes[votesArray[i]];
