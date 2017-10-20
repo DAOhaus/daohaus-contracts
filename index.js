@@ -68,27 +68,30 @@ var sendMessages = function(proposalId, text){
 var sendMessage = function(proposalId, text, number){
     console.log('Sending message to: ', number);
     const messageText = "Proposal: \"" + text + "\" respond with \"Y" + proposalId + "\" to vote yes, \"N" + proposalId + "\" to vote no, or \"A" + proposalId + "\" to abstain.";
-    // twilio.messages.create({
-    //     to: "+"+number,
-    //     from: fromNumber,
-    //     body: messageText,
-    // }, function(err, message) {
-    //     console.log(err)
-    //     console.log(message);
-    // });
+    twilio.messages.create({
+        to: "+"+number,
+        from: fromNumber,
+        body: messageText,
+    }, function(err, message) {
+        console.log(err)
+        console.log(message);
+    });
 }
 
-var castVote = function(user, proposalId, vote){
+var castVote = function(number, proposalId, vote){
     const proposalEvent = hubInstance.LogNewProposal({pid:proposalId},{fromBlock: 0, toBlock: 'latest'});
     proposalEvent.watch(function(error, result){
         const propAddress = result.args.proposalAddress;
-        console.log("address: ", propAddress);
-        console.log(result);
-        ResourceProposal.at(propAddress).then(function(instance){
-            instance.castVote(vote, {from:account}).then(function(tx){
-                console.log(tx);
+        const registerEvent = hubInstance.LogMemberRegistered({phoneNumer:number},{fromBlock: 0, toBlock: 'latest'});
+        registerEvent.watch(function(error, result){
+            const memberAddress = result.args.member;            
+            ResourceProposal.at(propAddress).then(function(instance){
+                instance.castVoteByText(vote, memberAddress, {from:account}).then(function(tx){
+                    console.log(tx);
+                })
             })
         })
+        
     });
 }
 
@@ -110,7 +113,7 @@ app.get('/', function(request, response) {
 
 app.get('/register', function(req, res){
     console.log('registering');
-    hubInstance.register(constants.testPhoneNumber, {from:account, value: 100}).then(function(tx){
+    hubInstance.register(constants.testPhoneNumber, {from:account, value: 100, gas: 300000}).then(function(tx){
         console.log(tx);
     });
     res.send('Registration');
@@ -121,6 +124,7 @@ const MessagingResponse = require('twilio').twiml.MessagingResponse;
 app.post('/sms', (req, res) => {
     console.log(req.body);
     const response = req.body.Body;
+    const number = req.body.From.substring(1, req.body.From.length-1);
     const rawVote = response[0];
     const proposal = parseInt(response.substring(1,response.length-1));
     let vote = -1;
@@ -141,7 +145,7 @@ app.post('/sms', (req, res) => {
         }else{
             message = "You voted no on proposal" + proposal + ".";
         }
-        castVote(constants.testPhoneNumber, proposal, vote);
+        castVote(number, proposal, vote);
     }
 
     const twiml = new MessagingResponse();
