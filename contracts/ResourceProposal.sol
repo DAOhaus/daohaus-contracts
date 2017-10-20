@@ -9,7 +9,7 @@ contract ResourceProposal is Stoppable {
 	uint deadline;
 	address chairman;
 	uint projectCost;
-	bytes32 proposalText;
+	string proposalText;
 	bool isDependent;
 	address depParent;
 	uint status;
@@ -30,7 +30,7 @@ contract ResourceProposal is Stoppable {
 	event LogProposalSentToHub(address owner, uint blockNumber);
 	event LogOpinionAdded(address member, bytes32 opinion);
 
-	function ResourceProposal(address chairmanAddress, uint fees, uint blocks, uint cost, bytes32 text) {
+	function ResourceProposal(address chairmanAddress, uint fees, uint blocks, uint cost, string text) {
 		chairman = chairmanAddress;
 		chairmanFee = fees;
 		deadline = block.number + blocks;

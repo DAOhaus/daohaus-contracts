@@ -28,7 +28,7 @@ contract Hub is Owned {
   }
 
   event LogMemberRegistered(address member, string phoneNumber, uint ethPledge, uint _availableBalance, uint _runningBalance);
-  event LogNewProposal(uint pid, address chairmanAddress, uint fees, uint blocks, uint cost, bytes32 text, address proposalAddress);
+  event LogNewProposal(uint pid, address chairmanAddress, uint fees, uint blocks, uint cost, string text, address proposalAddress);
   event LogChairmanWithdraw(uint amount);
 
   function Hub() {
@@ -114,7 +114,7 @@ contract Hub is Owned {
       uint fees,
       uint blocks,
       uint cost,
-      bytes32 text
+      string text
     )
         public
         //onlyIfMember
@@ -138,6 +138,7 @@ contract Hub is Owned {
       public
       returns(uint)
     {
+      require(!finishedProposals[msg.sender]);
       uint count = addrForHub.length;
       uint pos = 0;
       uint total = 0;
@@ -165,14 +166,45 @@ contract Hub is Owned {
       return 2;
     }
 
+    function setPvr(uint val)
+      private
+      returns(bool)
+    {
+      pvr = val;
+      return true;
+    }
 
-
-    /*function executeNRProposal()
+    function executeNRProposal(address[] addrForHub,uint[] votesForHub, string typeOfResource, uint deadline, uint val)
       public
       returns(uint)
     {
+      require(!finishedProposals[msg.sender]);
+      uint count = addrForHub.length;
+      uint pos = 0;
+      uint total = 0;
+      for(uint i=0;i<count;i++)
+      {
+        if(isMember(addrForHub[i])){
+          uint ratio = getVotingRightRatio(addrForHub[i]);
+          if(votesForHub[i]==1) {
+            pos+=ratio;
+          }
+          total+=ratio;
+        }
+      }
+      uint cpvr = pos*100/100;
+      if(cpvr>=pvr){
+        finishedProposals[msg.sender] = true;
+        require(setPvr(val));
+        //balances[chairMan]+=totFees;
+        return 1;
+      }
+      else if(block.number> deadline){
+        finishedProposals[msg.sender] = true;
+      }
 
-    }*/
+      return 2;
+    }
 
     function withdraw()
      public

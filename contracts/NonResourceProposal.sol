@@ -14,13 +14,15 @@ contract NonResourceProposal is Stoppable {
 	address[] votesArray;
 	//mapping(bytes32 => uint) possibleTypes;
 	uint deadline;
+	uint valueOfResource;
 	bytes32 typeOfResource;
 
-	function ResourceProposal(bytes32 t, uint blocks) {
+	function NonResourceProposal(bytes32 t, uint blocks, uint val) {
 		//possibleTypes["pvr"] = 1;
 		//possibleTypes["tax"] = 2;
 		//require(type=="pvr");
 		typeOfResource = t;
+		valueOfResource = val;
 		deadline = block.number + blocks;
 	}
 
@@ -63,8 +65,8 @@ contract NonResourceProposal is Stoppable {
 		}
 
 		Hub hubContract = Hub(owner);
-		//status = hubContract.executeNRProposal(addrForHub,votesForHub, type, deadline);
-		LogProposalSentNPRToHub(owner, block.number);
+		//status = hubContract.executeNRProposal(addrForHub, votesForHub, typeOfResource, deadline, valueOfResource);
+		//LogProposalSentNPRToHub(owner, block.number);
 		return true;
 	}
 
