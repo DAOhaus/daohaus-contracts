@@ -11,9 +11,16 @@ contract Hub is Owned {
   uint public runningBalance;
   uint public pvr;
 
+  struct MemberDetails {
+    string number;
+    string name;
+  }
+
   address[] public proposals;
   mapping(address => bool) proposalExists;
-  mapping(address => string) public memberNumbers;
+  mapping(address => MemberDetails) public memberDetails;
+  //mapping(string=>address) public numberToAddress;
+
   mapping(address => uint) amountsPledgedMapping;
   mapping(address => bool) finishedProposals;
   mapping(address => uint) balances;
@@ -28,8 +35,9 @@ contract Hub is Owned {
     _;
   }
 
-  event LogMemberRegistered(address member, string phoneNumber, uint ethPledge, uint _availableBalance, uint _runningBalance);
+  event LogMemberRegistered(address member, string name, string phoneNumber, uint ethPledge, uint _availableBalance, uint _runningBalance);
   event LogNewProposal(uint pid, address chairmanAddress, uint fees, uint blocks, uint cost, string text, address proposalAddress);
+  event LogNewNRProposal(uint pid, uint deadline, uint val, string text, address proposalAddress);
   event LogChairmanWithdraw(uint amount);
 
   function Hub() {
@@ -52,7 +60,7 @@ contract Hub is Owned {
    return amountsPledgedMapping[person] > 0;
   }
 
-  function register(string phoneNumber)
+  function register(string phoneNumber, string name)
     public
     payable
     sufficientFunds()
@@ -63,13 +71,16 @@ contract Hub is Owned {
 
     /* update amountsPledged mapping */
     amountsPledgedMapping[msg.sender] += msg.value;
-    memberNumbers[msg.sender] = phoneNumber;
+    memberDetails[msg.sender].number = phoneNumber;
+    memberDetails[msg.sender].name = name;
 
+    //numberToAddress[phoneNumber] = msg.sender;
     /* update members array */
     members.push(msg.sender);
 
     LogMemberRegistered(
       msg.sender,
+      name,
       phoneNumber,
       msg.value,
       availableBalance,
@@ -141,17 +152,18 @@ contract Hub is Owned {
       string text
     )
         public
-        //onlyIfMember
+        onlyIfMember
         returns(address proposalContract)
     {
       NonResourceProposal trustedProposal = new NonResourceProposal(
         blocks,
-        val
+        val,
+        text
       );
       uint ind = proposals.length + 1;
       proposals.push(trustedProposal);
       proposalExists[trustedProposal] = true;
-      //LogNewNRProposal(ind, chairmanAddress, fees, blocks, cost, text, trustedProposal);
+      LogNewNRProposal(ind, blocks, val, text, trustedProposal);
       return trustedProposal;
     }
 
@@ -193,9 +205,7 @@ contract Hub is Owned {
       return true;
     }
 
-    function executeNRProposal(address[] addrForHub,uint[] votesForHub, uint deadline, uint val)
-    //function executeNRProposal(address[] addrForHub,uint[] votesForHub, string typeOfResource, uint val)
-    
+    function executeNRProposal(address[] addrForHub,uint8[] votesForHub, uint deadline, uint val)
       public
       returns(uint)
     {
