@@ -44,6 +44,14 @@ contract Hub is Owned {
     pvr = 75;
   }
 
+  function getMemberName(address add)
+    public
+    constant
+    returns (string name)
+  {
+    return memberDetails[add].name;
+  }
+
   function getMembers()
     constant
     public
@@ -76,8 +84,8 @@ contract Hub is Owned {
 
     //numberToAddress[phoneNumber] = msg.sender;
     /* update members array */
-    if(memberDetails[msg.sender].phoneNumber == "")
-      members.push(msg.sender);
+    //if(memberDetails[msg.sender].phoneNumber == "")
+    members.push(msg.sender);
 
     LogMemberRegistered(
       msg.sender,
@@ -202,8 +210,10 @@ contract Hub is Owned {
     } else if (block.number > deadline) {
       finishedProposals[msg.sender] = true;
     }
+    return 2;
+  }
 
-    function getPvr()
+  function getPvr()
       public
       constant
       returns(uint)

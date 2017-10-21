@@ -17,7 +17,7 @@ contract ResourceProposal is Stoppable {
 	mapping(address => uint8) votes;
 	//votes 0 is don't care, 1 yes, 2 no
 	mapping(address => bytes32) opinions;
-	address[] votesArray;
+	address[] public votesArray;
 
 	modifier onlyIfMember() {
 		Hub hubContract = Hub(owner);
@@ -50,6 +50,26 @@ contract ResourceProposal is Stoppable {
 		return chairman;
 	}
 
+	function getVotes()
+		public
+		constant
+		returns(address[])
+	{
+		uint count = votesArray.length;
+
+		address[] memory toReturn = new address[](2*count);
+
+		for(uint i=0; i<count; i+=2)
+		{
+			uint8 val = votes[votesArray[i]];
+			if(val==1 || val==2){
+				toReturn[i] = votesArray[i];
+				toReturn[i+1] = address(val);
+			}
+		}
+
+		return toReturn;
+	}
 
 	function getStatus()
 		public
@@ -66,10 +86,28 @@ contract ResourceProposal is Stoppable {
 		onlyIfRunning
 		returns(bool)
 	{
+		if(votes[msg.sender]==0)
+			votesArray.push(msg.sender);
 		votes[msg.sender] = voteOfMember;
-		votesArray.push(msg.sender);
+
 		LogVoteCast(msg.sender, voteOfMember);
 		return true;
+	}
+
+	function getVotesArray()
+		constant
+		public
+		returns (address[] arr)
+	{
+		return votesArray;
+	}
+
+	function getVote(address voter)
+		constant
+		public
+		returns (uint8 vote)
+	{
+		return votes[voter];
 	}
 
 	function castVoteByText(uint8 voteOfMember, address memberAddr)
@@ -78,8 +116,9 @@ contract ResourceProposal is Stoppable {
 		onlyIfRunning
 		returns(bool)
 	{
+		if(votes[msg.sender]==0)
+			votesArray.push(msg.sender);
 		votes[memberAddr] = voteOfMember;
-		votesArray.push(memberAddr);
 		LogVoteCast(memberAddr, voteOfMember);
 		return true;
 	}
