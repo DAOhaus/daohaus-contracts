@@ -55,9 +55,9 @@ contract ResourceProposal is Stoppable {
 		constant
 		returns(address[])
 	{
-		uint count = votesArray.length;
+		uint count = 2*votesArray.length;
 
-		address[] memory toReturn = new address[](2*count);
+		address[] memory toReturn = new address[](count);
 
 		for(uint i=0; i<count; i+=2)
 		{
@@ -68,6 +68,25 @@ contract ResourceProposal is Stoppable {
 			}
 		}
 
+		return toReturn;
+	}
+
+	function getNumOfVotes()
+		public
+		constant
+		returns(uint[])
+	{
+		uint count = votesArray.length;
+		uint pos=0; uint neg=0;
+		for(uint i=0; i<count; i++)
+		{
+			uint8 val = votes[votesArray[i]];
+			if(val==1) pos++;
+			else if(val==2) neg++;
+		}
+		uint[] memory toReturn = new uint[](2);
+		toReturn[0] = pos;
+		toReturn[1] = neg;
 		return toReturn;
 	}
 
@@ -116,8 +135,8 @@ contract ResourceProposal is Stoppable {
 		onlyIfRunning
 		returns(bool)
 	{
-		if(votes[msg.sender]==0)
-			votesArray.push(msg.sender);
+		if(votes[memberAddr]==0)
+			votesArray.push(memberAddr);
 		votes[memberAddr] = voteOfMember;
 		LogVoteCast(memberAddr, voteOfMember);
 		return true;
