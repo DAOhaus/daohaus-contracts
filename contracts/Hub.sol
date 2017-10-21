@@ -72,6 +72,7 @@ contract Hub is Owned {
     public
     payable
     sufficientFunds()
+    returns (bool)
   {
     /* update hub contract balance */
     availableBalance += msg.value;
@@ -95,6 +96,7 @@ contract Hub is Owned {
       availableBalance,
       runningBalance
     );
+    return true;
   }
 
   function getMembersCount()
