@@ -44,6 +44,14 @@ contract Hub is Owned {
     pvr = 75;
   }
 
+  function getMemberName(address add)
+    public
+    constant
+    returns (string name)
+  {
+    return memberDetails[add].name;
+  }
+
   function getMembers()
     constant
     public
@@ -207,7 +215,7 @@ contract Hub is Owned {
     return 2;
   }
 
-    function getPvr()
+  function getPvr()
       public
       constant
       returns(uint)
