@@ -7,8 +7,8 @@ var constants = require("./constants");
 
 var fs = require('fs');
 var Web3 = require('web3');
-// var provider = new Web3.providers.HttpProvider("http://localhost:8545/");
-var provider = new HDWalletProvider(constants.mnemonic, "https://ropsten.infura.io/" + constants.infura_apikey);
+var provider = new Web3.providers.HttpProvider("http://localhost:8545/");
+// var provider = new HDWalletProvider(constants.mnemonic, "https://ropsten.infura.io/" + constants.infura_apikey);
 var web3 = new Web3(provider);
 var contract = require('truffle-contract');
 
@@ -17,7 +17,8 @@ var hubInstance;
 var account;
 
 var twilio = require('twilio')(constants.twilioAccountNumber, constants.twilioAuthToken);
-var fromNumber = constants.twilioFromNumber;
+var fromNumberProposal = constants.twilioFromNumberProposal;
+var fromNumberRegistration = constants.twilioFromNumberRegistration;
 var testPhoneNumber = constants.testPhoneNumber
 
 fs.readFile('build/contracts/Hub.json', (error, json) => {
@@ -87,8 +88,6 @@ var formatMessage = function(text, proposalId, user, cost, fees){
 }
 
 var sendMessages = function(message){
-    console.log(message);
-    return
     hubInstance.getMembers({from:account}).then(function(members){
         for(let i=0; i<members.length; i++){
             console.log(members[i])
@@ -106,7 +105,7 @@ var sendMessage = function(number, message){
     console.log('Sending message to: ', number);
     twilio.messages.create({
         to: "+"+number,
-        from: fromNumber,
+        from: fromNumberProposal,
         body: message,
     }, function(err, message) {
         console.log(err)
@@ -150,39 +149,39 @@ var castVote = function(proposalId, number, vote){
     });
 }
 
-app.set('port', (process.env.PORT || 3000))
+
+var sendRegistration = function(code, number){
+    const messageText = "Your verification Code is " + code;
+    twilio.messages.create({
+        to: "+"+ number,
+        from: fromNumberRegistration,
+        body: messageText,
+    }, function(err, message) {
+        console.log(err)
+        console.log(message);
+    });
+ }
+
+app.set('port', (process.env.PORT || 5000))
 app.use(express.static(__dirname + '/public'))
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
     extended: true
 }));
 
-app.get('/', function(request, response) {
-    console.log('creating proposal')
-    hubInstance.createResourceProposal("0xE0432C23Eb6d243413A88DdC71eB8B8af9b87c53", 500000000000000000, 10, 73000000000000000, "We should buy our own espresso machine.", {from:account, gas: 1000000})
-    .then(function(tx){
-        console.log("proposal created");
-    })
-    response.send('Hello World!')
+app.post('/register', (req, res) => {
+    messageCode =  Math.floor(100000 + Math.random() * 900000);
+    console.log(req.body.number);
+    sendRegistration(messageCode,req.body.number);
+    res.send(""+ messageCode);
 })
 
-app.get('/register', function(req, res){
-    console.log('registering');
-    hubInstance.register(constants.testPhoneNumber, "Daniel", {from:account, value: 100, gas: 300000}).then(function(tx){
-        console.log(tx);
-    });
-    res.send('Registration');
-})
-
-const MessagingResponse = require('twilio').twiml.MessagingResponse;
-
-app.post('/sms', (req, res) => {
-    console.log(req.body);
+app.post('/vote', (req, res) => {
+    const MessagingResponse = require('twilio').twiml.MessagingResponse;
     const response = req.body.Body;
     const number = req.body.From.substring(1, req.body.From.length);
     const rawVote = response[0];
     const proposal = parseInt(response.substring(1,response.length));
-    console.log("PROPOSAL:  ", proposal);
     let vote = -1;
     if(rawVote == 'a' || rawVote == 'A') vote = 0;
     if(rawVote == 'y' || rawVote == 'Y') vote = 1;
@@ -209,6 +208,23 @@ app.post('/sms', (req, res) => {
     res.writeHead(200, {'Content-Type': 'text/xml'});
     res.end(twiml.toString());
 });
+
+// app.get('/', function(request, response) {
+//     console.log('creating proposal')
+//     hubInstance.createResourceProposal("0xE0432C23Eb6d243413A88DdC71eB8B8af9b87c53", 500000000000000000, 10, 73000000000000000, "We should buy our own espresso machine.", {from:account, gas: 1000000})
+//     .then(function(tx){
+//         console.log("proposal created");
+//     })
+//     response.send('Hello World!')
+// })
+
+// app.get('/register', function(req, res){
+//     console.log('registering');
+//     hubInstance.register(constants.testPhoneNumber, "Daniel", {from:account, value: 100, gas: 300000}).then(function(tx){
+//         console.log(tx);
+//     });
+//     res.send('Registration');
+// })
 
 app.listen(app.get('port'), function() {
     console.log("Node app is running at localhost:" + app.get('port'))
