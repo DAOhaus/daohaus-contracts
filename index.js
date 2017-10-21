@@ -78,8 +78,8 @@ var formatMessage = function(text, proposalId, user, cost, fees){
     }
     message += "\"" + text + "\" ";
     if(cost && fees){
-        const totalCost = web3.fromWei(parseInt(cost) + parseInt(fees), 'ether');
-        message += " The proposal will cost " + totalCost + "ETH.";    
+        const totalCost =parseInt(cost) + parseInt(fees);
+        message += " The proposal will cost " + totalCost + ".";    
     }else{
         message += " This is a non-resource proposal."
     }
