@@ -6,7 +6,8 @@
   "directories": {
     "test": "tests"
   },
-  "scripts": {
+  "scripts": { 
+    "start": "node index.js",
     "test": "test"
   },
   "repository": {
