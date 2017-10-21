@@ -5,14 +5,14 @@ import "./Hub.sol";
 
 contract ResourceProposal is Stoppable {
 
-	uint chairmanFee;
-	uint deadline;
-	address chairman;
-	uint projectCost;
-	string proposalText;
-	bool isDependent;
-	address depParent;
-	uint status;
+	uint public chairmanFee;
+	uint public deadline;
+	address public chairman;
+	uint public projectCost;
+	string public proposalText;
+	bool public isDependent;
+	address public depParent;
+	uint public status;
 
 	mapping(address => uint8) votes;
 	//votes 0 is don't care, 1 yes, 2 no

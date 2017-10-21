@@ -171,7 +171,7 @@ contract('Hub', function(accounts) {
           text: "Buy a carton of eggs"
         };
 
-        return hub.register("+91000", "A" { from: memberOne, gas: 3000000, value: 10 })
+        return hub.register("+91000", "A", { from: memberOne, gas: 3000000, value: 10 })
         .then(tx => {
           assert.strictEqual(tx.receipt.logs.length, 1);
           assert.strictEqual(tx.logs.length, 1);
