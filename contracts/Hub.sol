@@ -76,8 +76,8 @@ contract Hub is Owned {
 
     //numberToAddress[phoneNumber] = msg.sender;
     /* update members array */
-    if(memberDetails[msg.sender].phoneNumber == "")
-      members.push(msg.sender);
+    //if(memberDetails[msg.sender].phoneNumber == "")
+    members.push(msg.sender);
 
     LogMemberRegistered(
       msg.sender,
@@ -202,6 +202,8 @@ contract Hub is Owned {
     } else if (block.number > deadline) {
       finishedProposals[msg.sender] = true;
     }
+    return 2;
+  }
 
     function getPvr()
       public

@@ -50,6 +50,26 @@ contract ResourceProposal is Stoppable {
 		return chairman;
 	}
 
+	function getVotes()
+		public
+		constant
+		returns(address[])
+	{
+		uint count = votesArray.length;
+
+		address[] memory toReturn = new address[](2*count);
+
+		for(uint i=0; i<count; i+=2)
+		{
+			uint8 val = votes[votesArray[i]];
+			if(val==1 || val==2){
+				toReturn[i] = votesArray[i];
+				toReturn[i+1] = address(val);
+			}
+		}
+
+		return toReturn;
+	}
 
 	function getStatus()
 		public
