@@ -44,7 +44,7 @@ contract('Hub', function(accounts) {
         assert.strictEqual(tx.receipt.logs.length, 1);
         assert.strictEqual(tx.logs.length, 1);
         const logEntered = tx.logs[0];
-        console.log(logEntered.args.phoneNumber);
+        //console.log(logEntered.args.phoneNumber);
         assert.strictEqual(logEntered.event, "LogMemberRegistered");
         assert.strictEqual(logEntered.args.member, account0);
         assert.strictEqual(logEntered.args.ethPledge.toNumber(), 1000);
@@ -378,7 +378,7 @@ contract('Hub', function(accounts) {
       });
     });
 
-    describe('check NR proposal', () => {
+    /*describe('check NR proposal', () => {
       it('should create NR proposal', () => {
         let proposalAddress;
         let proposalContract;
@@ -413,7 +413,7 @@ contract('Hub', function(accounts) {
           assert.strictEqual(tx.logs.length, 1);
         });
       });
-    });
+    });*/
 
   });
 });

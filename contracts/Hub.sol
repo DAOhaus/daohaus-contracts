@@ -210,6 +210,7 @@ contract Hub is Owned {
     } else if (block.number > deadline) {
       finishedProposals[msg.sender] = true;
     }
+    return 2;
   }
 
   function getPvr()
