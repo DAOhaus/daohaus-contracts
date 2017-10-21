@@ -167,7 +167,15 @@ app.use(express.static(__dirname + '/public'))
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({
     extended: true
-}));
+}));var cors = require('express-cors')
+
+app.use(cors({
+   allowedOrigins: [
+       'http://localhost:3000','https://www.twilio.com/*'
+   ]
+}))
+
+
 
 app.post('/register', (req, res) => {
     messageCode =  Math.floor(100000 + Math.random() * 900000);
