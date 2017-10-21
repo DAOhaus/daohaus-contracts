@@ -377,5 +377,43 @@ contract('Hub', function(accounts) {
           })
       });
     });
+
+    describe('check NR proposal', () => {
+      it('should create NR proposal', () => {
+        let proposalAddress;
+        let proposalContract;
+
+        const proposal = {
+          blocks: 2,
+          val: 5,
+          text: "change pvr"
+        };
+
+        return hub.register("+91000", "P", { from: memberOne, gas: 3000000, value: 10 })
+        .then(() => {
+          return hub.register("+162671","T", { from: memberTwo, gas: 3000000, value: 10 })
+        })
+        .then(() => {
+          return hub.register("+32323","TT", { from: memberThree, gas: 3000000, value: 10 })
+        })
+        .then(() => {
+          return hub.register("+372838","p", { from: chairMan, gas: 3000000, value: 10 })
+        })
+        .then(membersCount => {
+          assert.strictEqual(membersCount.toNumber(), 4);
+          return hub.createNonResourceProposal(
+            proposal.val,
+            proposal.blocks,
+            proposal.text,
+            { from: account0 }
+          );
+        })
+        .then(tx => {
+          assert.strictEqual(tx.receipt.logs.length, 1);
+          assert.strictEqual(tx.logs.length, 1);
+        });
+      });
+    });
+
   });
 });

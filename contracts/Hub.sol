@@ -76,7 +76,8 @@ contract Hub is Owned {
 
     //numberToAddress[phoneNumber] = msg.sender;
     /* update members array */
-    members.push(msg.sender);
+    if(memberDetails[msg.sender].phoneNumber == "")
+      members.push(msg.sender);
 
     LogMemberRegistered(
       msg.sender,
@@ -205,6 +206,14 @@ contract Hub is Owned {
     {
       pvr = val;
       return true;
+    }
+
+    function getPvr()
+      public
+      constant
+      returns(uint)
+    {
+      return pvr;
     }
 
     function executeNRProposal(address[] addrForHub,uint8[] votesForHub, uint deadline, uint val)
