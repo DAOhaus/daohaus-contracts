@@ -86,8 +86,10 @@ contract ResourceProposal is Stoppable {
 		onlyIfRunning
 		returns(bool)
 	{
+		if(votes[msg.sender]==0)
+			votesArray.push(msg.sender);
 		votes[msg.sender] = voteOfMember;
-		votesArray.push(msg.sender);
+
 		LogVoteCast(msg.sender, voteOfMember);
 		return true;
 	}
@@ -114,8 +116,9 @@ contract ResourceProposal is Stoppable {
 		onlyIfRunning
 		returns(bool)
 	{
+		if(votes[msg.sender]==0)
+			votesArray.push(msg.sender);
 		votes[memberAddr] = voteOfMember;
-		votesArray.push(memberAddr);
 		LogVoteCast(memberAddr, voteOfMember);
 		return true;
 	}
