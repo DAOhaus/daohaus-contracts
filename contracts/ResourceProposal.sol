@@ -1,6 +1,6 @@
 pragma solidity ^0.4.15;
 
-import "./Stoppable.sol";
+import "./deps/Stoppable.sol";
 import "./Hub.sol";
 
 contract ResourceProposal is Stoppable {
@@ -55,6 +55,7 @@ contract ResourceProposal is Stoppable {
 		constant
 		returns(address[])
 	{
+		// this is a hack... not sure why we need to times by 2
 		uint count = 2*votesArray.length;
 
 		address[] memory toReturn = new address[](count);

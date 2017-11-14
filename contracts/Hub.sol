@@ -2,7 +2,7 @@ pragma solidity ^0.4.15;
 
 import "./ResourceProposal.sol";
 import "./NonResourceProposal.sol";
-import "./Owned.sol";
+import "./deps/Owned.sol";
 
 contract Hub is Owned {
 

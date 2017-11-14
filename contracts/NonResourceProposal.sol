@@ -1,6 +1,6 @@
 pragma solidity ^0.4.15;
 
-import "./Stoppable.sol";
+import "./deps/Stoppable.sol";
 import "./Hub.sol";
 
 contract NonResourceProposal is Stoppable {
