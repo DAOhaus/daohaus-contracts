@@ -3,8 +3,9 @@ pragma solidity ^0.4.15;
 import "./ResourceProposal.sol";
 import "./NonResourceProposal.sol";
 import "./deps/Owned.sol";
+import "./deps/Logs.sol";
 
-contract Hub is Owned {
+contract Hub is Owned, Logs {
 
   address[] public members;
   uint public availableBalance;
@@ -12,7 +13,7 @@ contract Hub is Owned {
   uint public pvr;
 
   struct MemberDetails {
-    string number;
+    string blockcomId;
     string name;
   }
 
@@ -35,12 +36,7 @@ contract Hub is Owned {
     _;
   }
 
-  event LogMemberRegistered(address member, string name, string phoneNumber, uint ethPledge, uint _availableBalance, uint _runningBalance);
-  event LogNewProposal(uint pid, address chairmanAddress, uint fees, uint blocks, uint cost, string text, address proposalAddress);
-  event LogNewNRProposal(uint pid, uint deadline, uint val, string text, address proposalAddress);
-  event LogChairmanWithdraw(uint amount);
-
-  function Hub() {
+  function Hub() public {
     pvr = 75;
   }
 
@@ -68,7 +64,7 @@ contract Hub is Owned {
    return amountsPledgedMapping[person] > 0;
   }
 
-  function register(string phoneNumber, string name)
+  function register(string blockcomId, string name)
     public
     payable
     sufficientFunds()
@@ -80,18 +76,18 @@ contract Hub is Owned {
 
     /* update amountsPledged mapping */
     amountsPledgedMapping[msg.sender] += msg.value;
-    memberDetails[msg.sender].number = phoneNumber;
+    memberDetails[msg.sender].blockcomId = blockcomId;
     memberDetails[msg.sender].name = name;
 
-    //numberToAddress[phoneNumber] = msg.sender;
+    //numberToAddress[blockcomId] = msg.sender;
     /* update members array */
-    //if(memberDetails[msg.sender].phoneNumber == "")
+    //if(memberDetails[msg.sender].blockcomId == "")
     members.push(msg.sender);
 
     LogMemberRegistered(
       msg.sender,
       name,
-      phoneNumber,
+      blockcomId,
       msg.value,
       availableBalance,
       runningBalance

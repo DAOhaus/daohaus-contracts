@@ -13,11 +13,12 @@ contract Stoppable is Owned {
         _;
     }
 
-    function Stoppable() {
+    function Stoppable() public {
         running = true;
     }
 
     function runSwitch(bool onOff)
+        public
         onlyOwner
         returns(bool success)
     {

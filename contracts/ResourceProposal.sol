@@ -1,14 +1,15 @@
 pragma solidity ^0.4.15;
 
 import "./deps/Stoppable.sol";
+import "./deps/Logs.sol";
 import "./Hub.sol";
 
-contract ResourceProposal is Stoppable {
+contract ResourceProposal is Stoppable, Logs {
 
 	uint public chairmanFee;
+	uint public proposalCost;
 	uint public deadline;
 	address public chairman;
-	uint public projectCost;
 	string public proposalText;
 	bool public isDependent;
 	address public depParent;
@@ -29,16 +30,10 @@ contract ResourceProposal is Stoppable {
 		_;
 	}
 
-	//event LogProposalCreated(address owner, address chairmanAddress, uint fees, uint blocks, uint cost, bytes32 text);
-	event LogVoteCast(address member, uint8 vote);
-	event LogProposalSentToHub(address owner, uint blockNumber);
-	event LogOpinionAdded(address member, bytes32 opinion);
-
-	function ResourceProposal(address chairmanAddress, uint fees, uint blocks, uint cost, string text) {
+	function ResourceProposal(address chairmanAddress, uint fees, uint blocks, uint cost, string text) public {
 		chairman = chairmanAddress;
 		chairmanFee = fees;
 		deadline = block.number + blocks;
-		projectCost = cost;
 		proposalText = text;
 	}
 
@@ -60,10 +55,10 @@ contract ResourceProposal is Stoppable {
 
 		address[] memory toReturn = new address[](count);
 
-		for(uint i=0; i<count; i+=2)
+		for (uint i = 0; i<count; i += 2)
 		{
 			uint8 val = votes[votesArray[i]];
-			if(val==1 || val==2){
+			if (val == 1 || val == 2){
 				toReturn[i] = votesArray[i];
 				toReturn[i+1] = address(val);
 			}
@@ -78,12 +73,12 @@ contract ResourceProposal is Stoppable {
 		returns(uint[])
 	{
 		uint count = votesArray.length;
-		uint pos=0; uint neg=0;
-		for(uint i=0; i<count; i++)
+		uint pos = 0; uint neg = 0;
+		for (uint i = 0; i < count; i++)
 		{
 			uint8 val = votes[votesArray[i]];
-			if(val==1) pos++;
-			else if(val==2) neg++;
+			if (val == 1) pos++;
+			else if (val == 2) neg++;
 		}
 		uint[] memory toReturn = new uint[](2);
 		toReturn[0] = pos;
@@ -106,7 +101,7 @@ contract ResourceProposal is Stoppable {
 		onlyIfRunning
 		returns(bool)
 	{
-		if(votes[msg.sender]==0)
+		if (votes[msg.sender] == 0)
 			votesArray.push(msg.sender);
 		votes[msg.sender] = voteOfMember;
 
@@ -136,7 +131,7 @@ contract ResourceProposal is Stoppable {
 		onlyIfRunning
 		returns(bool)
 	{
-		if(votes[memberAddr]==0)
+		if (votes[memberAddr] == 0)
 			votesArray.push(memberAddr);
 		votes[memberAddr] = voteOfMember;
 		LogVoteCast(memberAddr, voteOfMember);
@@ -165,18 +160,17 @@ contract ResourceProposal is Stoppable {
 		address[] memory addrForHub = new address[](count);
 		uint8[] memory votesForHub = new uint8[](count);
 
-		for(uint i=0; i<count; i++)
-		{
+		for (uint i = 0; i < count; i++) {
 			uint8 val = votes[votesArray[i]];
 
-			if(val==1 || val==2){
+			if (val==1 || val==2) {
 				addrForHub[i] = votesArray[i];
 				votesForHub[i] = val;
 			}
 		}
 
 		Hub hubContract = Hub(owner);
-		status = hubContract.executeProposal(addrForHub,votesForHub, chairman, projectCost+chairmanFee, deadline);
+		status = hubContract.executeProposal(addrForHub,votesForHub, chairman, proposalCost+chairmanFee, deadline);
 		LogProposalSentToHub(owner, block.number);
 		return true;
 	}

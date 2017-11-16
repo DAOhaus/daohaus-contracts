@@ -21,7 +21,7 @@ contract NonResourceProposal is Stoppable {
 		_;
 	}
 
-	function NonResourceProposal(uint blocks, uint val,string t){
+	function NonResourceProposal(uint blocks, uint val,string t) public {
 		deadline = block.number + blocks;
 		value = val;
 		text = t;
