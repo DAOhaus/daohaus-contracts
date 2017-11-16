@@ -32,6 +32,7 @@ contract ResourceProposal is Stoppable, Logs {
 
 	function ResourceProposal(address chairmanAddress, uint fees, uint blocks, uint cost, string text) public {
 		chairman = chairmanAddress;
+		proposalCost = cost;
 		chairmanFee = fees;
 		deadline = block.number + blocks;
 		proposalText = text;
