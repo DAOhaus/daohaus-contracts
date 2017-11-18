@@ -4,7 +4,7 @@ contract Registry {
 
     mapping (address => string) public phoneRegistry;
 
-    function Registry() {
+    function Registry() public {
 
     }
 

@@ -273,6 +273,7 @@ contract Hub is Owned, Logs {
 
   // Pass-through Admin Controls
   function stopProposal(address proposal)
+      public
       onlyOwner()
       onlyIfProposal(proposal)
       returns(bool success)
