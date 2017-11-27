@@ -8,6 +8,12 @@ module.exports = {
       port: 7545,
       network_id: "*", // Match any network id
       gas:   8900000
+    },
+    testrpc: {
+      host: "localhost",
+      port: 8545,
+      network_id: "*", // Match any network id
+      gas:   8900000
     }
     // ,ropsten: {
     //   provider: new HDWalletProvider(constants.mnemonic, "https://ropsten.infura.io/" + constants.infura_apikey, constants.address),

@@ -40,7 +40,6 @@ contract('Hub', function(accounts) {
     it("should be possible to register with > 0 weis", function() {
       return hub.register("+91000", "B", { from: account0, gas: 3000000, value: 1000 })
       .then(tx => {
-
         assert.strictEqual(tx.receipt.logs.length, 1);
         assert.strictEqual(tx.logs.length, 1);
         const logEntered = tx.logs[0];
