@@ -154,9 +154,11 @@ contract Hub is Owned, Logs {
       cost,
       text
     );
+    require(availableBalance >= fees+cost);
     uint ind = proposals.length + 1;
     proposals.push(trustedProposal);
     proposalExists[trustedProposal] = true;
+    availableBalance -= fees+cost;
     LogNewProposal(ind, chairmanAddress, fees, blocks, cost, text, trustedProposal);
     return trustedProposal;
   }
@@ -205,7 +207,6 @@ contract Hub is Owned, Logs {
       finishedProposals[msg.sender] = true;
       LogWithdraw(totFees, chairMan);
       chairMan.transfer(totFees);
-      availableBalance -= totFees;
       return 1;
     } else if (block.number > deadline) {
       finishedProposals[msg.sender] = true;
@@ -259,14 +260,6 @@ contract Hub is Owned, Logs {
     }
 
     return 2;
-  }
-
-  function withdrawOne(address toAddress)
-    public
-    returns(bool)
-  {
-    toAddress.transfer(1000000000000000000);
-    return true;
   }
 
   function withdraw()
