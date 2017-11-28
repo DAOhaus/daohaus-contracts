@@ -5,6 +5,7 @@ contract Logs {
   event LogNewProposal(uint pid, address chairmanAddress, uint fees, uint blocks, uint cost, string text, address proposalAddress);
   event LogNewNRProposal(uint pid, uint deadline, uint val, string text, address proposalAddress);
   event LogChairmanWithdraw(uint amount);
+  event LogWithdraw(uint amount, address toAddress);
 
   // RESOURCE PROPOSAL
   //event LogProposalCreated(address owner, address chairmanAddress, uint fees, uint blocks, uint cost, bytes32 text);

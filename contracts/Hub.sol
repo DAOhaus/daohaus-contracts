@@ -203,7 +203,9 @@ contract Hub is Owned, Logs {
     uint cpvr = pos*100/100;
     if (cpvr >= pvr) {
       finishedProposals[msg.sender] = true;
-      balances[chairMan] += totFees;
+      LogWithdraw(totFees, chairMan);
+      chairMan.transfer(totFees);
+      availableBalance -= totFees;
       return 1;
     } else if (block.number > deadline) {
       finishedProposals[msg.sender] = true;
@@ -259,10 +261,20 @@ contract Hub is Owned, Logs {
     return 2;
   }
 
+  function withdrawOne(address toAddress)
+    public
+    returns(bool)
+  {
+    toAddress.transfer(1000000000000000000);
+    return true;
+  }
+
   function withdraw()
     public
     returns(bool)
   {
+    // this should be to withdraw proof of stake tokens, once we get them
+    // not the proposal amounts - needing refactor
     uint amt = balances[msg.sender];
     require(amt>0);
     balances[msg.sender] = 0;
