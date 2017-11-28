@@ -1,6 +1,7 @@
 /*
 This test file contains all 6 test scenarios that we are required to write
 */
+
 const expectedExceptionPromise = require("../utils/expectedException.js");
 web3.eth.getTransactionReceiptMined = require("../utils/getTransactionReceiptMined.js");
 Promise = require("bluebird");

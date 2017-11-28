@@ -15,7 +15,7 @@ const Proposal = artifacts.require("./ResourceProposal.sol");
 contract('Proposal', function(accounts) {
 
   let proposal;
-  const proposalText = 'simple test'
+  const proposalText = 'simple test' 
 
   assert.isAtLeast(accounts.length, 3);
   account0 = accounts[0];
@@ -23,15 +23,24 @@ contract('Proposal', function(accounts) {
   account2 = accounts[2];
 
   before("should prepare", function() {
-    return Proposal.new(account1, 25,10,5,proposalText)
-    .then(inst => proposal = inst)
+    // return Hub.new()
+    // 	.then(instance => hub = instance)
+    //   .then(tx => hub.createResourceProposal(account1,25,10,5,proposalText, {from:account0}))
+    //   .then(tx => Proposal.at(tx.logs[0].address))
+    //   .then(instance => proposal = instance)
+    return Proposal.new(account1, 25,10,5,proposalText) 
+      .then(inst => proposal = inst) 
   });
 
   describe("register", function () {
-    it("should have matching proposal text", function () {
+
+    it("test init", function () {
+      // console.log('proposal', proposal.proposalText)
       return proposal.proposalText()
-        .then(_text => {
-          assert.strictEqual(_text, proposalText);
+      .then(_text => {
+          // console.log('text', _text)
+          assert.strictEqual(_text, proposalText); 
+          // return assert.strictEqual(_text, "Simple test");
         })
     });
   })
