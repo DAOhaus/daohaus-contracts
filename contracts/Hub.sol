@@ -286,4 +286,10 @@ contract Hub is Owned, Logs {
       ResourceProposal trustedProposal = ResourceProposal(proposal);
       return(trustedProposal.runSwitch(false));
   }
+
+  function () public payable {
+    /* catch all to update hub contract balance */
+    availableBalance += msg.value;
+    runningBalance += msg.value;
+  }
 }
