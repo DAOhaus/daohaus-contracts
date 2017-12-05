@@ -23,7 +23,7 @@ contract DictatorHub is Hub {
   function register(address accountAddress, uint weight, string blockcomId, string name)
     public
     payable
-    onlyOwner()
+    // onlyOwner()
     returns (bool)
   {
 
@@ -34,10 +34,10 @@ contract DictatorHub is Hub {
     members.push(accountAddress);
 
     LogMemberRegistered(
-      msg.sender,
+      accountAddress,
       name,
       blockcomId,
-      msg.value,
+      weight,
       availableBalance,
       runningBalance
     );
