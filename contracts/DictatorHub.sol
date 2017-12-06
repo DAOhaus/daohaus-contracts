@@ -11,7 +11,6 @@ contract DictatorHub is Owned, Logs {
   uint public availableBalance;
   uint public runningBalance;
   uint public pvr;
-  bool public isDictator;
 
   struct MemberDetails {
     string blockcomId;
@@ -39,7 +38,6 @@ contract DictatorHub is Owned, Logs {
 
   function DictatorHub() public {
     pvr = 75;
-    isDictator = true;
     members.push(msg.sender);
   }
 
@@ -67,26 +65,58 @@ contract DictatorHub is Owned, Logs {
    return amountsPledgedMapping[person] > 0;
   }
 
-  // diff: only allows dictator to register members
-  // diff: voting weight decided at registration, not on how much is pledged
-  function dictatorRegister(address accountAddress, uint weight, string blockcomId, string name)
+  function dictatorRegister(address newUser, uint weight, string blockcomId, string name)
     public
     payable
     onlyOwner()
     returns (bool)
   {
-
     /* update amountsPledged mapping */
-    amountsPledgedMapping[accountAddress] += weight;
-    memberDetails[accountAddress].blockcomId = blockcomId;
-    memberDetails[accountAddress].name = name;
-    members.push(accountAddress);
+    amountsPledgedMapping[newUser] += weight;
+    memberDetails[newUser].blockcomId = blockcomId;
+    memberDetails[newUser].name = name;
+
+    //numberToAddress[blockcomId] = msg.sender;
+    /* update members array */
+    //if(memberDetails[msg.sender].blockcomId == "")
+    members.push(newUser);
 
     LogMemberRegistered(
-      accountAddress,
+      newUser,
       name,
       blockcomId,
       weight,
+      availableBalance,
+      runningBalance
+    );
+    return true;
+  }
+
+  function register(string blockcomId, string name)
+    public
+    payable
+    sufficientFunds()
+    returns (bool)
+  {
+    /* update hub contract balance */
+    availableBalance += msg.value;
+    runningBalance += msg.value;
+
+    /* update amountsPledged mapping */
+    amountsPledgedMapping[msg.sender] += msg.value;
+    memberDetails[msg.sender].blockcomId = blockcomId;
+    memberDetails[msg.sender].name = name;
+
+    //numberToAddress[blockcomId] = msg.sender;
+    /* update members array */
+    //if(memberDetails[msg.sender].blockcomId == "")
+    members.push(msg.sender);
+
+    LogMemberRegistered(
+      msg.sender,
+      name,
+      blockcomId,
+      msg.value,
       availableBalance,
       runningBalance
     );
@@ -285,9 +315,10 @@ contract DictatorHub is Owned, Logs {
       return(trustedProposal.runSwitch(false));
   }
 
-  function anonymousFund() public payable {
+  function anonymousFund() public payable returns(bool) {
     /* catch all to update hub contract balance */
     availableBalance += msg.value;
     runningBalance += msg.value;
+    return true;
   }
 }
