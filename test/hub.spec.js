@@ -159,9 +159,10 @@ contract('Hub', function(accounts) {
       })
     });
     describe('withdrawal', () => {
-      it("charman should be able to withdraw", function() {
+      it("chairman should be able to withdraw", function() {
         let proposalAddress;
         let proposalContract;
+        let preBalance;
 
         const proposal = {
           chairmanAddress: chairMan,
@@ -246,6 +247,8 @@ contract('Hub', function(accounts) {
         .then(() => {
           return proposalContract.castVote(2, { from: chairMan })
         })
+        .then(()=>web3.eth.getBalance(chairMan))
+        .then(bal=> preBalance = bal)
         .then(() => {
           return proposalContract.sendToHub();
         })
@@ -255,18 +258,13 @@ contract('Hub', function(accounts) {
         .then(_status => {
           assert.strictEqual(_status.toNumber(), 1);
         })
-        .then(() => {
-          return hub.withdraw({ from: chairMan });
-        })
-        .then(tx => {
-          assert.strictEqual(tx.receipt.logs.length, 1);
-          assert.strictEqual(tx.logs.length, 1);
-          const logEntered = tx.logs[0];
-          assert.strictEqual(logEntered.event, "LogChairmanWithdraw");
-          assert.strictEqual(logEntered.args.amount.toNumber(), proposal.fees + proposal.cost);
+        .then(()=>web3.eth.getBalance(chairMan))
+        .then(bal => {
+          // checks that the chairman address is greater than before sent to hub
+          assert.isTrue(bal.gt(preBalance))
         })
       });
-      it("charman should not be able to withdraw", function() {
+      it("chairman should not be able to withdraw", function() {
         let proposalAddress;
         let proposalContract;
 
