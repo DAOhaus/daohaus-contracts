@@ -4,4 +4,5 @@
 package-lock.json
 **/*.DS_Store
 .DS_Store
+.env
 constants.js

@@ -29,7 +29,9 @@
     "fs": "0.0.1-security",
     "truffle-contract": "^3.0.0",
     "truffle-hdwallet-provider": "0.0.3",
+    "truffle-wallet-provider": "0.0.5",
     "twilio": "^3.8.1",
-    "web3": "^0.19.1"
+    "web3": "^0.19.1",
+    "zeppelin-solidity": "^1.6.0"
   }
 }
